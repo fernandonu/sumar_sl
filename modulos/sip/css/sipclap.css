@@ -1,0 +1,529 @@
+.ui-button-icon-only .ui-icon{ left:0; top:0; }
+.divloading {
+  height: 100%;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index:1;
+}
+.divloading img {
+  display: block;
+  height: 64px;
+  margin: auto;
+  width: 64px;
+  padding-top: 20%;
+  z-index:1;
+}
+table{
+    margin:auto;
+    background-color: transparent;
+}
+table td, table th {
+    padding : 0; overflow: hidden;
+    //border: 1px solid green;
+}
+table.active { background-color:azure; }
+table.dataTable.no-footer{ padding-bottom: 10px;}
+hr {
+    background-color: #000;
+    color:black;
+    border: none;
+    height: 2px;
+    margin: 0;
+    padding: 0;
+    clear: both;
+    display: block;
+}
+hr.dashed {
+    background: none;
+    border-top: 1px dashed black;
+    height: 0;
+}
+h6 {
+    background-color: #666666;
+    color: #FFFFFF;
+    font-size: 11px;  
+    line-height: 20px;
+    margin: 0; 
+}
+label {position:relative;}
+.coma {text-align:right !important; background:url("../css/coma.png") no-repeat scroll 36px 16px #f7f7f7;}
+.comatemp {text-align:right !important; background:url("../css/coma.png") no-repeat scroll 46px 16px #f7f7f7;}
+.comacons {text-align:right !important; letter-spacing: 2px; background:url("../css/coma.png") no-repeat scroll 27px 14px #f7f7f7;}
+.comappr {text-align:right !important; letter-spacing: 2px; background:url("../css/comamin.png") no-repeat scroll 27px 13px #f7f7f7;}
+.top-5 {top:-6px;}
+input, select{ margin: 0; text-transform: uppercase; font-size:11px; color: blue; font-weight: bold; height: 25px; }
+input.number, select.grupo{ font-size: 13px; text-align: center; }      
+input[type="number"] {font-size: 14px; text-align: center; width:45px; }
+select.grupo {
+  font-size: 12px;
+  width: 42px;
+}
+/*background-color: #FFF0F5;*/
+input.required{ border: 1px solid red; }
+input[disabled]{ color: #666666; background-color: #FFFFFF;  }
+input.alerta{ border: 1px solid #ffcc33; background-color: #FFE28C; }
+input.error{background-color: #FFAAAA;}
+.fleft{ float:left;}
+.fright{ float:right;}
+.left-5 label,.left-5 div{ position:relative; left: -9px;}
+.aligncenter{ text-align: center;}
+.alignleft{ text-align:left !important;}
+.alignright{ text-align:right;}
+.top {vertical-align:top !important;}
+.bottom {vertical-align:bottom !important;}
+.inlblock { display: inline-block; }
+.block { display: block; }
+.title1 {
+    display: inline-block;
+    font-size: 10px;
+    line-height: 12px;
+}
+.title2{font-size: 9px;}
+.title3{font-size: 9px; font-family: tahoma;}
+.title4{font-size: 8px;}
+.titulo{ vertical-align: top; }
+.titulo span{ float: left; width: 100%; text-align: center; }
+.borderL1{ border-left: 1px solid #000000; }
+.borderB1{ border-bottom: 1px solid #000000; }
+.borderB2{ border-bottom: 2px solid #000000; }
+.border2{ border: 2px solid #000000; }
+.borderright{ border-right: 2px solid #000000; }
+.width16{ width: 16px;}
+.width1{ width: 20px;}
+.width2{ width: 40px;}
+.width50{ width: 50px;}
+.width3{ width: 60px;}
+.width100{ width: 100%;}
+.datepicker, .fecha {
+  letter-spacing: 2px;
+  padding-left: 4px;
+  text-align: center;
+  width: 110px;
+}
+#sipclap{ 
+    background-color: #ffffff;
+    width: 1000px; 
+    font-family: Verdana,sans-serif,helvetica;
+    font-size: 8pt;
+    margin: auto;
+    display:none;
+}
+.listadoFichas{
+ display:inline-block;
+ font-weight: bold;
+ font-family: tahoma;
+ width: 620px;
+}
+.listadoFichas select{
+    text-transform: none;
+    font-size: 11px;
+    font-weight: normal;
+}
+.listadoFichas select option{
+    padding: 3px;
+}
+.datosFicha{
+    display:inline-block;
+    font-weight: bold;
+    font-family: tahoma;
+    margin-top:5px;
+    width: 400px;
+}
+.datosFicha label{
+    padding: 2px; 
+}
+.datosFicha span{
+    font-weight: normal;
+    margin-right: 6px;
+}
+.datosFicha input{
+    text-align:center;
+    width: 80px;
+    font-size: 9px;
+}
+.toolbar {
+  float: right;
+  padding-bottom: 6px;
+}
+
+
+/* SECCION I - IDENTIFICACION */ 
+#section1 table.inside{ margin:0; padding:0; height: 192px; }
+
+#datos .inside{ width: 368px;} 
+#datos .inside td{ vertical-align: bottom;} 
+#datos .inside:first-child tr:first-child td:first-child{ vertical-align: top;} 
+#datos span{ line-height: 18px;} 
+#datos span, #datos input{ width: 100%; float: left; padding-left: 3px;} 
+
+#nacimiento .inside{ width: 135px;} 
+#nacimiento .lblfechanac { text-align: center; }
+#nacimiento .lbledad { padding: 3px 4px 0; }
+#nacimiento .edad{ height: 30%; }
+#nacimiento .edad td:first-child{ width: 48%; }
+#nacimiento .edad td:last-child{ width: 32%; }
+#nacimiento .edad input.number{ width:28px; margin-left:14px; } 
+
+#etnia .inside{ width: 80px;}
+#etnia .radio .iradio_square{ margin-left: 5px;}
+
+#alfabeta .inside{ width: 60px; text-align: center;}      
+#alfabeta .inside td { vertical-align: top;}
+#alfabeta .inside label{ display: block; padding-bottom: 3px;}      
+
+#estudios .inside{width: 100px; }
+#estudios .inside .radio div:last-of-type{ margin-top:5px;}
+
+#estado_civil .inside{width: 100px; } 
+#estado_civil .radio{ padding: 0 10px;}
+#estado_civil .lblvivesola{ vertical-align: top;}
+#estado_civil .lblvivesola span{ width:100%;}
+#estado_civil .vivesola td{ margin:auto;}
+#estado_civil .vivesola label{ float:left; margin: 4px 3px;}
+
+#lugar_dni .inside{width: 140px; } 
+#lugar_dni .inside td{vertical-align: bottom; } 
+#lugar_dni .inside span { height: 18px; width: 100%; line-height: 16px; margin-left:3px; } 
+#lugar_dni .inside input{ width: 100%; text-align:center;} 
+
+/* SECCION II - ANTECEDENTES */ 
+#section2 table.inside{ margin:0; padding:0; height: 157px; }
+#section2 td.border2{ border-top: none; }
+/* Antecedentes Familiares y Personales */
+#antecedentes .inside { width: 310px;}
+#antecedentes .inside tr:first-child td{ background-color: #666666;}
+#antecedentes .inside tr:nth-child(2) td:first-child{ text-align: left; padding-left: 4px; }
+#antecedentes .inside tr:nth-child(2) td:nth-child(4),#antecedentes .inside tr:nth-child(2) td:nth-child(5),
+#antecedentes .inside tr:nth-child(3) td:nth-child(1),#antecedentes .inside tr:nth-child(3) td:nth-child(2),
+#antecedentes .inside tr:nth-child(3) td:nth-child(4) { width: 20px; }
+#antecedentes .inside tr:nth-child(3) td:nth-child(5) { width: 30px; }
+#antecedentes .inside tr:nth-child(3) td:nth-child(3), #antecedentes .inside tr:nth-child(3) td:nth-child(7){ width: 70px; }
+#antecedentes .diabetes2 div{ margin-right: 3px;}
+#personales_diabetes div { left: 3px;}
+
+/* Antecedentes Obstetricos */
+#obstetricos { width: 699px;}
+#obstetricos .inside { float:left;}
+#obstetricos_1 { width: 116px; margin: 0 4px!important; border-collapse: separate; }
+#obstetricos_2 { text-align: center; width: 380px; }
+#obstetricos_3 { width:178px; }
+
+#obstetricos .title1{ float: left;}
+
+#obstetricos_1 tr:nth-child(3) td{ text-align: center; }
+#obstetricos_1 .ultimoprevio1 td:first-of-type{
+    border-left: 1px solid #666;
+    border-top: 1px solid #666;
+    border-radius: 10px 0;
+}
+#obstetricos_1 .ultimoprevio1 td:nth-of-type(2),
+#obstetricos_1 .ultimoprevio1 td:nth-of-type(3){
+    border-top: 1px solid #666;
+}
+#obstetricos_1 .ultimoprevio1 td:last-of-type {
+  border-radius: 0 10px;
+  border-right: 1px solid #666;
+  border-top: 1px solid #666;
+}
+#obstetricos_1 .ultimoprevio2 td:first-of-type{
+    border-left: 1px solid #666;
+    border-bottom: 1px solid #666;
+    border-radius: 0 10px;
+}
+#obstetricos_1 .ultimoprevio2 td:nth-of-type(2),
+#obstetricos_1 .ultimoprevio2 td:nth-of-type(3){
+    border-bottom: 1px solid #666;
+}
+#obstetricos_1 .ultimoprevio2 td:last-of-type {
+  border-radius: 10px 0;
+  border-right: 1px solid #666;
+  border-bottom: 1px solid #666;
+}
+#obstetricos_1 .ultimoprevio1 label,#obstetricos_1 .ultimoprevio2 label{
+    float: right; margin-right: 2px;
+}
+#obstetricos_1 .gemelares td:first-of-type{
+    border-top: 1px solid #666;
+    border-left: 1px solid #666;
+    border-bottom: 1px solid #666;
+    border-radius: 10px 0 0 10px;
+}
+#obstetricos_1 .gemelares td:nth-of-type(2){
+    border-bottom: 1px solid #666;
+    border-top: 1px solid #666;
+}
+#obstetricos_1 .gemelares td:last-of-type {
+  border-radius: 0 10px 10px 0;
+  border-top: 1px solid #666;
+  border-right: 1px solid #666;
+  border-bottom: 1px solid #666;
+}
+#obstetricos_1 .gemelares td{ text-align: center;}
+#obstetricos_1 .obstrelleno{ line-height: 5px;}
+
+#obstetricos_2{ background-image: url('back_obstetricos.png'); background-repeat: no-repeat; background-size:cover;}
+
+#obstetricos_3 .embarazo_anterior input.number{ width: 30px; }
+#obstetricos_3 .embarazo_anterior td{ width: 30px; text-align: center }
+#obstetricos_3 .lblfinembarazo{ text-align: center;}
+#obstetricos_3 .fracaso_anticoncep td { text-align: center; vertical-align: top;}
+#obstetricos_3 .fracaso_anticoncep div, #obstetricos .fracaso_anticoncep label { display: inline-block; zoom: 1; *display: inline;}
+#obstetricos_3 .fracaso_anticoncep div { margin: 0 3px; }
+#obstetricos_3 .fracaso_anticoncep label { font-size: 8px; width: 26px; vertical-align: top;}
+
+/* SECCION III - GESTACION ACTUAL - PARTE I */
+#section3 table.inside{ margin:0; padding:0; height: 85px; }
+#section3 td.border2{ border-top: none; }
+#gestacion_actual .inside{ width:174px; }
+#fum_fpp .inside { width: 132px;  }
+
+#eg_confiable_por .inside { width: 106px; }
+#eg_confiable_por .inside label {
+  display: inline-block;
+  vertical-align: top;
+  width: 14px;
+}
+#fuma_droga_etc .inside { width: 295px; text-align: center;}
+#fuma_droga_etc .chktd { padding: 0 2px;}
+#antirubeola .inside { width: 90px; text-align: center;}
+#antitetanica .inside { width: 95px; text-align: center;}
+#ex_normal .inside { width: 92px; text-align: center;}
+
+/* SECCION IV - GESTACION ACTUAL - PARTE II */
+#section4 table.inside{ margin:0; padding:0; height: 90px; }
+#section4 td.border2{ border-top: none; }
+
+#cervix .inside { width: 117px;}
+#cervix .inside td{ text-align:center;}
+
+#grupo_sanguineo .inside{ width: 115px;}
+#grupo_sanguineo .inside label{ position:relative; top:-5px;}
+
+#toxoplasmosis .inside{ width: 124px; text-align: center; }
+#hemoglobina_fe_folatos .inside{ width: 183px; text-align: center; }
+
+.tarvlbl{left: 3px; top: -4px;}
+#vih_menor20sem .inside, #vih_mayor20sem .inside{width: 144px; text-align: center; }
+
+#chagas .inside { width: 47px; text-align: center;}
+#chagas .inside label{ display:block; }
+#chagas .inside .iradio_square, #chagas .inside .iradio_square-yellow{ margin-right: 5px;}
+
+#paludismo_malaria .inside{ width: 68px; text-align: center;}
+#paludismo_malaria .inside label{ display:block; }
+
+#bacteriuria .inside{ width: 116px;}
+#glucemia .inside{ width: 124px;}
+#estreptococo_b .inside{ width: 61px; text-align: center;}
+#estreptococo_b .black div{ padding: 0 2px;}
+#preparacion_parto .inside, #conserjeria_lactancia .inside{ width: 51px; text-align: center;}
+
+#sifilis .inside{ width: 302px; text-align: center; }
+
+/* SECCION V - CONSULTAS ANTENATALES */
+#consultas_antenatales{ position:relative;}
+#agregar_consultas,#agregar_varlibres{
+  color: blue;
+  float: right;
+  font-size: 12px;
+  font-weight: bold;
+  height: 28px;
+  text-transform: uppercase;
+}
+#consulta_otro_efector{
+  color: blue;
+  float: right;
+  font-size: 11px;
+  height: 20px;
+  margin-top:4px;
+  margin-right:20px;
+}
+
+#consultas_antenatales table{ width: 100%; font-size: 0.8em;}
+#consultas_antenatales table th {
+  background-color: #EAEAEA;
+  border: 1px solid #666666;
+  font-size: 7pt;
+  font-weight: normal;
+}
+#consultas_antenatales table tr.cons_ppac td{
+    border: 1px solid #666666;
+}
+#table_consultas td input,#table_consultas td select{ 
+    width: 100%;
+    font-weight: normal;
+    font-size: 10px;
+    letter-spacing: -1px;
+}
+#table_consultas td input.datepicker {
+  letter-spacing: inherit;
+  padding-left: inherit;
+}
+#table_consultas td span{ padding: 4px; }
+.delconsulta{ height: 25px; width: 100% }
+
+
+
+/* SECCION VI - PARTO-ABORTO */
+#section6 table.inside{ margin:0; padding:0; height: 120px; }
+
+#parto_aborto .inside { width: 195px; text-align:center;}
+#hospitalizacion .inside { width: 95px; text-align:center;}
+#corticoides .inside { width: 110px; text-align:center;}
+#inicio_parto .inside, #tamanio_fetal_acorde .inside { width: 56px; text-align:center;}
+#ruptura_membranas .inside { width: 212px; text-align:center;}
+#edad_gestacional_parto .inside { width: 86px; text-align:center;}
+#presentacion .inside { width: 80px; text-align:center;}
+#acompaniante .inside { width: 90px; text-align:center;}
+
+/* SECCION VII - TRABAJO DE PARTO */
+#section7 table.inside{ margin:0; padding:0; height: 206px; }
+#section7 td.border2{ border-top: none; }
+
+#trabajo_parto .inside {width: 50px; text-align:center;}
+#control_parto .inside {width: 542px; text-align:center;}
+#control_parto .inside th, #rn_puerperio .inside th{
+    border: 1px solid #666666;
+    font-size: 7pt;
+    line-height: 7pt;
+    font-weight: normal;
+}
+#tablacontrolparto th{ height:28px; }
+#tablacontrolparto input {width:100%; height:35px !important; }
+
+/*#control_parto .inside td input,#rn_puerperio .inside td input{ width:100%; height:24px !important; }*/
+#tablapuerperio th{height:18px; }
+#tablapuerperio input{width:100%; height:21px !important; font-weight: normal; }
+
+#enfermedades .inside {width: 400px; text-align: center;}
+#enfermedades .inside td:first-child, #enfermedades .inside td:nth-child(6), #enfermedades .inside td:nth-child(9)
+{ text-align:right; padding-right:4px;}
+.ck_titulo .iradio_square, .ck_titulo .iradio_square-yellow { top:2px;}
+
+/* SECCION VIII - NACIMIENTO */
+#section8 table.inside{ margin:0; padding:0; height: 50px;}
+#section8 td.border2{ border-top: none; }
+
+#nacimiento_a .inside{ width: 180px; }
+#nacimiento_dia_hora .inside{ width: 210px; text-align: center;}
+#nacimiento_multiple .inside{ width: 90px; text-align: center;}
+#nacimiento_terminacion .inside{ width: 190px; text-align: center;}
+#motivo_induccion .inside{ width: 318px;}
+
+/* SECCION IX - NACIMIENTO */
+#section9 table.inside{ margin:0; padding:0; height: 80px;}
+#section9 td.border2{ border-top: none; }
+
+#posicion_parto .inside{ width: 100px; text-align: center;}
+#episiotomia .inside{ width: 70px; text-align: center;}
+#desgarros .inside{ width: 80px; text-align: center;}
+#ocitocicos .inside{ width: 110px; text-align: center;}
+#placenta .inside{ width: 90px; text-align: center;}
+#ligadura_cordon .inside{ width: 60px; text-align: center;}
+#medicacion_recibida .inside{ width: 317px; text-align: center;}
+#medicacion_recibida_otra .inside{ width: 154px; text-align: center; position:relative;}
+
+/* SECCION X - RECIEN NACIDO */
+#section10 table.inside{ margin:0; padding:0; height: 140px;}
+#section10 td.border2{ border-top: none; }
+
+#recien_nacido .inside {width: 125px; text-align: center;}
+#rn_medidas .inside {width: 80px; text-align: center;}
+#rn_edad_gestacional .inside {width: 100px; text-align: center;}
+#rn_peso_edad_gestacional .inside {width: 60px; text-align: center;}
+#rn_apgar .inside {width: 60px; text-align: center;}
+#rn_reanimacion .inside {width: 100px; text-align: center;}
+#rn_reanimacion .iradio_square,#rn_reanimacion .iradio_square-yellow{ margin-right: 4px;}
+
+#rn_fallece_en_lugar .inside {width: 100px; text-align: center;}
+#rn_atendio .inside {width: 459px; text-align: center;}
+#rn_atendio .inside_atendio {
+    margin:0px; 
+    padding:0px; 
+    height:100%; 
+    width:100%;
+    text-align: center;
+}
+
+/* SECCION XI - ENFERMEDADES */
+#section11 table.inside{ margin:0; padding:0; height: 132px;}
+#section11 td.border2{ border-top: none; }
+
+#defectos_congenitos .inside{width: 80px; text-align: center; }
+#rn_enfermedades .inside{width: 190px; text-align: center; }
+#rn_enfermedades .inside tr:first-child td{ background-color: #666666;}
+
+#rn_vih .inside{width: 86px; text-align: center; }
+#rn_tamizaje_neonatal .inside{width: 250px; text-align: center; }
+#tablevdrl {
+  border: 1px dashed black;
+  border-collapse: separate;
+  margin: 0 4px !important;
+  padding: 4px;
+  text-align: center;
+  width: 105px !important;
+}
+#rn_meconio .inside{width: 54px; text-align: center; }
+#rn_puerperio .inside{width: 325px; text-align: center; }
+#tablapuerperio{ width:100% !important; height:100%; }
+
+/* SECCION XII - EGRESOS */
+#section12 table.inside{ margin:0; padding:0; height: 138px;}
+#section12 td.border2{ border-top: none; }
+
+#rn_egreso .inside{width: 395px; text-align: center;}
+#rn_alimentacion_alta .inside{width: 70px; text-align: center;}
+#rn_egreso_vs .inside{width: 88px; text-align: center;}
+#rn_egreso_materno .inside{width: 290px; text-align: center;}
+#anticoncepcion .inside{width: 145px; text-align: center;}
+
+#section13 {width:1000px;}
+#section13 td:first-child{ width:214px;}
+#section13 td:nth-child(2){ width:334px;}
+#section13 td:nth-child(3){ width:300px;}
+#section13 td:last-child,#agregar_varlibres{ width:130px;height:100%;}
+
+#variables_libres { width: 100%; display:none;}
+#variables_libres label{ 
+    display: inline-block;
+    width: 20%;
+    font-size: 12px;
+    line-height: 12px;
+    text-transform: uppercase;
+    padding:5px;
+}
+#variables_libres input{ 
+    display: inline-block;
+    width: 74%;
+}
+
+/* TABLA DE EFECTORES */
+.efectorselectBtn{
+    height: 25px;
+    position: absolute;
+    right: 0;
+    top: 39px;
+    width: 24px;
+    padding:0; 
+}
+
+table.dataTable, table.dataTable th, table.dataTable td{
+    font-size: 1em;
+}
+table.dataTable tbody th, table.dataTable tbody td{
+    padding:5px 10px !important;
+}
+table.dataTable a.select_efector {
+  color: #00496b !important;
+  font-weight: bold;
+  text-decoration: underline;
+}
+table.dataTable td:first-child{ text-align:center;}
+table.dataTable td:last-child{ text-transform:capitalize;}
+#efectores_filter input{ 
+    font-size:0.9em;
+    font-weight: normal;
+    color:#333333;
+}

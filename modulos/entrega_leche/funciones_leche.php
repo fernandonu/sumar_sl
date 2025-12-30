@@ -1,0 +1,63 @@
+<?
+require_once ("../../config.php");
+  
+function bisiesto_local($anio_actual){ 
+    $bisiesto=false; 
+    //probamos si el mes de febrero del año actual tiene 29 días 
+      if (checkdate(2,29,$anio_actual)) 
+      { 
+        $bisiesto=true; 
+    } 
+    return $bisiesto; 
+} 
+function edad_con_meses($fecha_de_nacimiento){ 
+  $fecha_actual = date ("Y-m-d"); 
+
+  // separamos en partes las fechas 
+  $array_nacimiento = explode ( "-", $fecha_de_nacimiento ); 
+  $array_actual = explode ( "-", $fecha_actual ); 
+
+  $anos =  $array_actual[0] - $array_nacimiento[0]; // calculamos años 
+  $meses = $array_actual[1] - $array_nacimiento[1]; // calculamos meses 
+  $dias =  $array_actual[2] - $array_nacimiento[2]; // calculamos días 
+
+  //ajuste de posible negativo en $días 
+  if ($dias < 0) 
+  { 
+    --$meses; 
+
+    //ahora hay que sumar a $dias los dias que tiene el mes anterior de la fecha actual 
+    switch ($array_actual[1]) { 
+         case 1:     $dias_mes_anterior=31; break; 
+         case 2:     $dias_mes_anterior=31; break; 
+         case 3:  
+          if (bisiesto_local($array_actual[0])) 
+          { 
+            $dias_mes_anterior=29; break; 
+          } else { 
+            $dias_mes_anterior=28; break; 
+          } 
+         case 4:     $dias_mes_anterior=31; break; 
+         case 5:     $dias_mes_anterior=30; break; 
+         case 6:     $dias_mes_anterior=31; break; 
+         case 7:     $dias_mes_anterior=30; break; 
+         case 8:     $dias_mes_anterior=31; break; 
+         case 9:     $dias_mes_anterior=31; break; 
+         case 10:     $dias_mes_anterior=30; break; 
+         case 11:     $dias_mes_anterior=31; break; 
+         case 12:     $dias_mes_anterior=30; break; 
+    } 
+
+    $dias=$dias + $dias_mes_anterior; 
+  } 
+
+  //ajuste de posible negativo en $meses 
+  if ($meses < 0) 
+  { 
+    --$anos; 
+    $meses=$meses + 12; 
+  } 
+  $edad_con_meses_result= array("anos"=>$anos,"meses"=>$meses,"dias"=>$dias);
+  return  $edad_con_meses_result;
+}//de la funcion del calculo de la edad
+?>

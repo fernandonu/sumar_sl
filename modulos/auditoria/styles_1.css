@@ -1,0 +1,36 @@
+body {
+    margin-top: 50px;
+}
+
+.container,
+#total {
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    padding: 20px;
+    padding-left: 80px;
+    width: 600px;
+    margin: 10px auto;
+    border-radius: 10px;
+    text-align: center;
+    -webkit-box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+#grafica {
+    float: left;
+    padding-right: 10px;
+    text-align: center;
+}
+
+#grafica h1{
+	text-align: center;
+	margin-bottom: 50px;
+}
+
+#grafica button{
+	margin-top: 20px;
+}
+.center{
+	width: 1220px;
+	margin: 0 auto;
+}

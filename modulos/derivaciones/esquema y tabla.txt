@@ -1,0 +1,177 @@
+-- Table: derivacion.depar
+
+-- DROP TABLE derivacion.depar;
+
+CREATE TABLE derivacion.depar
+(
+  id_deriv serial NOT NULL,
+  id_beneficiario integer NOT NULL,
+  cuie_solic character varying(50) NOT NULL,
+  gesta character varying(50),
+  paridad character varying(50),
+  abortos character varying(50),
+  ed_gest character varying(50),
+  fecha_diag date NOT NULL,
+  obs_deriv text,
+  grp_factor character varying(30),
+  fecha_solicitud date,
+  csa text,
+  diag_cie10 character varying(50),
+  usuario integer,
+  CONSTRAINT depar_pkey PRIMARY KEY (id_deriv)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE derivacion.depar
+  OWNER TO postgres;
+
+-- Index: derivacion.depar_id_deriv_idx
+
+-- DROP INDEX derivacion.depar_id_deriv_idx;
+
+CREATE INDEX depar_id_deriv_idx
+  ON derivacion.depar
+  USING btree
+  (id_deriv);
+
+-- Table: derivacion.efector_derivado
+
+-- DROP TABLE derivacion.efector_derivado;
+
+CREATE TABLE derivacion.efector_derivado
+(
+  id_deref serial NOT NULL,
+  fecha date,
+  hora character varying(10),
+  confirmacion integer,
+  causa text,
+  fecha_deriv date,
+  hora_deriv character varying(20),
+  id_deriv integer NOT NULL,
+  cuie_efe_deriv character varying(50) NOT NULL,
+  user_resp integer,
+  CONSTRAINT efector_derivado_pkey PRIMARY KEY (id_deref)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE derivacion.efector_derivado
+  OWNER TO postgres;
+  
+-- Table: derivacion.est_general
+
+-- DROP TABLE derivacion.est_general;
+
+CREATE TABLE derivacion.est_general
+(
+  id_estgral serial NOT NULL,
+  id_deriv integer NOT NULL,
+  est_gral text,
+  comp_hemod integer,
+  fc character varying(50),
+  fr character varying(50),
+  sat_o2 character varying(50),
+  via_endov_perm integer,
+  perfusion character varying(50),
+  fcfetal character varying(50),
+  t_act character varying(50),
+  dim_ut text,
+  tv text,
+  soprt_resp integer,
+  intubada integer,
+  arm integer,
+  bolseo integer,
+  o2 integer,
+  medicacion text,
+  t_condicion integer, -- t_condicion==1 estado antes de la derivacion, 2 estado en la resepcion de la derivacion
+  sonda_drenaje text, -- t_condicion==2
+  obito text, -- t_condicion==2
+  fecha_recep date,
+  hs_recep character varying(20),
+  lugar character varying(300),
+  causa text,
+  user_carga integer,
+  fecha_carga date,
+  CONSTRAINT est_general_pkey PRIMARY KEY (id_estgral),
+  CONSTRAINT est_general_id_deriv_fkey FOREIGN KEY (id_deriv)
+      REFERENCES derivacion.depar (id_deriv) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE RESTRICT
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE derivacion.est_general
+  OWNER TO postgres;
+COMMENT ON COLUMN derivacion.est_general.t_condicion IS 't_condicion==1 estado antes de la derivacion, 2 estado en la resepcion de la derivacion';
+COMMENT ON COLUMN derivacion.est_general.sonda_drenaje IS 't_condicion==2';
+COMMENT ON COLUMN derivacion.est_general.obito IS 't_condicion==2';
+
+
+-- Index: derivacion.est_general_id_estgral_idx
+
+-- DROP INDEX derivacion.est_general_id_estgral_idx;
+
+CREATE INDEX est_general_id_estgral_idx
+  ON derivacion.est_general
+  USING btree
+  (id_estgral);
+
+-- Table: derivacion.log_depar
+
+-- DROP TABLE derivacion.log_depar;
+
+CREATE TABLE derivacion.log_depar
+(
+  id_log serial NOT NULL,
+  usuario integer NOT NULL,
+  f_mod timestamp without time zone NOT NULL,
+  id_depar integer NOT NULL,
+  CONSTRAINT log_depar_pkey PRIMARY KEY (id_log)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE derivacion.log_depar
+  OWNER TO postgres;
+
+  
+-- Table: derivacion.log_efe_deriv
+
+-- DROP TABLE derivacion.log_efe_deriv;
+
+CREATE TABLE derivacion.log_efe_deriv
+(
+  usuario integer NOT NULL,
+  f_mod date NOT NULL,
+  id_deref integer,
+  detalle text,
+  id_log_ef serial NOT NULL
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE derivacion.log_efe_deriv
+  OWNER TO postgres;
+
+
+
+
+-- Table: derivacion.log_estgral
+
+-- DROP TABLE derivacion.log_estgral;
+
+CREATE TABLE derivacion.log_estgral
+(
+  id_log_estgral serial NOT NULL,
+  id_estgral integer NOT NULL,
+  usuario integer NOT NULL,
+  fecha_log date NOT NULL,
+  detalle text NOT NULL,
+  CONSTRAINT log_estgral_pkey PRIMARY KEY (id_log_estgral)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE derivacion.log_estgral
+  OWNER TO postgres;

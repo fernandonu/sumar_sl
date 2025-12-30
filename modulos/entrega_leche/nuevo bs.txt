@@ -1,0 +1,57 @@
+
+ALTER TABLE leche.detalle_leche ADD COLUMN id_benuad integer;
+COMMENT ON COLUMN leche.detalle_leche.id_benuad IS 'lo trae de uad_benef
+';
+
+
+ALTER TABLE leche.detalle_leche ADD COLUMN os_pvez integer;
+COMMENT ON COLUMN leche.detalle_leche.os_pvez IS '0=no; 1=si';
+
+
+ALTER TABLE leche.detalle_leche ADD COLUMN cese integer;
+COMMENT ON COLUMN leche.detalle_leche.cese IS '0:no; 1:cese entrega';
+
+ALTER TABLE leche.detalle_leche ADD COLUMN obs text;
+
+
+ALTER TABLE leche.formula_inicio ADD COLUMN id_benuad integer;
+COMMENT ON COLUMN leche.formula_inicio.id_benuad IS 'lo trae de uad_benef
+';
+
+
+ALTER TABLE leche.formula_inicio ADD COLUMN os_pvez integer;
+COMMENT ON COLUMN leche.formula_inicio.os_pvez IS '0=no; 1=si';
+
+
+ALTER TABLE leche.formula_inicio ADD COLUMN cese integer;
+COMMENT ON COLUMN leche.formula_inicio.cese IS '0:no; 1:cese entrega';
+
+ALTER TABLE leche.formula_inicio ADD COLUMN obs text;
+
+
+CREATE TABLE leche.log_dleche
+(
+  id_log_dleche serial NOT NULL,
+  id_detalle_leche integer NOT NULL,
+  fecha timestamp(6) without time zone,
+  tipo text,
+  descripcion text,
+  usuario integer NOT NULL,
+  CONSTRAINT log_dleche_pkey PRIMARY KEY (id_log_dleche),
+  CONSTRAINT log_dleche_id_detalle_leche_fkey FOREIGN KEY (id_detalle_leche)
+      REFERENCES leche.detalle_leche (id_detalle_leche) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE CASCADE
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE leche.log_dleche
+  OWNER TO postgres;
+
+
+
+ALTER TABLE leche.detalle_leche ADD COLUMN borrado integer;
+COMMENT ON COLUMN leche.detalle_leche.borrado IS '0=false borrado; 1=true borrado';
+
+
+

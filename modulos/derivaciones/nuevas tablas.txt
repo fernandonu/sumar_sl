@@ -1,0 +1,58 @@
+-- Column: usuario
+
+-- ALTER TABLE derivacion.depar DROP COLUMN usuario;
+
+ALTER TABLE derivacion.depar ADD COLUMN usuario integer;
+-- Table: derivacion.log_depar
+
+-- DROP TABLE derivacion.log_depar;
+
+CREATE TABLE derivacion.log_depar
+(
+  id_log serial NOT NULL,
+  usuario integer NOT NULL,
+  f_mod timestamp without time zone NOT NULL,
+  id_depar integer NOT NULL,
+  CONSTRAINT log_depar_pkey PRIMARY KEY (id_log)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE derivacion.log_depar
+  OWNER TO postgres;
+
+-- Table: derivacion.log_efe_deriv
+
+-- DROP TABLE derivacion.log_efe_deriv;
+
+CREATE TABLE derivacion.log_efe_deriv
+(
+  id_log integer NOT NULL DEFAULT nextval('derivacion.log_depar_id_log_seq'::regclass),
+  usuario integer NOT NULL,
+  f_mod timestamp(6) without time zone NOT NULL,
+  id_deref integer NOT NULL,
+  CONSTRAINT log_depar_copy_pkey PRIMARY KEY (id_log)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE derivacion.log_efe_deriv
+  OWNER TO postgres;
+
+-- Table: derivacion.log_est_general
+
+-- DROP TABLE derivacion.log_est_general;
+
+CREATE TABLE derivacion.log_est_general
+(
+  id_log integer NOT NULL DEFAULT nextval('derivacion.log_depar_id_log_seq'::regclass),
+  usuario integer NOT NULL,
+  f_mod timestamp(6) without time zone NOT NULL,
+  id_estgral integer NOT NULL,
+  CONSTRAINT log_efe_deriv_copy_pkey PRIMARY KEY (id_log)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE derivacion.log_est_general
+  OWNER TO postgres;

@@ -1,0 +1,4 @@
+ALTER TABLE leche.formula_inicio ADD COLUMN id_benuad integer;
+COMMENT ON COLUMN leche.formula_inicio.id_benuad IS 'lo trae de uad_benef
+';
+
