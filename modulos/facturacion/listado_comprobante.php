@@ -299,8 +299,7 @@ $filename = 'SUMAR-SIRGE-12-COMPROBANTES.txt';
 					left JOIN facturacion.factura ON (comprobante.id_factura = factura.id_factura)
 					left join facturacion.anexo on (prestacion.id_anexo = anexo.id_anexo)
 				Where
-					(fecha_comprobante between '$fecha_desde' and '$fecha_hasta') and factura.estado='C' and prestacion.precio_prestacion > 0
-					and (prestacion.estado_envio is null or prestacion.estado_envio='n')
+					(fecha_comprobante between '$fecha_desde' and '$fecha_hasta') and factura.estado='C'
 				order by comprobante.id_comprobante";
 
 		$result1=sql($sql1) or die;
