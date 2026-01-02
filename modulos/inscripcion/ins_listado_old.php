@@ -85,7 +85,9 @@ if ($result->fields['estado_envio'] == 'e') {
 		<?list($sql,$total_muletos,$link_pagina,$up) = form_busqueda($sql_tmp,$orden,$filtro,$link_tmp,$where_tmp,"buscar");?>
 	    &nbsp;&nbsp;<input type=submit name="buscar" value='Buscar'>
 	    &nbsp;&nbsp;<input type='button' name="nuevo" value='Nuevo Dato' onclick="document.location='ins_admin_old.php';">
-	    &nbsp;&nbsp;<input type=submit name="generarnino" value='Generar Archivo' >
+	    <?if (($_ses_user['login'] == 'sebastian')or($_ses_user['login'] == 'fer')) {?>
+		&nbsp;&nbsp;<input type=submit name="generarnino" value='Generar Archivo' >
+		<?}?>
 	  </td>
      </tr>
 </table>

@@ -816,7 +816,7 @@ echo $html_header;
 	    &nbsp;&nbsp;&nbsp; || &nbsp;&nbsp;&nbsp;
 	    Desde: <input type="text" name="fecha_desde" value="2012-01-01" maxlength="10" size="12">
 	    Hasta: <input type="text" name="fecha_hasta" value="aaaa-mm-dd" maxlength="10" size="12">
-	    <?if ($_ses_user['login'] == 'sebastian') {?>
+	    <?if (($_ses_user['login'] == 'sebastian')or($_ses_user['login'] == 'fer')) {?>
 	    <input type="submit" name="importar" value='Importar'>
 	    <?}?>
 	    &nbsp;&nbsp;&nbsp;
