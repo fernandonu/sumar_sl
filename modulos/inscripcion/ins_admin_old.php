@@ -509,7 +509,10 @@ if ($_POST['guardar']=="Guardar Planilla"){
 		   $sql="Select puco.documento from puco.puco where puco.documento = '$num_doc'";
 		   //$sql="Select puco.documento from puco.puco where puco.documento = '1234567891'";
 		   $res_extra=sql($sql, "Error al traer el beneficiario") or fin_pagina();
-		   
+	 
+   if ($aficuil == ''){
+      $aficuil = 0;
+    }
    if (($res_extra->recordcount()>0) && ($responsable=='MADRE')){
    $query="insert into uad.beneficiarios
              (id_beneficiarios,estado_envio,clave_beneficiario,tipo_transaccion,apellido_benef,nombre_benef,clase_documento_benef,
