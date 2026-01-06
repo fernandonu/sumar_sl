@@ -120,6 +120,9 @@ if ($_POST['guardar_editar']=="Guardar"){
    	$fecha_nac=$_POST['fecha_nac'];
     $fecha_nac=Fecha_db($fecha_nac);
     $aficuil=$_POST['aficuil'];
+    if ($aficuil == ''){
+      $aficuil = 0;
+    }
    	$fecha_diagnostico_embarazo=Fecha_db($fecha_diagnostico_embarazo);
    	$semanas_embarazo=$_POST['semanas_embarazo'];
    	//////////////
