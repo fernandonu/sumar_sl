@@ -45,6 +45,7 @@ if($id_planilla){
    	$clase_doc=$resultado->fields['clase_documento_benef'];
    	$trans=$resultado->fields['tipo_transaccion'];
    	$estado_envio=$resultado->fields['estado_envio'];
+    $aficuil=$resultado->fields['aficuil'];
    	
    	if ($trans == 'B'){
    		$trans="Borrado";
@@ -118,6 +119,7 @@ if ($_POST['guardar_editar']=="Guardar"){
    
    	$fecha_nac=$_POST['fecha_nac'];
     $fecha_nac=Fecha_db($fecha_nac);
+    $aficuil=$_POST['aficuil'];
    	$fecha_diagnostico_embarazo=Fecha_db($fecha_diagnostico_embarazo);
    	$semanas_embarazo=$_POST['semanas_embarazo'];
    	//////////////
@@ -153,7 +155,7 @@ if ($_POST['guardar_editar']=="Guardar"){
              apellido_benef=upper('$apellido'),
              numero_doc='$num_doc',clase_documento_benef=upper('$clase_doc'),fecha_nacimiento_benef='$fecha_nac',
              indigena=upper('$indigena'),id_tribu=$id_tribu,id_lengua=$id_lengua,
-             id_categoria=$id_categoria,
+             id_categoria=$id_categoria,aficuil='$aficuil',
              calle=upper('$calle'),numero_calle='$numero_calle',piso='$piso',dpto=upper('$dpto'),manzana='$manzana',entre_calle_1=upper('$entre_calle_1'),
              entre_calle_2=upper('$entre_calle_2'), departamento=upper('$departamenton'), localidad=upper('$localidadn'), municipio=upper('$municipion'), 
              barrio=upper('$barrion'),telefono='$telefono',cod_pos='$cod_posn',observaciones=upper('$observaciones'),fecha_inscripcion='$fecha_inscripcion',
@@ -172,7 +174,7 @@ if ($_POST['guardar_editar']=="Guardar"){
              apellido_benef=upper('$apellido'),
              numero_doc='$num_doc',clase_documento_benef=upper('$clase_doc'),fecha_nacimiento_benef='$fecha_nac',
              indigena=upper('$indigena'),id_tribu=$id_tribu,id_lengua=$id_lengua,
-             id_categoria=$id_categoria,
+             id_categoria=$id_categoria,aficuil='$aficuil',
              calle=upper('$calle'),numero_calle='$numero_calle',piso='$piso',dpto=upper('$dpto'),manzana='$manzana',entre_calle_1=upper('$entre_calle_1'),
              entre_calle_2=upper('$entre_calle_2'), departamento=upper('$departamenton'), localidad=upper('$localidadn'), municipio=upper('$municipion'), 
              barrio=upper('$barrion'),telefono='$telefono',cod_pos='$cod_posn',observaciones=upper('$observaciones'),fecha_inscripcion='$fecha_inscripcion',
@@ -191,7 +193,7 @@ if ($_POST['guardar_editar']=="Guardar"){
              apellido_benef=upper('$apellido'),
              numero_doc='$num_doc',clase_documento_benef=upper('$clase_doc'),fecha_nacimiento_benef='$fecha_nac',
              indigena=upper('$indigena'),id_tribu=$id_tribu,id_lengua=$id_lengua,
-             id_categoria=$id_categoria,
+             id_categoria=$id_categoria,aficuil='$aficuil',
              calle=upper('$calle'),numero_calle='$numero_calle',piso='$piso',dpto=upper('$dpto'),manzana='$manzana',entre_calle_1=upper('$entre_calle_1'),
              entre_calle_2=upper('$entre_calle_2'), departamento=upper('$departamenton'), localidad=upper('$localidadn'), municipio=upper('$municipion'), 
              barrio=upper('$barrion'),telefono='$telefono',cod_pos='$cod_posn',observaciones=upper('$observaciones'),fecha_inscripcion='$fecha_inscripcion',
@@ -209,7 +211,7 @@ if ($_POST['guardar_editar']=="Guardar"){
 	if (($id_categoria=='1') && ($estado_envio== 'n'))  {
    			$query = "update uad.beneficiarios set 
              cuie_ea='$cuie', nombre_benef=upper('$nombre'),
-             apellido_benef=upper('$apellido'),
+             apellido_benef=upper('$apellido'),aficuil='$aficuil',
              numero_doc='$num_doc',clase_documento_benef=upper('$clase_doc'),fecha_nacimiento_benef='$fecha_nac',
              indigena=upper('$indigena'),id_tribu=$id_tribu,id_lengua=$id_lengua,id_categoria=$id_categoria,
 			 fecha_diagnostico_embarazo='$fecha_diagnostico_embarazo',semanas_embarazo='$semanas_embarazo',fecha_probable_parto='$fecha_probable_parto',
@@ -224,7 +226,7 @@ if ($_POST['guardar_editar']=="Guardar"){
   		 }elseif (($id_categoria=='2') && ($estado_envio== 'n')) {
    			$query = "update uad.beneficiarios set 
              cuie_ea='$cuie', nombre_benef=upper('$nombre'),
-             apellido_benef=upper('$apellido'),
+             apellido_benef=upper('$apellido'),aficuil='$aficuil',
              numero_doc='$num_doc',clase_documento_benef=upper('$clase_doc'),fecha_nacimiento_benef='$fecha_nac',
              indigena=upper('$indigena'),id_tribu=$id_tribu,id_lengua=$id_lengua,id_categoria=$id_categoria,
 			 fecha_efectiva_parto='$fecha_efectiva_parto',
@@ -241,7 +243,7 @@ if ($_POST['guardar_editar']=="Guardar"){
 if(($responsable =='MADRE') && ($estado_envio== 'e')){
    			$query = "update uad.beneficiarios set 
              cuie_ea='$cuie', nombre_benef=upper('$nombre'),
-             apellido_benef=upper('$apellido'),
+             apellido_benef=upper('$apellido'),aficuil='$aficuil',
              numero_doc='$num_doc',clase_documento_benef=upper('$clase_doc'),fecha_nacimiento_benef='$fecha_nac',
              indigena=upper('$indigena'),id_tribu=$id_tribu,id_lengua=$id_lengua,
              id_categoria=$id_categoria,
@@ -260,7 +262,7 @@ if(($responsable =='MADRE') && ($estado_envio== 'e')){
    }elseif(($responsable =='PADRE') && ($estado_envio== 'e')){
    		$query = "update uad.beneficiarios set 
              cuie_ea='$cuie', nombre_benef=upper('$nombre'),
-             apellido_benef=upper('$apellido'),
+             apellido_benef=upper('$apellido'),aficuil='$aficuil',
              numero_doc='$num_doc',clase_documento_benef=upper('$clase_doc'),fecha_nacimiento_benef='$fecha_nac',
              indigena=upper('$indigena'),id_tribu=$id_tribu,id_lengua=$id_lengua,
              id_categoria=$id_categoria,
@@ -279,7 +281,7 @@ if(($responsable =='MADRE') && ($estado_envio== 'e')){
   		 }elseif(($responsable =='TUTOR') && ($estado_envio== 'e')) {
    			$query = "update uad.beneficiarios set 
              cuie_ea='$cuie', nombre_benef=upper('$nombre'),
-             apellido_benef=upper('$apellido'),
+             apellido_benef=upper('$apellido'),aficuil='$aficuil',
              numero_doc='$num_doc',clase_documento_benef=upper('$clase_doc'),fecha_nacimiento_benef='$fecha_nac',
              indigena=upper('$indigena'),id_tribu=$id_tribu,id_lengua=$id_lengua,
              id_categoria=$id_categoria,
@@ -300,7 +302,7 @@ if(($responsable =='MADRE') && ($estado_envio== 'e')){
 		if (($id_categoria=='1')&& ($estado_envio=='e'))  {
    			$query = "update uad.beneficiarios set 
              cuie_ea='$cuie', nombre_benef=upper('$nombre'),
-             apellido_benef=upper('$apellido'),
+             apellido_benef=upper('$apellido'),aficuil='$aficuil',
              numero_doc='$num_doc',clase_documento_benef=upper('$clase_doc'),fecha_nacimiento_benef='$fecha_nac',
              indigena=upper('$indigena'),id_tribu=$id_tribu,id_lengua=$id_lengua,id_categoria=$id_categoria,
 			 fecha_diagnostico_embarazo='$fecha_diagnostico_embarazo',semanas_embarazo='$semanas_embarazo',fecha_probable_parto='$fecha_probable_parto',
@@ -316,7 +318,7 @@ if(($responsable =='MADRE') && ($estado_envio== 'e')){
   		 }elseif (($id_categoria=='2')&& ($estado_envio=='e')) {
    			$query = "update uad.beneficiarios set 
              cuie_ea='$cuie', nombre_benef=upper('$nombre'),
-             apellido_benef=upper('$apellido'),
+             apellido_benef=upper('$apellido'),aficuil='$aficuil',
              numero_doc='$num_doc',clase_documento_benef=upper('$clase_doc'),fecha_nacimiento_benef='$fecha_nac',
              indigena=upper('$indigena'),id_tribu=$id_tribu,id_lengua=$id_lengua,id_categoria=$id_categoria,
              fecha_diagnostico_embarazo='1899-12-30',semanas_embarazo='0',fecha_probable_parto='1899-12-30',
@@ -333,7 +335,7 @@ if(($responsable =='MADRE') && ($estado_envio== 'e')){
   		 if ((($id_categoria=='7')||($id_categoria=='8'))&& ($estado_envio=='e'))  {
    			$query = "update uad.beneficiarios set 
              cuie_ea='$cuie', nombre_benef=upper('$nombre'),
-             apellido_benef=upper('$apellido'),
+             apellido_benef=upper('$apellido'),aficuil='$aficuil',
              numero_doc='$num_doc',clase_documento_benef=upper('$clase_doc'),fecha_nacimiento_benef='$fecha_nac',
              indigena=upper('$indigena'),id_tribu=$id_tribu,id_lengua=$id_lengua,id_categoria=$id_categoria,
 			 calle=upper('$calle'),numero_calle='$numero_calle',piso='$piso',dpto=upper('$dpto'),manzana='$manzana',
@@ -347,7 +349,7 @@ if(($responsable =='MADRE') && ($estado_envio== 'e')){
   		 }elseif ((($id_categoria=='7')||($id_categoria=='8'))&& ($estado_envio=='n')) {
    			$query = "update uad.beneficiarios set 
              cuie_ea='$cuie', nombre_benef=upper('$nombre'),
-             apellido_benef=upper('$apellido'),
+             apellido_benef=upper('$apellido'),aficuil='$aficuil',
              numero_doc='$num_doc',clase_documento_benef=upper('$clase_doc'),fecha_nacimiento_benef='$fecha_nac',
              indigena=upper('$indigena'),id_tribu=$id_tribu,id_lengua=$id_lengua,id_categoria=$id_categoria,
              calle=upper('$calle'),numero_calle='$numero_calle',piso='$piso',dpto=upper('$dpto'),manzana='$manzana',
@@ -400,6 +402,7 @@ if ($_POST['guardar']=="Guardar Planilla"){
 		 	$tipo_doc=$res_extra1->fields['tipo_documento'];
 		 	$sexo=$res_extra1->fields['sexo'];
 		 	$fecha_nac=Fecha($res_extra1->fields['fecha_nacimiento_benef']);
+      $aficuil=$res_extra1->fields['aficuil'];
       $pais_nac=$res_extra1->fields['pais_nac'];
 		 	$provincia_nac=$res_extra1->fields['provincia_nac'];
 		 	$localidad_proc=$res_extra1->fields['localidad_nac'];
@@ -513,7 +516,7 @@ if ($_POST['guardar']=="Guardar Planilla"){
              cuie_ea,cuie_ah,menor_convive_con_adulto,tipo_doc_madre,
              nro_doc_madre,apellido_madre,nombre_madre,calle,numero_calle,
              piso,dpto,manzana,entre_calle_1,entre_calle_2,telefono,departamento,localidad,municipio,barrio,cod_pos,observaciones,
-			 fecha_inscripcion,fecha_carga,usuario_carga,activo,tipo_ficha,responsable)
+			 fecha_inscripcion,fecha_carga,usuario_carga,activo,tipo_ficha,responsable,aficuil)
              values
              ($id_planilla,'n','$clave_beneficiario',upper('$tipo_transaccion'),upper('$apellido'),upper('$nombre'),upper('$clase_doc'),
              upper('$tipo_doc'),'$num_doc','$id_categoria',upper('$sexo'),'$fecha_nac',upper('$provincia_nacn'),upper('$localidad_procn'),upper('$pais_nacn'),
@@ -523,7 +526,7 @@ if ($_POST['guardar']=="Guardar Planilla"){
              upper('$tipo_doc_madre'),'$nro_doc_madre',upper('$apellido_madre'),upper('$nombre_madre'),
              upper('$calle'),'$numero_calle','$piso',upper('$dpto'), '$manzana',upper('$entre_calle_1'),
              upper('$entre_calle_2'),'$telefono',upper('$departamenton'),upper('$localidadn'),upper('$municipion'),upper('$barrion'),
-             '$cod_posn',upper('$observaciones'), '$fecha_inscripcion','$fecha_carga',upper('$usuario'),'1','1', upper('$responsable'))";
+             '$cod_posn',upper('$observaciones'), '$fecha_inscripcion','$fecha_carga',upper('$usuario'),'1','1', upper('$responsable'), '$aficuil')";
 
 
     	sql($query, "Error al insertar la Planilla") or fin_pagina();
@@ -546,7 +549,7 @@ if ($_POST['guardar']=="Guardar Planilla"){
              cuie_ea,cuie_ah,menor_convive_con_adulto,tipo_doc_madre,
              nro_doc_madre,apellido_madre,nombre_madre,calle,numero_calle,
              piso,dpto,manzana,entre_calle_1,entre_calle_2,telefono,departamento,localidad,municipio,barrio,cod_pos,observaciones,
-			 fecha_inscripcion,fecha_carga,usuario_carga,activo,tipo_ficha,responsable)
+			 fecha_inscripcion,fecha_carga,usuario_carga,activo,tipo_ficha,responsable,aficuil)
              values
              ($id_planilla,'n','$clave_beneficiario',upper('$tipo_transaccion'),upper('$apellido'),upper('$nombre'),upper('$clase_doc'),
              upper('$tipo_doc'),'$num_doc','$id_categoria',upper('$sexo'),'$fecha_nac',upper('$provincia_nacn'),upper('$localidad_procn'),upper('$pais_nacn'),
@@ -556,7 +559,7 @@ if ($_POST['guardar']=="Guardar Planilla"){
              upper('$tipo_doc_madre'),'$nro_doc_madre',upper('$apellido_madre'),upper('$nombre_madre'),
              upper('$calle'),'$numero_calle','$piso',upper('$dpto'), '$manzana',upper('$entre_calle_1'),
              upper('$entre_calle_2'),'$telefono',upper('$departamenton'),upper('$localidadn'),upper('$municipion'),upper('$barrion'),
-             '$cod_posn',upper('$observaciones'), '$fecha_inscripcion','$fecha_carga',upper('$usuario'),'1','1', upper('$responsable'))";
+             '$cod_posn',upper('$observaciones'), '$fecha_inscripcion','$fecha_carga',upper('$usuario'),'1','1', upper('$responsable'), '$aficuil')";
 
 
     	sql($query, "Error al insertar la Planilla") or fin_pagina();
@@ -575,7 +578,7 @@ if ($_POST['guardar']=="Guardar Planilla"){
              cuie_ea,cuie_ah,menor_convive_con_adulto,tipo_doc_padre,
              nro_doc_padre,apellido_padre,nombre_padre,calle,numero_calle,
              piso,dpto,manzana,entre_calle_1,entre_calle_2,telefono,departamento,localidad,municipio,barrio,cod_pos,observaciones,
-			 fecha_inscripcion,fecha_carga,usuario_carga,activo,tipo_ficha,responsable)
+			 fecha_inscripcion,fecha_carga,usuario_carga,activo,tipo_ficha,responsable,aficuil)
              values
              ($id_planilla,'n','$clave_beneficiario',upper('$tipo_transaccion'),upper('$apellido'),upper('$nombre'),upper('$clase_doc'),
              upper('$tipo_doc'),'$num_doc','$id_categoria',upper('$sexo'),'$fecha_nac',upper('$provincia_nacn'),upper('$localidad_procn'),upper('$pais_nacn'),
@@ -585,7 +588,7 @@ if ($_POST['guardar']=="Guardar Planilla"){
              upper('$tipo_doc_madre'),'$nro_doc_madre',upper('$apellido_madre'),upper('$nombre_madre'),
              upper('$calle'),'$numero_calle','$piso',upper('$dpto'), '$manzana',upper('$entre_calle_1'),
              upper('$entre_calle_2'),'$telefono',upper('$departamenton'),upper('$localidadn'),upper('$municipion'),upper('$barrion'),
-             '$cod_posn',upper('$observaciones'), '$fecha_inscripcion','$fecha_carga',upper('$usuario'),'1','1', upper('$responsable'))";
+             '$cod_posn',upper('$observaciones'), '$fecha_inscripcion','$fecha_carga',upper('$usuario'),'1','1', upper('$responsable'), '$aficuil')";
 
 
     	sql($query, "Error al insertar la Planilla") or fin_pagina();
@@ -608,7 +611,7 @@ if ($_POST['guardar']=="Guardar Planilla"){
              cuie_ea,cuie_ah,menor_convive_con_adulto,tipo_doc_padre,
              nro_doc_padre,apellido_padre,nombre_padre,calle,numero_calle,
              piso,dpto,manzana,entre_calle_1,entre_calle_2,telefono,departamento,localidad,municipio,barrio,cod_pos,observaciones,
-			 fecha_inscripcion,fecha_carga,usuario_carga,activo,tipo_ficha,responsable)
+			 fecha_inscripcion,fecha_carga,usuario_carga,activo,tipo_ficha,responsable,aficuil)
              values
              ($id_planilla,'n','$clave_beneficiario',upper('$tipo_transaccion'),upper('$apellido'),upper('$nombre'),upper('$clase_doc'),
              upper('$tipo_doc'),'$num_doc','$id_categoria',upper('$sexo'),'$fecha_nac',upper('$provincia_nacn'),upper('$localidad_procn'),upper('$pais_nacn'),
@@ -618,7 +621,7 @@ if ($_POST['guardar']=="Guardar Planilla"){
              upper('$tipo_doc_madre'),'$nro_doc_madre',upper('$apellido_madre'),upper('$nombre_madre'),
              upper('$calle'),'$numero_calle','$piso',upper('$dpto'), '$manzana',upper('$entre_calle_1'),
              upper('$entre_calle_2'),'$telefono',upper('$departamenton'),upper('$localidadn'),upper('$municipion'),upper('$barrion'),
-             '$cod_posn',upper('$observaciones'), '$fecha_inscripcion','$fecha_carga',upper('$usuario'),'1','1', upper('$responsable'))";
+             '$cod_posn',upper('$observaciones'), '$fecha_inscripcion','$fecha_carga',upper('$usuario'),'1','1', upper('$responsable'), '$aficuil')";
 
 
     	sql($query, "Error al insertar la Planilla") or fin_pagina();
@@ -636,7 +639,7 @@ if (($res_extra->recordcount()>0) && ($responsable=='TUTOR')) {
              cuie_ea,cuie_ah,menor_convive_con_adulto,tipo_doc_tutor,
              nro_doc_tutor,apellido_tutor,nombre_tutor,calle,numero_calle,
              piso,dpto,manzana,entre_calle_1,entre_calle_2,telefono,departamento,localidad,municipio,barrio,cod_pos,observaciones,
-	     fecha_inscripcion,fecha_carga,usuario_carga,activo,tipo_ficha,responsable)
+	     fecha_inscripcion,fecha_carga,usuario_carga,activo,tipo_ficha,responsable,aficuil)
              values
              ($id_planilla,'n','$clave_beneficiario',upper('$tipo_transaccion'),upper('$apellido'),upper('$nombre'),upper('$clase_doc'),
              upper('$tipo_doc'),'$num_doc','$id_categoria',upper('$sexo'),'$fecha_nac',upper('$provincia_nacn'),upper('$localidad_procn'),upper('$pais_nacn'),
@@ -646,7 +649,7 @@ if (($res_extra->recordcount()>0) && ($responsable=='TUTOR')) {
              upper('$tipo_doc_madre'),'$nro_doc_madre',upper('$apellido_madre'),upper('$nombre_madre'),
              upper('$calle'),'$numero_calle','$piso',upper('$dpto'), '$manzana',upper('$entre_calle_1'),
              upper('$entre_calle_2'),'$telefono',upper('$departamenton'),upper('$localidadn'),upper('$municipion'),upper('$barrion'),
-             '$cod_posn',upper('$observaciones'), '$fecha_inscripcion','$fecha_carga',upper('$usuario'),'1','1', upper('$responsable'))";
+             '$cod_posn',upper('$observaciones'), '$fecha_inscripcion','$fecha_carga',upper('$usuario'),'1','1', upper('$responsable'), '$aficuil')";
 
 
     	sql($query, "Error al insertar la Planilla") or fin_pagina();
@@ -669,7 +672,7 @@ if (($res_extra->recordcount()>0) && ($responsable=='TUTOR')) {
              cuie_ea,cuie_ah,menor_convive_con_adulto,tipo_doc_tutor,
              nro_doc_tutor,apellido_tutor,nombre_tutor,calle,numero_calle,
              piso,dpto,manzana,entre_calle_1,entre_calle_2,telefono,departamento,localidad,municipio,barrio,cod_pos,observaciones,
-	     fecha_inscripcion,fecha_carga,usuario_carga,activo,tipo_ficha,responsable)
+	     fecha_inscripcion,fecha_carga,usuario_carga,activo,tipo_ficha,responsable,aficuil)
              values
              ($id_planilla,'n','$clave_beneficiario',upper('$tipo_transaccion'),upper('$apellido'),upper('$nombre'),upper('$clase_doc'),
              upper('$tipo_doc'),'$num_doc','$id_categoria',upper('$sexo'),'$fecha_nac',upper('$provincia_nacn'),upper('$localidad_procn'),upper('$pais_nacn'),
@@ -679,7 +682,7 @@ if (($res_extra->recordcount()>0) && ($responsable=='TUTOR')) {
              upper('$tipo_doc_madre'),'$nro_doc_madre',upper('$apellido_madre'),upper('$nombre_madre'),
              upper('$calle'),'$numero_calle','$piso',upper('$dpto'), '$manzana',upper('$entre_calle_1'),
              upper('$entre_calle_2'),'$telefono',upper('$departamenton'),upper('$localidadn'),upper('$municipion'),upper('$barrion'),
-             '$cod_posn',upper('$observaciones'), '$fecha_inscripcion','$fecha_carga',upper('$usuario'),'1','1', upper('$responsable'))";
+             '$cod_posn',upper('$observaciones'), '$fecha_inscripcion','$fecha_carga',upper('$usuario'),'1','1', upper('$responsable'), '$aficuil')";
 
 
     	sql($query, "Error al insertar la Planilla") or fin_pagina();
@@ -695,7 +698,7 @@ if (($res_extra->recordcount()>0) && ($responsable=='TUTOR')) {
              indigena,id_tribu,id_lengua,fecha_diagnostico_embarazo,semanas_embarazo,
              fecha_probable_parto,fecha_efectiva_parto,cuie_ea,cuie_ah,calle,numero_calle,
              piso,dpto,manzana,entre_calle_1,entre_calle_2,telefono,departamento,localidad,municipio,barrio,cod_pos,observaciones,
-			 fecha_inscripcion,fecha_carga,usuario_carga,activo,tipo_ficha)
+			 fecha_inscripcion,fecha_carga,usuario_carga,activo,tipo_ficha,aficuil)
              values
              ($id_planilla,'n','$clave_beneficiario',upper('$tipo_transaccion'),upper('$apellido'),upper('$nombre'),upper('$clase_doc'),
              upper('$tipo_doc'),'$num_doc','$id_categoria',upper('$sexo'),'$fecha_nac',upper('$provincia_nacn'),upper('$localidad_procn'),upper('$pais_nacn'),
@@ -703,7 +706,7 @@ if (($res_extra->recordcount()>0) && ($responsable=='TUTOR')) {
              '$fecha_probable_parto','1899-12-30',upper('$cuie'),upper('$cuie'),upper('$calle'),'$numero_calle',
              '$piso',upper('$dpto'), '$manzana',upper('$entre_calle_1'),upper('$entre_calle_2'),'$telefono',upper('$departamenton'),
              upper('$localidadn'),upper('$municipion'),upper('$barrion'),'$cod_posn',upper('$observaciones'), '$fecha_inscripcion',
-             '$fecha_carga',upper('$usuario'),'1','1')";
+             '$fecha_carga',upper('$usuario'),'1','1', '$aficuil')";
 			
     	sql($query, "Error al insertar la Planilla") or fin_pagina();
     
@@ -723,7 +726,7 @@ if (($res_extra->recordcount()>0) && ($responsable=='TUTOR')) {
              indigena,id_tribu,id_lengua,fecha_diagnostico_embarazo,semanas_embarazo,
              fecha_probable_parto,fecha_efectiva_parto,cuie_ea,cuie_ah,calle,numero_calle,
              piso,dpto,manzana,entre_calle_1,entre_calle_2,telefono,departamento,localidad,municipio,barrio,cod_pos,observaciones,
-			 fecha_inscripcion,fecha_carga,usuario_carga,activo,tipo_ficha)
+			 fecha_inscripcion,fecha_carga,usuario_carga,activo,tipo_ficha,responsable,aficuil)
              values
              ($id_planilla,'n','$clave_beneficiario',upper('$tipo_transaccion'),upper('$apellido'),upper('$nombre'),upper('$clase_doc'),
              upper('$tipo_doc'),'$num_doc','$id_categoria',upper('$sexo'),'$fecha_nac',upper('$provincia_nacn'),upper('$localidad_procn'),upper('$pais_nacn'),
@@ -731,7 +734,7 @@ if (($res_extra->recordcount()>0) && ($responsable=='TUTOR')) {
              '$fecha_probable_parto','1899-12-30',upper('$cuie'),upper('$cuie'),upper('$calle'),'$numero_calle',
              '$piso',upper('$dpto'), '$manzana',upper('$entre_calle_1'),upper('$entre_calle_2'),'$telefono',upper('$departamenton'),
              upper('$localidadn'),upper('$municipion'),upper('$barrion'),'$cod_posn',upper('$observaciones'), '$fecha_inscripcion',
-             '$fecha_carga',upper('$usuario'),'1','1')";
+             '$fecha_carga',upper('$usuario'),'1','1', '$responsable', '$aficuil')";
 			
     	sql($query, "Error al insertar la Planilla") or fin_pagina();
     
@@ -746,7 +749,7 @@ if (($res_extra->recordcount()>0) && ($responsable=='TUTOR')) {
              indigena,id_tribu,id_lengua,fecha_diagnostico_embarazo,semanas_embarazo,
              fecha_probable_parto,fecha_efectiva_parto,cuie_ea,cuie_ah,calle,numero_calle,
              piso,dpto,manzana,entre_calle_1,entre_calle_2,telefono,departamento,localidad,municipio,barrio,cod_pos,observaciones,
-			 fecha_inscripcion,fecha_carga,usuario_carga,activo,tipo_ficha)
+			 fecha_inscripcion,fecha_carga,usuario_carga,activo,tipo_ficha,responsable,aficuil)
              values
              ($id_planilla,'n','$clave_beneficiario',upper('$tipo_transaccion'),upper('$apellido'),upper('$nombre'),upper('$clase_doc'),
              upper('$tipo_doc'),'$num_doc','$id_categoria',upper('$sexo'),'$fecha_nac',upper('$provincia_nacn'),upper('$localidad_procn'),upper('$pais_nacn'),
@@ -754,7 +757,7 @@ if (($res_extra->recordcount()>0) && ($responsable=='TUTOR')) {
              '1899-12-30','$fecha_efectiva_parto',upper('$cuie'),upper('$cuie'),upper('$calle'),'$numero_calle',
              '$piso',upper('$dpto'), '$manzana',upper('$entre_calle_1'),upper('$entre_calle_2'),'$telefono',upper('$departamenton'),
              upper('$localidadn'),upper('$municipion'),upper('$barrion'),'$cod_posn',upper('$observaciones'), '$fecha_inscripcion',
-             '$fecha_carga',upper('$usuario'),'1','1')";
+             '$fecha_carga',upper('$usuario'),'1','1', '$responsable', '$aficuil')";
 			
     	sql($query, "Error al insertar la Planilla") or fin_pagina();
     
@@ -775,7 +778,7 @@ if (($res_extra->recordcount()>0) && ($responsable=='TUTOR')) {
              indigena,id_tribu,id_lengua,fecha_diagnostico_embarazo,semanas_embarazo,
              fecha_probable_parto,fecha_efectiva_parto,cuie_ea,cuie_ah,calle,numero_calle,
              piso,dpto,manzana,entre_calle_1,entre_calle_2,telefono,departamento,localidad,municipio,barrio,cod_pos,observaciones,
-			 fecha_inscripcion,fecha_carga,usuario_carga,activo,tipo_ficha)
+			 fecha_inscripcion,fecha_carga,usuario_carga,activo,tipo_ficha,responsable,aficuil)
              values
              ($id_planilla,'n','$clave_beneficiario',upper('$tipo_transaccion'),upper('$apellido'),upper('$nombre'),upper('$clase_doc'),
              upper('$tipo_doc'),'$num_doc','$id_categoria',upper('$sexo'),'$fecha_nac',upper('$provincia_nacn'),upper('$localidad_procn'),upper('$pais_nacn'),
@@ -783,7 +786,7 @@ if (($res_extra->recordcount()>0) && ($responsable=='TUTOR')) {
              '1899-12-30','$fecha_efectiva_parto',upper('$cuie'),upper('$cuie'),upper('$calle'),'$numero_calle',
              '$piso',upper('$dpto'), '$manzana',upper('$entre_calle_1'),upper('$entre_calle_2'),'$telefono',upper('$departamenton'),
              upper('$localidadn'),upper('$municipion'),upper('$barrion'),'$cod_posn',upper('$observaciones'), '$fecha_inscripcion',
-             '$fecha_carga',upper('$usuario'),'1','1')";
+             '$fecha_carga',upper('$usuario'),'1','1', '$responsable', '$aficuil')";
 			
     	sql($query, "Error al insertar la Planilla") or fin_pagina();
     
@@ -799,7 +802,7 @@ if (($res_extra->recordcount()>0) && ($responsable=='TUTOR')) {
              indigena,id_tribu,id_lengua,fecha_diagnostico_embarazo,semanas_embarazo,
              fecha_probable_parto,fecha_efectiva_parto,cuie_ea,cuie_ah,calle,numero_calle,
              piso,dpto,manzana,entre_calle_1,entre_calle_2,telefono,departamento,localidad,municipio,barrio,cod_pos,observaciones,
-			 fecha_inscripcion,fecha_carga,usuario_carga,activo,tipo_ficha)
+			 fecha_inscripcion,fecha_carga,usuario_carga,activo,tipo_ficha,responsable,aficuil)
              values
              ($id_planilla,'n','$clave_beneficiario',upper('$tipo_transaccion'),upper('$apellido'),upper('$nombre'),upper('$clase_doc'),
              upper('$tipo_doc'),'$num_doc','$id_categoria',upper('$sexo'),'$fecha_nac',upper('$provincia_nacn'),upper('$localidad_procn'),upper('$pais_nacn'),
@@ -807,7 +810,7 @@ if (($res_extra->recordcount()>0) && ($responsable=='TUTOR')) {
              '1899-12-30','1899-12-30',upper('$cuie'),upper('$cuie'),upper('$calle'),'$numero_calle',
              '$piso',upper('$dpto'), '$manzana',upper('$entre_calle_1'),upper('$entre_calle_2'),'$telefono',upper('$departamenton'),
              upper('$localidadn'),upper('$municipion'),upper('$barrion'),'$cod_posn',upper('$observaciones'), '$fecha_inscripcion',
-             '$fecha_carga',upper('$usuario'),'1','1')";
+             '$fecha_carga',upper('$usuario'),'1','1', '$responsable', '$aficuil')";
 			
     	sql($query, "Error al insertar la Planilla") or fin_pagina();
     
@@ -828,7 +831,7 @@ if (($res_extra->recordcount()>0) && ($responsable=='TUTOR')) {
              indigena,id_tribu,id_lengua,fecha_diagnostico_embarazo,semanas_embarazo,
              fecha_probable_parto,fecha_efectiva_parto,cuie_ea,cuie_ah,calle,numero_calle,
              piso,dpto,manzana,entre_calle_1,entre_calle_2,telefono,departamento,localidad,municipio,barrio,cod_pos,observaciones,
-			 fecha_inscripcion,fecha_carga,usuario_carga,activo,tipo_ficha)
+			 fecha_inscripcion,fecha_carga,usuario_carga,activo,tipo_ficha,responsable,aficuil)
              values
              ($id_planilla,'n','$clave_beneficiario',upper('$tipo_transaccion'),upper('$apellido'),upper('$nombre'),upper('$clase_doc'),
              upper('$tipo_doc'),'$num_doc','$id_categoria',upper('$sexo'),'$fecha_nac',upper('$provincia_nacn'),upper('$localidad_procn'),upper('$pais_nacn'),
@@ -836,7 +839,7 @@ if (($res_extra->recordcount()>0) && ($responsable=='TUTOR')) {
              '1899-12-30','1899-12-30',upper('$cuie'),upper('$cuie'),upper('$calle'),'$numero_calle',
              '$piso',upper('$dpto'), '$manzana',upper('$entre_calle_1'),upper('$entre_calle_2'),'$telefono',upper('$departamenton'),
              upper('$localidadn'),upper('$municipion'),upper('$barrion'),'$cod_posn',upper('$observaciones'), '$fecha_inscripcion',
-             '$fecha_carga',upper('$usuario'),'1','1')";
+             '$fecha_carga',upper('$usuario'),'1','1', '$responsable', '$aficuil')";
 			
     	sql($query, "Error al insertar la Planilla") or fin_pagina();
     
@@ -1961,7 +1964,14 @@ else {
   <option value='UI'>Universitario incompleto</option>
   <option value='UC'>Universitario completo</option>
   </select>
+  </td>
   
+  <td align="right">
+  <b>Cuil:</b>
+  </td> 
+  <td align='left'>
+    <input type="text" name="aficuil" id="aficuil" value="<?php echo $aficuil; ?>" maxlength="11" pattern="\d{11}" inputmode="numeric"  /> <!--por ahora no requiere required /> -->
+  </td>
   
 </tr> 
          
