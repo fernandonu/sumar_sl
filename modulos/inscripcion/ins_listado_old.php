@@ -167,8 +167,7 @@ if ($_POST['generarnino']){
 En la versión 2.0, este campo vendrá con el texto "2.0"
 */			$contenido.=$seq;
     		$contenido.=chr(9);
-			$contenido.="5.5"; //anterior 4.1
-			$contenido.=chr(9);
+			$contenido.="7.9"; //anterior 4.1
 			$contenido.="\n";
 
 			$where.=0;
@@ -369,7 +368,11 @@ En la versión 2.0, este campo vendrá con el texto "2.0"
 			$contenido.=chr(9);
 			$contenido.=$result1->fields['cuie_efector_cargo'];
 			$contenido.=chr(9);
-			
+			//id mpi
+			$contenido.=chr(9);
+			//id equipo nuclear
+			$contenido.=chr(9);
+			$contenido.=$result1->fields['aficuil'];
 			$contenido.="\n";	
 	   		$result1->MoveNext();
     	}
