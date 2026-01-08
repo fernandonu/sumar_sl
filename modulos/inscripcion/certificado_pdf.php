@@ -55,14 +55,16 @@ function suma_fechas($fecha,$ndias){
       return ($nuevafecha);  
 }
 
+$num_doc=trim($f_res->fields['numero_doc']);
+
 $pdf->dibujar_planilla(suma_fechas(date("d/m/y"),60));
 $pdf->clavebeneficiario($f_res->fields['clave_beneficiario']);
 $pdf->afiapellido(utf8_decode(($f_res->fields['apellido_benef'])));
-$pdf->afinombre($f_res->fields['nombre_benef']);
+$pdf->afinombre(utf8_decode($f_res->fields['nombre_benef']));
 $pdf->afidni($f_res->fields['numero_doc']);
-$pdf->nombre($f_res->fields['nombre']);
+$pdf->nombre(utf8_decode($f_res->fields['nombre']));
 $pdf->afifechanac(Fecha($f_res->fields['fecha_nacimiento_benef']));
 $pdf->fechainscripcion(Fecha($f_res->fields['fecha_inscripcion']));
 $pdf->activo($id_transaccion_certificado);
-$pdf->guardar_servidor("Certificado_$id_smiafiliados.pdf");
+$pdf->guardar_servidor("Certificado_$num_doc.pdf");
 ?>
