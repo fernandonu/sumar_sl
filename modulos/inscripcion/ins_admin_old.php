@@ -1387,6 +1387,23 @@ function control_nuevos()
 	 	}
 	 }
 
+   var fecha_parts = document.all.fecha_inscripcion.value.split('/');
+   var fecha_ins_date = new Date(fecha_parts[2], fecha_parts[1] - 1, fecha_parts[0]);
+   var fecha_limite = new Date(2026, 0, 1);
+
+   if ((document.all.aficuil.value=="") && (fecha_ins_date >= fecha_limite)){
+	 alert("Debe completar el campo CUIL");
+	 document.all.aficuil.focus();
+	 return false;
+	 }else{
+ 		var num_cuil=document.all.aficuil.value;
+		if(isNaN(num_cuil)){
+			alert('El dato ingresado en CUIL debe ser entero y no contener espacios');
+			document.all.aficuil.focus();
+			return false;
+	 	}
+	 }
+
 	
  if(document.all.apellido.value==""){
 	 alert("Debe completar el campo apellido");
