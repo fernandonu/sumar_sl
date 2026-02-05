@@ -70,7 +70,7 @@ echo $html_header;
     <td align=right id=mo>Estado</td>      	
     <td align=right id=mo><a id=mo href='<?=encode_link("informe_facturacion.php",array("sort"=>"2","up"=>$up))?>'>CUIE</a></td>      	
     <td align=right id=mo><a id=mo href='<?=encode_link("informe_facturacion.php",array("sort"=>"3","up"=>$up))?>'>Efector</a></td>
-    <td align=right id=mo>Periodo Proc</td>  
+    <td align=right id=mo>Periodo Prestacion</td>  
     <td align=right id=mo>Periodo Factura</td>      
     <td align=right id=mo>Fecha Factura</td>  
 	<td align=right id=mo>Fecha De Ing.(Exped.)</td>     
@@ -91,7 +91,7 @@ echo $html_header;
      <td ><?=$result->fields['estado']?></td>
      <td ><?=$result->fields['cuie']?></td>
      <td ><?=$result->fields['nombreefector']?></td>
-     <td ><?=$result->fields['mes_fact_d_c']?></td>
+     <td ><?=$result->fields['periodo_actual']?></td>
      <td ><?=$result->fields['periodo']?></td>
      <td ><?=fecha($result->fields['fecha_factura'])?></td>     
 	<td ><?=fecha($result->fields['fecha_ing'])?></td>	

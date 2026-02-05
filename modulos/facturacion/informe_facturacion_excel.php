@@ -38,7 +38,7 @@ excel_header("informe_facturacion_excel.xls");
     <td align=right id=mo>Estado</td>      	
     <td align=right id=mo>CUIE</td>      	
     <td align=right id=mo>Efector</td>
-    <td align=right id=mo>Periodo Proc</td>  
+    <td align=right id=mo>Periodo Prestacion</td>  
     <td align=right id=mo>Periodo Factura</td>      
     <td align=right id=mo>Fecha Ingreso (Exped.)</td> 
 	<td align=right id=mo>Fecha Factura</td>     
@@ -60,7 +60,7 @@ excel_header("informe_facturacion_excel.xls");
      <td ><?=$result->fields['estado']?></td>
      <td ><?=$result->fields['cuie']?></td>
      <td ><?=$result->fields['nombreefector']?></td>
-     <td ><?=$result->fields['mes_fact_d_c']?></td>
+     <td ><?=$result->fields['periodo_actual']?></td>
      <td ><?=$result->fields['periodo']?></td>
      <td ><?=fecha($result->fields['fecha_ing'])?></td> 
 	 <td ><?=fecha($result->fields['fecha_factura'])?></td>          
