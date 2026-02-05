@@ -45,7 +45,7 @@ $datos_barra = array(
 
 generar_barra_nav($datos_barra);
 
-$sql_tmp="select id_smiafiliados, afiapellido,afinombre,afidni,nombre,cuie,activo,motivobaja,mensajebaja,clavebeneficiario,fechainscripcion
+$sql_tmp="select id_smiafiliados, afiapellido,afinombre,afidni,nombre,cuie,activo,motivobaja,mensajebaja,clavebeneficiario,fechainscripcion,afi_cuil
 			from nacer.smiafiliados
 			left join nacer.efe_conv on (cuieefectorasignado=cuie)";
 
@@ -97,6 +97,7 @@ echo $html_header;
     <td align=right id=mo><a id=mo href='<?=encode_link("listado_beneficiarios.php",array("sort"=>"1","up"=>$up))?>' >Apellido</a></td>      	
     <td align=right id=mo><a id=mo href='<?=encode_link("listado_beneficiarios.php",array("sort"=>"2","up"=>$up))?>'>Nombre</a></td>
     <td align=right id=mo><a id=mo href='<?=encode_link("listado_beneficiarios.php",array("sort"=>"3","up"=>$up))?>'>DNI</a></td>
+    <td align=right id=mo>CUIL</td>
     <td align=right id=mo><a id=mo href='<?=encode_link("listado_beneficiarios.php",array("sort"=>"1","up"=>$up))?>'>Nombre Efector</a></td>
     <td align=right id=mo><a id=mo href='<?=encode_link("listado_beneficiarios.php",array("sort"=>"1","up"=>$up))?>'>CUIE</a></td>
     <?if (($cmd=="todos")||($cmd=="inactivos")){?>
@@ -117,6 +118,7 @@ echo $html_header;
      <td onclick="<?=$onclick_elegir?>"><?=$result->fields['afiapellido']?></td>
      <td onclick="<?=$onclick_elegir?>"><?=$result->fields['afinombre']?></td>
      <td onclick="<?=$onclick_elegir?>"><?=$result->fields['afidni']?></td>     
+     <td onclick="<?=$onclick_elegir?>"><?=$result->fields['afi_cuil']?></td> 
      <td onclick="<?=$onclick_elegir?>"><?=$result->fields['nombre']?></td> 
      <td onclick="<?=$onclick_elegir?>"><?=$result->fields['cuie']?></td> 
      <?if (($cmd=="todos")||($cmd=="inactivos")){?>    

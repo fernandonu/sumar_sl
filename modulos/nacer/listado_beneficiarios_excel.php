@@ -4,7 +4,7 @@ require_once ("../../config.php");
 
 $cmd=$parametros["cmd"];
 
-$sql_tmp="select id_smiafiliados, afiapellido,afinombre,afidni,nombre,cuie,activo,motivobaja,mensajebaja,clavebeneficiario,fechainscripcion
+$sql_tmp="select id_smiafiliados, afiapellido,afinombre,afidni,nombre,cuie,activo,motivobaja,mensajebaja,clavebeneficiario,fechainscripcion,afi_cuil
 			from nacer.smiafiliados
 			left join nacer.efe_conv on (cuieefectorasignado=cuie)";
 
@@ -51,6 +51,7 @@ excel_header("beneficiarios.xls");
     <td align=right id=mo>Apellido</td>      	
     <td align=right id=mo>Nombre</td>
     <td align=right id=mo>DNI</td>
+    <td align=right id=mo>CUIL</td>
     <td align=right id=mo>Nombre Efector</td>
     <td align=right id=mo>CUIE</td>   
     <td align=right id=mo>Activo</td>
@@ -64,7 +65,8 @@ excel_header("beneficiarios.xls");
     <tr>     
      <td><?=$result->fields['afiapellido']?></td>
      <td><?=$result->fields['afinombre']?></td>
-     <td><?=$result->fields['afidni']?></td>     
+     <td><?=$result->fields['afidni']?></td> 
+     <td><?=$result->fields['afi_cuil']?></td>    
      <td><?=$result->fields['nombre']?></td> 
      <td><?=$result->fields['cuie']?></td> 
      <td><?=$result->fields['activo']?></td> 
