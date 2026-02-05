@@ -1,5 +1,4 @@
 <?php
-
 require_once("../../config.php");
 
 variables_form_busqueda("informe_facturacion");

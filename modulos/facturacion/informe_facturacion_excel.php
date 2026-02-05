@@ -1,5 +1,4 @@
 <?php
-
 require_once ("../../config.php");
 
 $id_factura=$parametros["id_factura"];
