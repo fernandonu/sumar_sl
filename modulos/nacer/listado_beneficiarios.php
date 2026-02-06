@@ -3,9 +3,21 @@
 require_once("../../config.php");
 
 variables_form_busqueda("listado_beneficiarios");
+cargar_calendario();
 
 $fecha_hoy=date("Y-m-d H:i:s");
 $fecha_hoy=fecha($fecha_hoy);
+
+if ($_POST['genera_excel']=="Genera Excel"){  
+    $fecha_desde=$_POST['fecha_desde'];
+	$fecha_hasta=$_POST['fecha_hasta'];
+
+    $link=encode_link("listado_beneficiarios_excel.php",array("cmd"=>$cmd,"fecha_desde"=>$fecha_desde,"fecha_hasta"=>$fecha_hasta));?>
+	<script>
+	window.open('<?=$link?>')
+	</script>	
+        
+<?}
 
 if ($cmd == "")  $cmd="activos";
 
@@ -63,6 +75,34 @@ if ($cmd=="inactivos")
 
 echo $html_header;
 ?>
+
+<script>
+function control_excel()
+{ 
+ if(document.all.fecha_desde.value==""){
+  alert('Debe Ingresar una Fecha DESDE');
+  return false;
+ } 
+ if(document.all.fecha_hasta.value==""){
+  alert('Debe Ingresar una Fecha HASTA');
+  return false;
+ } 
+ if(document.all.fecha_hasta.value<document.all.fecha_desde.value){
+  alert('La Fecha HASTA debe ser MAYOR 0 IGUAL a la Fecha DESDE');
+  return false;
+ }
+ if(document.all.fecha_desde.value.indexOf("-")!=-1){
+	  alert('Debe ingresar un fecha en el campo DESDE');
+	  return false;
+	 }
+if(document.all.fecha_hasta.value.indexOf("-")!=-1){
+	  alert('Debe ingresar una fecha en el campo HASTA');
+	  return false;
+	 }
+return true;
+}
+</script>
+
 <form name=form1 action="listado_beneficiarios.php" method=POST>
 
 <table cellspacing=2 cellpadding=2 border=0 width=100% align=center>
@@ -70,10 +110,16 @@ echo $html_header;
       <td align=center>
 		<?list($sql,$total_muletos,$link_pagina,$up) = form_busqueda($sql_tmp,$orden,$filtro,$link_tmp,$where_tmp,"buscar");?>
 	    &nbsp;&nbsp;<input type=submit name="buscar" value='Buscar'>
-	     &nbsp;&nbsp;
-	    <? 
-	    $link=encode_link("listado_beneficiarios_excel.php",array("cmd"=>$cmd));?>
-        <img src="../../imagenes/excel.gif" style='cursor:hand;'  onclick="window.open('<?=$link?>')">
+	    &nbsp;&nbsp;&nbsp; || &nbsp;&nbsp;&nbsp;
+	    Desde: <input type=text id="fecha_desde" name="fecha_desde" value='<?=$fecha_desde?>' size=15>
+		<?=link_calendario("fecha_desde");?>
+		
+		Hasta: <input type=text id="fecha_hasta" name="fecha_hasta" value='<?=$fecha_hasta?>' size=15>
+		<?=link_calendario("fecha_hasta");?>
+	    &nbsp;&nbsp;&nbsp; 
+
+        <input type="submit" class="btn btn-warning" name="genera_excel" value='Genera Excel' onclick="return control_excel()">
+	    
 	  </td>
      </tr>
 </table>

@@ -3,22 +3,27 @@
 require_once ("../../config.php");
 
 $cmd=$parametros["cmd"];
+$fecha_desde=fecha_db($parametros['fecha_desde']);
+$fecha_hasta=fecha_db($parametros['fecha_hasta']);
 
 $sql_tmp="select id_smiafiliados, afiapellido,afinombre,afidni,nombre,cuie,activo,motivobaja,mensajebaja,clavebeneficiario,fechainscripcion,afi_cuil
 			from nacer.smiafiliados
 			left join nacer.efe_conv on (cuieefectorasignado=cuie)";
 
 if ($cmd=="activos")
-    $where_tmp=" (smiafiliados.activo='S')";
+    $where_tmp=" (smiafiliados.activo='S' and fechainscripcion between '$fecha_desde' and '$fecha_hasta')";
     
 if ($cmd=="activos_con_ceb")
-    $where_tmp=" (smiafiliados.activo='S' and ceb='S')";
+    $where_tmp=" (smiafiliados.activo='S' and ceb='S' and fechainscripcion between '$fecha_desde' and '$fecha_hasta')";
     
 if ($cmd=="activos_sin_ceb")
-    $where_tmp=" (smiafiliados.activo='S' and ceb='N')";    
+    $where_tmp=" (smiafiliados.activo='S' and ceb='N' and fechainscripcion between '$fecha_desde' and '$fecha_hasta')";    
 
 if ($cmd=="inactivos")
-    $where_tmp=" (smiafiliados.activo='N')";
+    $where_tmp=" (smiafiliados.activo='N' and fechainscripcion between '$fecha_desde' and '$fecha_hasta')";
+
+if ($cmd=="todos")
+    $where_tmp=" (fechainscripcion between '$fecha_desde' and '$fecha_hasta')";
 
 $result=sql($sql_tmp." where ".$where_tmp) or fin_pagina();
 
