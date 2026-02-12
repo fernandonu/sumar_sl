@@ -444,6 +444,7 @@ function comprobante_duplicado($id_comprobante,$nomenclador){
             from facturacion.prestacion a,
             facturacion.comprobante b
             where a.id_comprobante = b.id_comprobante
+            AND b.marca != 1 
             and b.id_smiafiliados = $id_smiafiliados
             and a.id_nomenclador = $nomenclador
             and b.fecha_comprobante = '$fecha_comprobante'";
