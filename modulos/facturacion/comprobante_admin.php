@@ -782,7 +782,15 @@ $res_comprobante=sql($query,"<br>Error al traer los comprobantes<br>") or fin_pa
 			                            <tr>
 			                            	 <td class="bordes"><?php echo $result_items->fields["cantidad"]?></td>			                                 
 			                                 <td class="bordes"><?php echo $result_items->fields["codigo"]?></td>
-			                                 <td class="bordes"><?php echo $result_items->fields["descripcion"]. ' | Diagnostico: '.$result_items->fields["cod_diag"].'-'.$result_items->fields["desc_diag"]?></td>
+											 <?if (($result_items->fields["codigo"]=="C073")OR($result_items->fields["codigo"]=="C098")){
+													if (permisos_check('inicio','ver_prestacion_confidencial')) {?>
+														<td class="bordes"><?php echo $result_items->fields["descripcion"]. ' | Diagnostico: '.$result_items->fields["cod_diag"].'-'.$result_items->fields["desc_diag"]?></td>
+			                                 		<?} else {?>
+			                                 			<td class="bordes">CONFIDENCIAL</td>
+			                                 		<?}?>
+			                                 <?} else {?>
+			                                 	<td class="bordes"><?php echo $result_items->fields["descripcion"]?></td>
+			                                 <?}?>
 			                                 <td class="bordes"><?php echo number_format($result_items->fields["precio_prestacion"],2,',','.')?></td>
 			                                 <td class="bordes"><?php echo number_format($result_items->fields["cantidad"]*$result_items->fields["precio_prestacion"],2,',','.')?></td>
 			                            </tr>

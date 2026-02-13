@@ -1351,6 +1351,11 @@
 <userdata name='name'>prestacion_admin_nop</userdata>
 <userdata name='dir'>facturacion</userdata>
 </item>
+<item id='3395' text='Ver Prestacion Confidencial' child='0' im0='item.gif' im1='item.gif' im2='item.gif' >
+<userdata name='nodeType'>4</userdata>
+<userdata name='name'>ver_prestacion_confidencial</userdata>
+<userdata name='dir'></userdata>
+</item>
 <item id='2926' text='detalle prestaciones' child='0' im0='leaf.gif' im1='leaf.gif' im2='leaf.gif' >
 <userdata name='nodeType'>3</userdata>
 <userdata name='name'>detalle_prestaciones</userdata>
