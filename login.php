@@ -189,7 +189,8 @@ position: fixed; /* Mejor que absolute para fondos de pantalla completa */
                 </div>
                 <br>
                 <div class="login">
-                    <input type="text" placeholder="Nombre de Usuario" name="username" pattern="[a-z0-9_]+" title="Letras minúsculas, números y guion bajo (_) sin espacios">                    <input type="password" placeholder="Clave" name="password"><br>
+                    <input type="text" placeholder="Nombre de Usuario" name="username" pattern="[a-zA-Z0-9_]+" title="Letras minúsculas, números y guion bajo (_) sin espacios">                    
+                    <input type="password" placeholder="Clave" name="password"><br>
                     <input type="submit" name="loginform" value="Iniciar Sesi&oacute;n">
                     <br>
                     <br>
