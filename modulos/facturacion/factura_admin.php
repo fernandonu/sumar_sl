@@ -969,7 +969,7 @@ var fecha_hoy = new Date();
  
  
 if (fecha_hoy>=fecha_final) {
-	if (user=="Daniela Quevedo" || user=="miguel") {
+	if (login=="fer" || login=="gmonica" || login=="celeg") {
 	var r = confirm('La fecha de prestacion de la factura ha exedido el plazo maximo para pago, Desea cerrarla de todos modos');
 	return r;
 	}
@@ -1481,7 +1481,7 @@ $log=$db->Execute($q) or die ($db->ErrorMsg()."<br>$q");?>
 	 		
 	 		<?}?> 
 		<?
-		if (!es_cuie($_ses_user['login']) or $_ses_user['login']=='sebastian' ) {
+		if (!es_cuie($_ses_user['login']) or $_ses_user['login']=='fer' ) {
 			if ($estado=='C'){
 				($traba=='si')?$disabled="disabled":$disabled=""?>
 				
@@ -1495,16 +1495,18 @@ $log=$db->Execute($q) or die ($db->ErrorMsg()."<br>$q");?>
 		}
 
 		if ($estado=='A') $disabled_delete=''; else $disabled_delete='disabled';
-		if (!es_cuie($_ses_user['login']) and ($_ses_user['login']=='sebastian' 
+		if (!es_cuie($_ses_user['login']) and ($_ses_user['login']=='fer' 
 			or $_ses_user['login']=='dquevedo'
 			or $_ses_user['login']=='celeg'
+			or $_ses_user['login']=='gmonica'
 			or $_ses_user['login']=='eliana')) {?>
 			<input type="submit" style="font-face: 'Comic Sans MS'; font-size: larger; background-color: #A4FD92" name="borrar_duplicados" value="Borrar Prest.Duplic." onclick="return confirm('Esta Seguro que Desea Borrar los duplicados de la Factura?')" style="width=150px" <?=$disabled_delete?>>&nbsp;&nbsp;
 			<?}
 
-		if (!es_cuie($_ses_user['login']) and ($_ses_user['login']=='sebastian' 
+		if (!es_cuie($_ses_user['login']) and ($_ses_user['login']=='fer' 
 			or $_ses_user['login']=='dquevedo'
 			or $_ses_user['login']=='celeg'
+			or $_ses_user['login']=='gmonica'
 			or $_ses_user['login']=='eliana')) {
 			$link=encode_link("analisis_inconsistencia.php", array("id_factura"=>$id_factura));?>
 			<input type="button" style="font-face: 'Comic Sans MS'; font-size: larger; background-color: #A6C0FB" name="analisis_inconsistencia" value="Analisis de Inconsistencias" onclick="location.href='<?echo $link?>'" style="width=150px">&nbsp;&nbsp;
