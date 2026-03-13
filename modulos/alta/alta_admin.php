@@ -67,7 +67,7 @@ if ($_POST['guardar_editar']=="Guardar"){
              
              where id_alta=$id_planilla";
 
-   sql($query, "Error al insertar/actualizar el muleto") or fin_pagina();
+   sql($query, "Error al insertar/actualizar el Registro") or fin_pagina();
   
     $db->CompleteTrans();    
     $accion="Los datos se actualizaron";    
@@ -271,7 +271,7 @@ echo $ret;
   enviar_mail_html('dayikone@gmail.com','Notificacion ALTA CONJUNTA',$ret,0,0,0);
    
     $db->CompleteTrans();    
-}//de if ($_POST['guardar']=="Guardar nuevo Muleto")
+}//de if ($_POST['guardar']=="Guardar nuevo Registro")
 
 if ($_POST['borrar']=="Borrar"){
   $query="delete from alta.alta
@@ -330,7 +330,7 @@ $control_postparto=trim($res_factura->fields['control_postparto']);
 echo $html_header;
 ?>
 <script>
-//controlan que ingresen todos los datos necesarios par el muleto
+//controlan que ingresen todos los datos necesarios par el Registro
 function control_nuevos()
 { 
  if(document.all.cuie.value=="-1"){
@@ -1091,8 +1091,8 @@ function buscar_combo(obj)
      <tr>
         <td align="center">
           <input type=button name="editar" value="Editar" onclick="editar_campos()" title="Edita Campos" style="width=130px"> &nbsp;&nbsp;
-          <input type="submit" name="guardar_editar" value="Guardar" title="Guarda Muleto" disabled style="width=130px" onclick="return control_nuevos()">&nbsp;&nbsp;
-          <input type="button" name="cancelar_editar" value="Cancelar" title="Cancela Edicion de Muletos" disabled style="width=130px" onclick="document.location.reload()">          
+          <input type="submit" name="guardar_editar" value="Guardar" title="Guarda Registro" disabled style="width=130px" onclick="return control_nuevos()">&nbsp;&nbsp;
+          <input type="button" name="cancelar_editar" value="Cancelar" title="Cancela Edicion de Registro" disabled style="width=130px" onclick="document.location.reload()">          
           <?if (permisos_check("inicio","permiso_borrar")) $permiso="";
         else $permiso="disabled";?>
           <input type="submit" name="borrar" value="Borrar" style="width=130px" <?php echo $permiso?>>
