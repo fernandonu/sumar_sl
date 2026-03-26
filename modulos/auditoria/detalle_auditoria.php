@@ -58,7 +58,8 @@ echo $html_header;
   <tr bgcolor=#C0C0FF>
     <td align="right" id="mo">DNI</td>        
     <td align="right" id="mo">Apellido</td>       
-    <td align="right" id="mo">Nombre</td>       
+    <td align="right" id="mo">Nombre</td>  
+    <td align="right" id="mo">Efector</td>     
     <td align="center" id="mo">Fecha Nac.</td>
     <td align="center" id="mo">Sexo</td>
     <td align="center" id="mo">Fec.Comproban.</td>
@@ -71,6 +72,7 @@ echo $html_header;
     <td><?=$result->fields['afidni']?></td>
     <td><?=$result->fields['afiapellido']?></td>
     <td><?=$result->fields['afinombre']?></td>
+    <td><?=$result->fields['cuie']?></td>
     <td align="center"><?=fecha($result->fields['afifechanac'])?></td> 
     <td align="center"><?=$result->fields['afisexo']?></td>
     <td align="center"><?=fecha($result->fields['fecha_comprobante'])?></td>
