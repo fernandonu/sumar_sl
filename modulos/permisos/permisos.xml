@@ -1665,11 +1665,11 @@
 <userdata name='nodeType'>1</userdata>
 <userdata name='name'>Salud Mental</userdata>
 <userdata name='dir'></userdata>
-<item id='3397' text='Reporte de Salud Mental' child='1' im0='iexplore.jpg' im1='iexplore.jpg' im2='iexplore.jpg' >
+<item id='3397' text='Reporte Salud Mental' child='1' im0='iexplore.jpg' im1='iexplore.jpg' im2='iexplore.jpg' >
 <userdata name='nodeType'>2</userdata>
 <userdata name='name'>reporte_salud_mental</userdata>
 <userdata name='dir'>facturacion</userdata>
-<item id='3398' text='reporte_salud_mental_excel' child='0' im0='leaf.gif' im1='leaf.gif' im2='leaf.gif' >
+<item id='3398' text='Reporte Salud Mental Excel' child='0' im0='leaf.gif' im1='leaf.gif' im2='leaf.gif' >
 <userdata name='nodeType'>3</userdata>
 <userdata name='name'>reporte_salud_mental_excel</userdata>
 <userdata name='dir'>facturacion</userdata>
