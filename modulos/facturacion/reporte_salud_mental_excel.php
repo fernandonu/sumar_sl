@@ -8,7 +8,7 @@ $fecha_hasta=fecha_db($parametros["fecha_hasta"]);
 
 $sql_tmp="SELECT 
                   prestacion.*,nomenclador.*, t1.codigo as cod_diag, t1.descripcion as desc_diag, 
-                  comprobante.cuie, smiafiliados.*, efe_conv.nombre
+                  comprobante.cuie, smiafiliados.*, efe_conv.nombre, nomenclador.codigo || t1.codigo as codydiag
                 FROM facturacion.prestacion 
                 LEFT JOIN facturacion.comprobante USING (id_comprobante)
                 LEFT JOIN nacer.efe_conv USING (cuie)
@@ -17,9 +17,15 @@ $sql_tmp="SELECT
                 LEFT JOIN (select distinct codigo,descripcion from nomenclador.patologias_frecuentes) as t1 ON (prestacion.diagnostico=t1.codigo)
                 WHERE
                   (prestacion.fecha_prestacion BETWEEN '$fecha_desde' and '$fecha_hasta') AND
-                  (nomenclador.codigo = 'C073' OR nomenclador.codigo = 'C098' OR nomenclador.codigo = 'C012'
-                  OR nomenclador.codigo = 'C071' OR nomenclador.codigo = 'C012' OR nomenclador.codigo = 'C002' 
-                  OR nomenclador.codigo = 'C104' OR nomenclador.codigo = 'C106' OR nomenclador.codigo = 'C103')
+                  (nomenclador.codigo = 'C073' 
+                  OR nomenclador.codigo = 'C098' 
+                  OR nomenclador.codigo || t1.codigo = 'C012Z31' OR nomenclador.codigo || t1.codigo = 'C012P98'
+                  OR nomenclador.codigo || t1.codigo = 'C002P20' OR nomenclador.codigo || t1.codigo = 'C002P23' OR nomenclador.codigo || t1.codigo = 'C002P24'
+                  OR nomenclador.codigo = 'C071' 
+                  OR nomenclador.codigo = 'C012' 
+                  OR nomenclador.codigo = 'C104' 
+                  OR nomenclador.codigo = 'C106' 
+                  OR nomenclador.codigo = 'C103')
                 ORDER BY fecha_prestacion DESC";
 $res_comprobante=sql($sql_tmp,"<br>Error al traer los datos<br>") or fin_pagina();
 

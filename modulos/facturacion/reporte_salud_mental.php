@@ -25,7 +25,7 @@ if ($_POST['muestra']=="Muestra"){
     if($cuie=='Todos'){
       $sql_tmp="SELECT 
                   prestacion.*,nomenclador.*, t1.codigo as cod_diag, t1.descripcion as desc_diag, 
-                  comprobante.cuie, smiafiliados.*, efe_conv.nombre
+                  comprobante.cuie, smiafiliados.*, efe_conv.nombre, nomenclador.codigo || t1.codigo as codydiag
                 FROM facturacion.prestacion 
                 LEFT JOIN facturacion.comprobante USING (id_comprobante)
                 LEFT JOIN nacer.efe_conv USING (cuie)
@@ -34,14 +34,20 @@ if ($_POST['muestra']=="Muestra"){
                 LEFT JOIN (select distinct codigo,descripcion from nomenclador.patologias_frecuentes) as t1 ON (prestacion.diagnostico=t1.codigo)
                 WHERE
                   (prestacion.fecha_prestacion BETWEEN '$fecha_desde' and '$fecha_hasta') AND
-                  (nomenclador.codigo = 'C073' OR nomenclador.codigo = 'C098' OR nomenclador.codigo = 'C012'
-                  OR nomenclador.codigo = 'C071' OR nomenclador.codigo = 'C012' OR nomenclador.codigo = 'C002' 
-                  OR nomenclador.codigo = 'C104' OR nomenclador.codigo = 'C106' OR nomenclador.codigo = 'C103')
+                  (nomenclador.codigo = 'C073' 
+                  OR nomenclador.codigo = 'C098' 
+                  OR nomenclador.codigo || t1.codigo = 'C012Z31' OR nomenclador.codigo || t1.codigo = 'C012P98'
+                  OR nomenclador.codigo || t1.codigo = 'C002P20' OR nomenclador.codigo || t1.codigo = 'C002P23' OR nomenclador.codigo || t1.codigo = 'C002P24'
+                  OR nomenclador.codigo = 'C071' 
+                  OR nomenclador.codigo = 'C012' 
+                  OR nomenclador.codigo = 'C104' 
+                  OR nomenclador.codigo = 'C106' 
+                  OR nomenclador.codigo = 'C103')
                 ORDER BY fecha_prestacion DESC";
 }else {
         $sql_tmp="SELECT 
                   prestacion.*,nomenclador.*, t1.codigo as cod_diag, t1.descripcion as desc_diag, 
-                  comprobante.cuie, smiafiliados.*, efe_conv.nombre
+                  comprobante.cuie, smiafiliados.*, efe_conv.nombre, nomenclador.codigo || t1.codigo as codydiag
                 FROM facturacion.prestacion 
                 LEFT JOIN facturacion.comprobante USING (id_comprobante)
                 LEFT JOIN nacer.efe_conv USING (cuie)
@@ -50,9 +56,15 @@ if ($_POST['muestra']=="Muestra"){
                 LEFT JOIN (select distinct codigo,descripcion from nomenclador.patologias_frecuentes) as t1 ON (prestacion.diagnostico=t1.codigo)
                 WHERE
                   (prestacion.fecha_prestacion BETWEEN '$fecha_desde' and '$fecha_hasta') AND
-                  (nomenclador.codigo = 'C073' OR nomenclador.codigo = 'C098' OR nomenclador.codigo = 'C012'
-                  OR nomenclador.codigo = 'C071' OR nomenclador.codigo = 'C012' OR nomenclador.codigo = 'C002' 
-                  OR nomenclador.codigo = 'C104' OR nomenclador.codigo = 'C106' OR nomenclador.codigo = 'C103') AND
+                  (nomenclador.codigo = 'C073' 
+                  OR nomenclador.codigo = 'C098' 
+                  OR nomenclador.codigo || t1.codigo = 'C012Z31' OR nomenclador.codigo || t1.codigo = 'C012P98'
+                  OR nomenclador.codigo || t1.codigo = 'C002P20' OR nomenclador.codigo || t1.codigo = 'C002P23' OR nomenclador.codigo || t1.codigo = 'C002P24'
+                  OR nomenclador.codigo = 'C071' 
+                  OR nomenclador.codigo = 'C012' 
+                  OR nomenclador.codigo = 'C104' 
+                  OR nomenclador.codigo = 'C106' 
+                  OR nomenclador.codigo = 'C103') AND
                   comprobante.cuie ='$cuie'
                 ORDER BY fecha_prestacion DESC";
               
@@ -235,7 +247,7 @@ return true;
   <td ><?=fecha($res_comprobante->fields['fecha_prestacion'])?></td>  
   <td><?=$res_comprobante->fields['codigo']?></td>
   <td><?=$res_comprobante->fields['descripcion']?></td>
-  <td><?=$res_comprobante->fields['cod_diag']?></td>
+  <td><?=$res_comprobante->fields['codydiag']?></td>
   <td><?=$res_comprobante->fields['desc_diag']?></td>
   <td><?=$res_comprobante->fields['grupo_descriptivo']?></td>
   <td><?=$res_comprobante->fields['subgrupo']?></td>
