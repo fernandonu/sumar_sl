@@ -20,12 +20,12 @@ $sql_tmp="SELECT
                   (nomenclador.codigo = 'C073' 
                   OR nomenclador.codigo = 'C098' 
                   OR nomenclador.codigo || t1.codigo = 'C012Z31' OR nomenclador.codigo || t1.codigo = 'C012P98'
+                  OR nomenclador.codigo || t1.codigo = 'C012P20' OR nomenclador.codigo || t1.codigo = 'C012P23' OR nomenclador.codigo || t1.codigo = 'C012P24'
                   OR nomenclador.codigo || t1.codigo = 'C002P20' OR nomenclador.codigo || t1.codigo = 'C002P23' OR nomenclador.codigo || t1.codigo = 'C002P24'
                   OR nomenclador.codigo = 'C071' 
-                  OR nomenclador.codigo = 'C012' 
-                  OR nomenclador.codigo = 'C104' 
-                  OR nomenclador.codigo = 'C106' 
-                  OR nomenclador.codigo = 'C103')
+                  OR nomenclador.codigo || t1.codigo = 'C104P98' 
+                  OR nomenclador.codigo || t1.codigo = 'C106P98' 
+                  OR nomenclador.codigo || t1.codigo = 'C003P20' OR nomenclador.codigo || t1.codigo = 'C003P23' OR nomenclador.codigo || t1.codigo = 'C003P24')
                 ORDER BY fecha_prestacion DESC";
 $res_comprobante=sql($sql_tmp,"<br>Error al traer los datos<br>") or fin_pagina();
 

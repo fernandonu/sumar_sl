@@ -13,6 +13,7 @@ if ($parametros) extract($parametros,EXTR_OVERWRITE);
 if ($cuie=='todos') {
     $sql_tmp="SELECT * from facturacion.prestacion 
             inner join facturacion.comprobante using (id_comprobante) 
+            LEFT JOIN nacer.efe_conv USING (cuie)
             full outer join nacer.smiafiliados using (id_smiafiliados)
             where id_nomenclador=$id_nomenclador
             and comprobante.marca=0
@@ -23,6 +24,7 @@ if ($cuie=='todos') {
     else {
       $sql_tmp="SELECT * from facturacion.prestacion 
             inner join facturacion.comprobante using (id_comprobante) 
+            LEFT JOIN nacer.efe_conv USING (cuie)
             full outer join nacer.smiafiliados using (id_smiafiliados)
             where id_nomenclador=$id_nomenclador
             and comprobante.marca=0
@@ -59,6 +61,7 @@ echo $html_header;
     <td align="right" id="mo">DNI</td>        
     <td align="right" id="mo">Apellido</td>       
     <td align="right" id="mo">Nombre</td>  
+    <td align="right" id="mo">CUIE</td>   
     <td align="right" id="mo">Efector</td>     
     <td align="center" id="mo">Fecha Nac.</td>
     <td align="center" id="mo">Sexo</td>
@@ -73,6 +76,7 @@ echo $html_header;
     <td><?=$result->fields['afiapellido']?></td>
     <td><?=$result->fields['afinombre']?></td>
     <td><?=$result->fields['cuie']?></td>
+    <td><?=$result->fields['nombre']?></td>
     <td align="center"><?=fecha($result->fields['afifechanac'])?></td> 
     <td align="center"><?=$result->fields['afisexo']?></td>
     <td align="center"><?=fecha($result->fields['fecha_comprobante'])?></td>
