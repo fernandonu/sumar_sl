@@ -24,27 +24,35 @@ if ($_POST['muestra']=="Muestra"){
   $fecha_hasta=Fecha_db($_POST['fecha_hasta']);
     if($cuie=='Todos'){
       $sql_tmp="SELECT 
-                  prestacion.*,nomenclador.*, t1.codigo as cod_diag, t1.descripcion as desc_diag, comprobante.cuie, smiafiliados.*
+                  prestacion.*,nomenclador.*, t1.codigo as cod_diag, t1.descripcion as desc_diag, 
+                  comprobante.cuie, smiafiliados.*, efe_conv.nombre
                 FROM facturacion.prestacion 
                 LEFT JOIN facturacion.comprobante USING (id_comprobante)
+                LEFT JOIN nacer.efe_conv USING (cuie)
                 LEFT JOIN nacer.smiafiliados USING (id_smiafiliados)
                 LEFT JOIN facturacion.nomenclador using (id_nomenclador) 
                 LEFT JOIN (select distinct codigo,descripcion from nomenclador.patologias_frecuentes) as t1 ON (prestacion.diagnostico=t1.codigo)
                 WHERE
                   (prestacion.fecha_prestacion BETWEEN '$fecha_desde' and '$fecha_hasta') AND
-                  (nomenclador.codigo = 'C073' OR nomenclador.codigo = 'C098')
+                  (nomenclador.codigo = 'C073' OR nomenclador.codigo = 'C098' OR nomenclador.codigo = 'C012'
+                  OR nomenclador.codigo = 'C071' OR nomenclador.codigo = 'C012' OR nomenclador.codigo = 'C002' 
+                  OR nomenclador.codigo = 'C104' OR nomenclador.codigo = 'C106' OR nomenclador.codigo = 'C103')
                 ORDER BY fecha_prestacion DESC";
 }else {
         $sql_tmp="SELECT 
-                  prestacion.*,nomenclador.*, t1.codigo as cod_diag, t1.descripcion as desc_diag, comprobante.cuie, smiafiliados.*
+                  prestacion.*,nomenclador.*, t1.codigo as cod_diag, t1.descripcion as desc_diag, 
+                  comprobante.cuie, smiafiliados.*, efe_conv.nombre
                 FROM facturacion.prestacion 
                 LEFT JOIN facturacion.comprobante USING (id_comprobante)
+                LEFT JOIN nacer.efe_conv USING (cuie)
                 LEFT JOIN nacer.smiafiliados USING (id_smiafiliados)
                 LEFT JOIN facturacion.nomenclador using (id_nomenclador) 
                 LEFT JOIN (select distinct codigo,descripcion from nomenclador.patologias_frecuentes) as t1 ON (prestacion.diagnostico=t1.codigo)
                 WHERE
                   (prestacion.fecha_prestacion BETWEEN '$fecha_desde' and '$fecha_hasta') AND
-                  (nomenclador.codigo = 'C073' OR nomenclador.codigo = 'C098') AND
+                  (nomenclador.codigo = 'C073' OR nomenclador.codigo = 'C098' OR nomenclador.codigo = 'C012'
+                  OR nomenclador.codigo = 'C071' OR nomenclador.codigo = 'C012' OR nomenclador.codigo = 'C002' 
+                  OR nomenclador.codigo = 'C104' OR nomenclador.codigo = 'C106' OR nomenclador.codigo = 'C103') AND
                   comprobante.cuie ='$cuie'
                 ORDER BY fecha_prestacion DESC";
               
@@ -178,6 +186,7 @@ return true;
   <thead>
     <tr>
     <th align="center">CUIE</th>
+    <th align="center">Efector</th>
     <th align="center">DNI</th>
     <th align="center">Nombre</th>
     <th align="center">Apellido</th>
@@ -196,6 +205,7 @@ return true;
   <tfoot>
   <tr>
     <th align="center">CUIE</th>
+    <th align="center">Efector</th>
     <th align="center">DNI</th>
     <th align="center">Nombre</th>
     <th align="center">Apellido</th>
@@ -215,7 +225,8 @@ return true;
  <?while (!$res_comprobante->EOF) {?>   
   
          
-  <td ><?=$res_comprobante->fields['cuie']?></td>    
+  <td ><?=$res_comprobante->fields['cuie']?></td>  
+  <td ><?=$res_comprobante->fields['nombre']?></td>  
   <td ><?=$res_comprobante->fields['afidni']?></td>    
   <td ><?=$res_comprobante->fields['afinombre']?></td>    
   <td ><?=$res_comprobante->fields['afiapellido']?></td>  

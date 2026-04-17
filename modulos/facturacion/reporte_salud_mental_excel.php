@@ -7,15 +7,19 @@ $fecha_desde=fecha_db($parametros["fecha_desde"]);
 $fecha_hasta=fecha_db($parametros["fecha_hasta"]);
 
 $sql_tmp="SELECT 
-                  prestacion.*,nomenclador.*, t1.codigo as cod_diag, t1.descripcion as desc_diag, comprobante.cuie, smiafiliados.*
+                  prestacion.*,nomenclador.*, t1.codigo as cod_diag, t1.descripcion as desc_diag, 
+                  comprobante.cuie, smiafiliados.*, efe_conv.nombre
                 FROM facturacion.prestacion 
                 LEFT JOIN facturacion.comprobante USING (id_comprobante)
+                LEFT JOIN nacer.efe_conv USING (cuie)
                 LEFT JOIN nacer.smiafiliados USING (id_smiafiliados)
                 LEFT JOIN facturacion.nomenclador using (id_nomenclador) 
                 LEFT JOIN (select distinct codigo,descripcion from nomenclador.patologias_frecuentes) as t1 ON (prestacion.diagnostico=t1.codigo)
                 WHERE
                   (prestacion.fecha_prestacion BETWEEN '$fecha_desde' and '$fecha_hasta') AND
-                  (nomenclador.codigo = 'C073' OR nomenclador.codigo = 'C098')
+                  (nomenclador.codigo = 'C073' OR nomenclador.codigo = 'C098' OR nomenclador.codigo = 'C012'
+                  OR nomenclador.codigo = 'C071' OR nomenclador.codigo = 'C012' OR nomenclador.codigo = 'C002' 
+                  OR nomenclador.codigo = 'C104' OR nomenclador.codigo = 'C106' OR nomenclador.codigo = 'C103')
                 ORDER BY fecha_prestacion DESC";
 $res_comprobante=sql($sql_tmp,"<br>Error al traer los datos<br>") or fin_pagina();
 
@@ -27,6 +31,7 @@ excel_header("reporte_salud_mental_excel.xls");
  <table width="100%" align=center border=1 bordercolor=#585858 cellspacing="0" cellpadding="5"> 
     <tr>
     <th align="center">CUIE</th>
+    <th align="center">Efector</th>
     <th align="center">DNI</th>
     <th align="center">Nombre</th>
     <th align="center">Apellido</th>
@@ -44,6 +49,7 @@ excel_header("reporte_salud_mental_excel.xls");
   while (!$res_comprobante->EOF) {?>  
     <tr>     
      <td ><?=$res_comprobante->fields['cuie']?></td>    
+     <td ><?=$res_comprobante->fields['nombre']?></td> 
       <td ><?=$res_comprobante->fields['afidni']?></td>    
       <td ><?=$res_comprobante->fields['afinombre']?></td>    
       <td ><?=$res_comprobante->fields['afiapellido']?></td>  
