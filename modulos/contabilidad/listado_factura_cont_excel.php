@@ -47,7 +47,8 @@ $sql="SELECT
     contabilidad.ingreso.fecha_deposito,
     expediente.expediente.nro_exp,
     expediente.expediente.fecha_ing,
-    contabilidad.ingreso.fecha_notificacion
+    contabilidad.ingreso.fecha_notificacion,
+    nacer.efe_conv.cod_siisa
     FROM
     facturacion.factura
     LEFT JOIN nacer.efe_conv using (cuie)
@@ -101,7 +102,9 @@ excel_header("listado de facturas cerradas.xls");
     <td align=right id="mo">Fecha Deposito</td> 
     <td align=right id="mo">Nº Exp Interno</td>    
     <td align=right id="mo">Fecha de Ingreso a la UGSP</td>  
-    <td align=right id="mo">Fecha de Notificacion</td>     
+    <td align=right id="mo">Fecha de Notificacion</td>  
+    <td align=right id="mo">REFES</td> 
+    <td align=right id="mo">REFES (5 digitos)</td>      
   </tr>
   <?   
   while (!$result->EOF) {
@@ -208,8 +211,11 @@ if ($monto_hombre){
        <td ><?=$result->fields['nro_exp']?></td>  
        <td ><?=fecha($result->fields['fecha_ing'])?></td>     
        <td ><?=fecha($result->fields['fecha_notificacion'])?></td>     
-      
-      
+       <td ><?
+              $cod_siisa = (string) $result->fields['cod_siisa'];
+              echo "'".$cod_siisa."'";
+            ?></td>
+       <td ><?echo substr($result->fields['cod_siisa'], -5) ?></td>      
     </tr>
   <?$result->MoveNext();
     }?>

@@ -682,7 +682,9 @@ $res_saldo=sql($sql,"no puede calcular el saldo")
         <table>
          <tr>            
            <td align="center" colspan="2">
-            <b> CUIE: <font size="+1" color="Red"><?=$cuie?></font> </b>
+            <b> CUIE: <font size="+1" color="Red"><?=$cuie?></font> 
+                REFES: <font size="+1" color="Red"><?=$cod_siisa?></font> 
+            </b>
            </td>
          </tr>
          <tr>

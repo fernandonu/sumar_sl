@@ -76,7 +76,8 @@ $sql_tmp="SELECT
   nacer.efe_conv.tercero_admin_firmante,
   nacer.efe_conv.fecha_tercero_admin,
   nacer.efe_conv.fecha_fin_tercero_admin,
-  nacer.efe_conv.cuie
+  nacer.efe_conv.cuie,
+  nacer.efe_conv.cod_siisa
 FROM
   nacer.efe_conv";
 
@@ -140,7 +141,7 @@ echo $html_header;
   </tr>
  <?
    while (!$result->EOF) {
-  	$ref = encode_link("ingre_egre_admin.php",array("cuie"=>$result->fields['cuie']));
+  	$ref = encode_link("ingre_egre_admin.php",array("cuie"=>$result->fields['cuie'],"cod_siisa"=>$result->fields['cod_siisa']));
     $onclick_elegir="location.href='$ref'";
     
    
