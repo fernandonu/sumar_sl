@@ -211,7 +211,6 @@ if ($_POST['guardar_editar']=="Guardar"){
              where id_beneficiarios=".$id_planilla;
   		 }
   
-  echo "responsable: ".$id_categoria. "---". $estado_envio;
 	if (($id_categoria=='1') && ($estado_envio== 'n'))  {
    			$query = "update uad.beneficiarios set 
              cuie_ea='$cuie', nombre_benef=upper('$nombre'),
@@ -350,7 +349,7 @@ if(($responsable =='MADRE') && ($estado_envio== 'e')){
 			 tipo_ficha='1', tipo_transaccion='M', estado_envio='n',activo='1',sexo=upper('$sexo')
                        
              where id_beneficiarios=".$id_planilla;
-  		 }elseif ((($id_categoria=='7')||($id_categoria=='8'))&& ($estado_envio=='n')) {
+  		 }elseif ((($id_categoria=='4')||($id_categoria=='7')||($id_categoria=='8'))&& ($estado_envio=='n')) {
    			$query = "update uad.beneficiarios set 
              cuie_ea='$cuie', nombre_benef=upper('$nombre'),
              apellido_benef=upper('$apellido'),aficuil='$aficuil',
@@ -366,7 +365,7 @@ if(($responsable =='MADRE') && ($estado_envio== 'e')){
              where id_beneficiarios=".$id_planilla;  		 
   		 }
   		 
-   sql($query, "Error al insertar/actualizar el muleto") or fin_pagina();   
+   sql($query, "Error al insertar/actualizar el beneficiario") or fin_pagina();   
 	 
    $db->CompleteTrans();    
    $accion="Los datos se actualizaron";
