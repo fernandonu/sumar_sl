@@ -974,6 +974,7 @@ if ($_POST['b']=="b"){
    	$barrio=$res_extra1->fields['barrio'];
 	$cod_pos=$res_extra1->fields['cod_pos'];
 	$observaciones=$res_extra1->fields['observaciones'];   	
+  $aficuil=$res_extra1->fields['aficuil'];
 		if ($id_categoria=='1'){
 		$embarazada=inline;
 		$datos_resp=none;
