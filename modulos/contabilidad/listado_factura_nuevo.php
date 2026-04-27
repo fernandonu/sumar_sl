@@ -47,6 +47,14 @@ $datos_barra = array(
         "descripcion"=> "2025",
         "cmd"        => "2025"
      ),
+	 array(
+        "descripcion"=> "2026",
+        "cmd"        => "2026"
+     ),
+	 array(
+        "descripcion"=> "2027",
+        "cmd"        => "2027"
+     ),
 );
 
 generar_barra_nav($datos_barra);
