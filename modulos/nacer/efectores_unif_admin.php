@@ -585,7 +585,7 @@ function editar_campos()
 		 
 		 <tr>
 		    <td align="center">		      
-		      <input type=button name="editar" value="Editar" onclick="editar_campos()" title="Edita Campos" <?=(($_ses_user['name']=="sebastian lohaiza")or($_ses_user['login']=="fer"))?"":"disabled";?> style="width=130px"> &nbsp;&nbsp;
+		      <input type=button name="editar" value="Editar" onclick="editar_campos()" title="Edita Campos" style="width=130px"> &nbsp;&nbsp;
 		      <input type="submit" name="guardar_editar" value="Guardar" onclick="control_nuevos()" title="Guarda Muleto" disabled style="width=130px" >&nbsp;&nbsp;
 		      <input type="button" name="cancelar_editar" value="Cancelar" title="Cancela Edicion de Muletos" disabled style="width=130px" onclick="document.location.reload()">		      		      
 		    </td>
