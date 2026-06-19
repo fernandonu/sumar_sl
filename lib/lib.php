@@ -1724,11 +1724,17 @@ function encabezado_mail(){
 function enviar_mail($para,$paracc,$parabcc,$asunto,$contenido,$adjunto,$path,$htmlflag=1){
  $mail = new PHPMailer();
  $mail->isSMTP();
- //$mail->Mailer = "smtp"; 
- $mail->Host = "smtp.sanluis.gov.ar"; //servidor de mi trabajo
+ $mail->Mailer = "smtp";
+
+ //$mail->Host = "smtp.sanluis.gov.ar"; //servidor de mi trabajo
+ //$mail->Username = "plannacer"; 
+ //$mail->Password = "Rfv34567";  //Cambio realizado por la autopista el dia 31-05-2019
+ $mail->Host = "smtp.gmail.com";
+ $mail->Username = "sanluissistemassumar@gmail.com";
+ $mail->Password = "xptw rxcs bkzs wvsk";
+ $mail->Port = 587;
+
  $mail->SMTPAuth = true; 
- $mail->Username = "plannacer"; 
- $mail->Password = "Rfv34567";  //Cambio realizado por la autopista el dia 31-05-2019
  $mail->Timeout=50;
  $mail->SMTPSecure='tls'; 
  $mail->SMTPDebug=0;

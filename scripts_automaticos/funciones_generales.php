@@ -263,10 +263,11 @@ function encabezado_mail(){
 function enviar_mail($para,$paracc,$parabcc,$asunto,$contenido,$adjunto,$path,$htmlflag=1){
  $mail = new PHPMailer(); 
  $mail->Mailer = "smtp"; 
- $mail->Host = "smtp.sanluis.gov.ar"; //servidor de mi trabajo
+ $mail->Host = "smtp.gmail.com";
  $mail->SMTPAuth = true; 
- $mail->Username = "fernunez"; 
- $mail->Password = "12345678"; 
+ $mail->Username = "sanluissistemassumar@gmail.com";
+ $mail->Password = "xptw rxcs bkzs wvsk";
+ $mail->Port = 587;
  $mail->Timeout=50; 
  $mail->From = "alerta@sumar.gov.ar";
  $mail->FromName = "Mail de Script Automaticos";
