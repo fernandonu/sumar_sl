@@ -255,12 +255,12 @@ echo $ret;
   $res_mail->movefirst();
   while (!$res_mail->EOF) { 
   $para=$res_mail->fields['mail'];
-  enviar_mail_html($para,'Notificacion de Fondos',$ret,0,0,0);
+  eviar_mail_html($para,'Notificacion de Fondos',$ret,0,0,0);
   $res_mail->movenext();
   }
   enviar_mail_html('plan.nacersl@gmail.com','Notificacion de Fondos',$ret,0,0,0); 
-  enviar_mail_html('celem_g_20@hotmail.com','Notificacion de Fondos',$ret,0,0,0);
-  enviar_mail_html('seba1202@gmail.com','Notificacion de Fondos',$ret,0,0,0);
+  enviar_mail_html('mariaceleste.garro@gmail.com ','Notificacion de Fondos',$ret,0,0,0);
+  enviar_mail_html('sanluissistemassumar@gmail.com','Notificacion de Fondos',$ret,0,0,0);
 
   $ref = encode_link("notificacion_excel.php",array("cuie"=>$cuie,"id_factura"=>$nro_factura,"saldo_real"=>$saldo_real));?>
   <script>
