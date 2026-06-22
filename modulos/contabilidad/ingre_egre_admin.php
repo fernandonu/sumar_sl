@@ -259,8 +259,8 @@ echo $ret;
   $res_mail->movenext();
   }
   enviar_mail_html('plan.nacersl@gmail.com','Notificacion de Fondos',$ret,0,0,0); 
-  enviar_mail_html('mariaceleste.garro@gmail.com ','Notificacion de Fondos',$ret,0,0,0);
-  enviar_mail_html('sanluissistemassumar@gmail.com','Notificacion de Fondos',$ret,0,0,0);
+  //enviar_mail_html('mariaceleste.garro@gmail.com ','Notificacion de Fondos',$ret,0,0,0);
+  //enviar_mail_html('sanluissistemassumar@gmail.com','Notificacion de Fondos',$ret,0,0,0);
 
   $ref = encode_link("notificacion_excel.php",array("cuie"=>$cuie,"id_factura"=>$nro_factura,"saldo_real"=>$saldo_real));?>
   <script>
