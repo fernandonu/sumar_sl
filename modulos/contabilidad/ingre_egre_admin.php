@@ -107,6 +107,11 @@ $ret .= "</td>\n";
 $ret .= "</tr>\n";
 $ret .= "<tr bgcolor='$color1' align='left'>\n";
 $ret .= "<td align='left'>\n";
+$ret .= "<b>Asunto: Notificacion de Fondos</b>\n";
+$ret .= "</td>\n";
+$ret .= "</tr>\n";
+$ret .= "<tr bgcolor='$color1' align='left'>\n";
+$ret .= "<td align='left'>\n";
 $ret .= "<b>Efector: $nombre_efector. CUIE: $cuie. Número de Factura: $id_factura</b>\n";
 $ret .= "</td>\n";
 $ret .= "</tr>\n";
@@ -216,11 +221,11 @@ $res_mail=sql($sql,"no se puede ejecutar");
 $res_mail->movefirst();
 while (!$res_mail->EOF) { 
   $para=$res_mail->fields['mail'];
-  $ret .= "<tr bgcolor='$color1' align='left'>\n";
-  $ret .= "<td align='left'>\n";
-  $ret .= "<b>Mail: $para.</b>\n";
-  $ret .= "</td>\n";
-  $ret .= "</tr>\n";
+  $ret .= "<tr bgcolor='$color1' align='left'>";
+  $ret .= "<td align='left'>";
+  $ret .= "<b>$para, </b>";
+  $ret .= "</td>";
+  $ret .= "</tr>";
   $res_mail->movenext();
 }
 $ret .= "</table>\n";
