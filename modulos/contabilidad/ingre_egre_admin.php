@@ -6,6 +6,239 @@ extract($_POST,EXTR_SKIP);
 if ($parametros) extract($parametros,EXTR_OVERWRITE);
 cargar_calendario();
 
+if ($notificar_manual=="True"){
+//aqui va el codigo para notificar manualmente
+  $color1="#5090C0";
+  $color2="#D5D5D5";
+  $ret = "";
+  
+  $sql= "SELECT 
+    ingreso.id_ingreso,
+    facturacion.factura.id_factura,
+    facturacion.factura.cuie,
+    facturacion.factura.fecha_carga,
+    facturacion.factura.fecha_factura,
+    facturacion.factura.periodo,
+    facturacion.factura.estado,
+    facturacion.factura.observaciones,
+    facturacion.factura.id_factura,
+    facturacion.factura.online,
+    facturacion.factura.nro_exp_ext,
+    facturacion.factura.fecha_exp_ext,
+    facturacion.factura.periodo_contable,
+    facturacion.factura.monto_prefactura,
+    efe_conv.nombre
+  FROM
+    facturacion.factura  
+  left join nacer.efe_conv using (cuie)
+    left join contabilidad.ingreso on factura.id_factura=ingreso.numero_factura 
+    
+  WHERE  (factura.estado='C') and (factura.cuie='$cuie') and (facturacion.factura.nro_exp_ext is not null) 
+        and (ingreso.id_ingreso is not null) and (factura.id_factura='$id_factura_notificar')
+  ORDER BY ingreso.id_ingreso DESC";
+
+  
+$res_factura=sql($sql,"no se puede ejecutar");
+$res_factura->movefirst();
+
+$nombre_efector=$res_factura->fields['nombre'];
+$nro_factura=$res_factura->fields['id_factura'];
+
+//aqui estaba el codigo de la insercion en el sistema de expediente
+
+$exp_externo=$res_factura->fields['nro_exp_ext'];
+$monto_prefactura=number_format($res_factura->fields['monto_prefactura'],2,',','.');
+$periodo_contable=$res_factura->fields['periodo_contable'];
+$id_factura=$res_factura->fields['id_factura'];
+
+$sql= "SELECT * FROM nacer.efe_conv where cuie = '$cuie'";  
+$res_efector=sql($sql,"no se puede ejecutar");
+$referente=$res_efector->fields['referente'];
+
+$query_t="SELECT sum 
+      (facturacion.prestacion.cantidad*facturacion.prestacion.precio_prestacion) as total
+      FROM
+        facturacion.factura
+        INNER JOIN facturacion.comprobante ON (facturacion.factura.id_factura = facturacion.comprobante.id_factura)
+        INNER JOIN facturacion.prestacion ON (facturacion.comprobante.id_comprobante = facturacion.prestacion.id_comprobante)
+        where factura.id_factura=$id_factura";
+    $total=sql($query_t,"NO puedo calcular el total");
+    $query_t1="SELECT sum 
+      (nomenclador.prestaciones_n_op.precio) as total1
+      FROM
+        facturacion.factura
+        INNER JOIN facturacion.comprobante ON (facturacion.factura.id_factura = facturacion.comprobante.id_factura)
+        INNER JOIN nomenclador.prestaciones_n_op using (id_comprobante)
+        where factura.id_factura=$id_factura";
+    $total1=sql($query_t1,"NO puedo calcular el total");
+    $monto_factura=$total->fields['total']+$total1->fields['total1'];
+    $monto_factura=number_format($monto_factura,2,',','.');
+
+      $query=" SELECT sum(cantidad*monto) as total FROM
+        facturacion.debito        
+        where id_factura='$id_factura'";
+      $result_t_debitado=$db->Execute($query) or die($db->ErrorMsg());
+      $debito=number_format($result_t_debitado->fields['total'],2,',','.');
+
+      $query=" SELECT sum(cantidad*monto) as total FROM
+        facturacion.credito         
+        where id_factura='$id_factura'";
+      $result_t_acreditado=$db->Execute($query) or die($db->ErrorMsg());
+      $credito=number_format($result_t_acreditado->fields['total'],2,',','.');
+
+
+date_default_timezone_set('America/Argentina/Buenos_Aires');
+setlocale(LC_TIME,"es_ES");
+$dia_hoy=strftime("%A %d de %B de %Y");
+
+/*list($dia,$mes,$anio,$dia_s) = split("-", date("j-n-Y-w",time()));
+$dia_hoy=$dia_semana[$dia_s]." ".$dia." de ".$meses[$mes]." de ".$anio*/
+  
+$ret .= "<table width='65%'  bgcolor='$color1' align='center' style='border: 2px solid #000000; font-size=14px;'>\n";
+$ret .= "<tr bgcolor='$color1'>\n";
+$ret .= "<td align='center'>\n";
+$ret .= "<b>FORMULARIO I</b>\n";
+$ret .= "</td>\n";
+$ret .= "</tr>\n";
+$ret .= "<tr bgcolor='$color1' align='right'>\n";
+$ret .= "<td align='rigth'>\n";
+$ret .= "<b>Plan SUMAR, $dia_hoy</b>\n";
+$ret .= "</td>\n";
+$ret .= "</tr>\n";
+$ret .= "<tr bgcolor='$color1' align='left'>\n";
+$ret .= "<td align='left'>\n";
+$ret .= "<b>Asunto: Notificacion de Fondos</b>\n";
+$ret .= "</td>\n";
+$ret .= "</tr>\n";
+$ret .= "<tr bgcolor='$color1' align='left'>\n";
+$ret .= "<td align='left'>\n";
+$ret .= "<b>Efector: $nombre_efector. CUIE: $cuie. Número de Factura: $id_factura</b>\n";
+$ret .= "</td>\n";
+$ret .= "</tr>\n";
+$ret .= "<tr bgcolor='$color1' align='left'>\n";
+$ret .= "<td align='left'>\n";
+$ret .= "<b>Referente: $referente.</b>\n";
+$ret .= "</td>\n";
+$ret .= "</tr>\n";
+$ret .= "<tr bgcolor='$color1'>\n";
+$ret .= "<td align='justify'>\n";
+$ret .= "<b>Por medio de la presente le notifico que se encuentra a disposición del prestador que usted representa
+la suma de $ $monto_factura transferida por el EPCSS en relacion a la cuasi-factura del mes de $periodo_contable, de $ $monto_prefactura. </b>\n";
+$ret .= "</td>\n";
+$ret .= "</tr>\n";
+$ret .= "<tr bgcolor='$color1'>\n";
+$ret .= "<td align='justify'>\n";
+$ret .= "<b>Asimismo informo a Usted que dicha transferencia se realizo a trav&eacute;s del Expediente N°: $exp_externo</b>\n";
+$ret .= "</td>\n";
+$ret .= "</tr>\n";
+$ret .= "</table><br>\n";
+
+$sql="SELECT ingre-egre as total, ingre,egre,deve,egre_comp from
+    (select sum (monto_deposito)as ingre from contabilidad.ingreso
+    where cuie='$cuie') as ingreso,
+    (select sum (monto_egreso)as egre from contabilidad.egreso
+    where cuie='$cuie') as egreso,
+    (select sum (monto_factura)as deve from contabilidad.ingreso
+    where cuie='$cuie') as devengado,
+    (select sum (monto_egre_comp)as egre_comp from contabilidad.egreso
+    where cuie='$cuie') as egre_comp";
+$res_saldo=sql($sql,"no puede calcular el saldo");
+
+$saldo_real=$res_saldo->fields['ingre']-$res_saldo->fields['egre']-($res_saldo->fields['egre_comp']-$res_saldo->fields['egre']);
+//$saldo_real=$res_saldo->fields['total']-($res_saldo->fields['egre_comp']-$res_saldo->fields['egre']);
+$total_depositado=number_format($res_saldo->fields['ingre'],2,',','.');
+$total_egre_comp=number_format(($res_saldo->fields['egre_comp']-$res_saldo->fields['egre']),2,',','.');
+
+/*$sql_1="select sum (monto_egre_comp)as egre_incentivo
+    from contabilidad.egreso
+    where cuie='$cuie' and id_inciso=1
+    and ";
+$res_incentivo=sql($sql_1,"no puede calcular el saldo");
+$total_incentivo=number_format($res_incentivo->fields['egre_incentivo'],2,',','.');*/
+
+$saldo_real=number_format($saldo_real,2,',','.');
+$ret .= "<table width=95% align=center style='font-size=10px'>\n";
+$ret .= "<tr>\n";
+$ret .= "<td align=center>\n";
+$ret .= "<b>INFORMACION ANEXA\n";
+$ret .= "</td>\n";
+$ret .= "</tr>\n";
+$ret .= "</table>\n";
+$ret .= "<table width='65%'  bgcolor='$color1' align='center' style='border: 2px solid #000000; font-size=14px;'>\n";
+$ret .= "<tr bgcolor='$color1'>\n";
+$ret .= "<td align='justify'>\n";
+$ret .= "<b>Por medio de la presente le informo que: </b>\n";
+$ret .= "</td>\n";
+$ret .= "</tr>\n";
+$ret .= "<tr bgcolor='$color1'>\n";
+$ret .= "<td align='justify'>\n";
+$ret .= "<b>Su Saldo Acumulado es de: $ $total_depositado. </b>\n";
+$ret .= "</td>\n";
+$ret .= "</tr>\n";
+$ret .= "<tr bgcolor='$color1'>\n";
+$ret .= "<td align='justify'>\n";
+$ret .= "<b>Su Saldo Comprometido es de: $ $total_egre_comp.</b>\n";
+$ret .= "</td>\n";
+$ret .= "</tr>\n";
+$ret .= "<tr bgcolor='$color1'>\n";
+$ret .= "<td align='justify'>\n";
+$ret .= "<b>Su Saldo Real es de: $ $saldo_real. </b>\n";
+$ret .= "</td>\n";
+$ret .= "</tr>\n";
+$ret .= "<tr bgcolor='$color1'>\n";
+$ret .= "<td align='justify'>\n";
+$ret .= "<b>Para consultar sobre los saldos de Incentivos, dirigirse a Calidad->Reporte de Cumplimiento y Gestion y luego clikear en Detalle de Gestion</b>\n";
+$ret .= "</td>\n";
+$ret .= "</tr>\n";
+$ret .= "<tr bgcolor='$color1'>\n";
+$ret .= "<td align='justify'>\n";
+$ret .= "<font color=white><b>Se ruega contestar este mail al mail Oficial del Plan SUMAR, para ser tenido en cuenta como acuse de recibo.</b></font>\n";
+$ret .= "</td>\n";
+$ret .= "</tr>\n";
+$ret .= "</table><br>\n";
+
+
+$ret .= "<table width=95% align=center style='font-size=10px'>\n";
+$ret .= "<tr>\n";
+$ret .= "<td align=center>\n";
+$ret .= "<b> NOTIFICACIONES\n";
+$ret .= "</td>\n";
+$ret .= "</tr>\n";
+$ret .= "</table>\n"; 
+$ret .= "<table width='65%'  bgcolor='$color1' align='center' style='border: 2px solid #000000; font-size=14px;'>\n";
+$ret .= "<tr bgcolor='$color1' align='left'>\n";
+$ret .= "<td align='rigth'>\n";
+$ret .= "<b>Queda Notificado Equipo de Plan Nacer a través del mail oficial.</b>\n";
+$ret .= "</td>\n";
+$ret .= "</tr>\n";
+$ret .= "<tr bgcolor='$color1' align='left'>\n";
+$ret .= "<td align='left'>\n";
+$ret .= "<b>Queda Notificado el Efector: $nombre_efector. CUIE: $cuie. A través de los mail declarados.</b>\n";
+$ret .= "</td>\n";
+$ret .= "</tr>\n";
+$sql= "select * from nacer.mail_efe_conv where cuie='$cuie'";
+$res_mail=sql($sql,"no se puede ejecutar");
+$res_mail->movefirst();
+while (!$res_mail->EOF) { 
+  $para=$res_mail->fields['mail'];
+  $ret .= "<tr bgcolor='$color1' align='left'>";
+  $ret .= "<td align='left'>";
+  $ret .= "<b>$para, </b>";
+  $ret .= "</td>";
+  $ret .= "</tr>";
+  $res_mail->movenext();
+}
+$ret .= "</table>\n";
+
+echo $ret;  
+  
+
+  $ref = encode_link("notificacion_excel.php",array("cuie"=>$cuie,"id_factura"=>$nro_factura,"saldo_real"=>$saldo_real));?>
+  <script>
+  window.open('<?php echo $ref?>')
+  </script>
+<?}
+
 if(($_POST['notificar']=="Notificar Via Mail")or ($notificar_mail=="True")){
   $color1="#5090C0";
   $color2="#D5D5D5";
@@ -259,8 +492,8 @@ echo $ret;
   $res_mail->movenext();
   }
   enviar_mail_html('plan.nacersl@gmail.com','Notificacion de Fondos',$ret,0,0,0); 
-  enviar_mail_html('celem_g_20@hotmail.com','Notificacion de Fondos',$ret,0,0,0);
-  enviar_mail_html('seba1202@gmail.com','Notificacion de Fondos',$ret,0,0,0);
+  //enviar_mail_html('mariaceleste.garro@gmail.com ','Notificacion de Fondos',$ret,0,0,0);
+  //enviar_mail_html('sanluissistemassumar@gmail.com','Notificacion de Fondos',$ret,0,0,0);
 
   $ref = encode_link("notificacion_excel.php",array("cuie"=>$cuie,"id_factura"=>$nro_factura,"saldo_real"=>$saldo_real));?>
   <script>
@@ -954,7 +1187,8 @@ $res_comprobante=sql($query,"<br>Error al traer los comprobantes<br>") or fin_pa
       <td width="10%">Fecha</td>
       <td width="10%">Servicio</td>
       <td width="10%">Editar Serv.</td>
-      <td width="10%">Notificar</td>
+      <td width="10%">Notificar Mail</td>
+      <td width="10%">Notificar Manual</td>
       <!-- <td width="10%">Borrar</td> -->
     </tr>
     <?
@@ -973,9 +1207,12 @@ $res_comprobante=sql($query,"<br>Error al traer los comprobantes<br>") or fin_pa
        
        $saldo_real=$total_depositado-$res_saldo->fields['egre']-($res_saldo->fields['egre_comp']-$res_saldo->fields['egre']);
        $ref_notificar = encode_link("ingre_egre_admin.php",array("id_factura_notificar"=>$res_comprobante->fields['numero_factura'],"notificar_mail"=>"True","cuie"=>$cuie,"saldo_real"=>$saldo_real));
+       $ref_notificar_manual = encode_link("ingre_egre_admin.php",array("id_factura_notificar"=>$res_comprobante->fields['numero_factura'],"notificar_manual"=>"True","cuie"=>$cuie,"saldo_real"=>$saldo_real));
        $ref_editar = encode_link("detalle_ingreso_admin.php",array("numero_factura"=>$res_comprobante->fields['numero_factura'],"cuie"=>$cuie,"saldo_real"=>$saldo_real));
        $id_factura_notificar=$res_comprobante->fields['numero_factura'];
        $onclick_notificar="if (confirm('Esta Seguro que Desea Notificar la Factura $id_factura_notificar?')) location.href='$ref_notificar'
+                          else return false;  ";
+       $onclick_notificar_manual="if (confirm('Esta Seguro que Desea Notificar MANUALMENTE la Factura $id_factura_notificar?')) location.href='$ref_notificar_manual'
                           else return false;  ";
        $onclick_editar="if (confirm('Esta Seguro que Desea Editar los datos de la Factura $id_factura_notificar?')) location.href='$ref_editar'
                           else return false;  ";
@@ -996,7 +1233,8 @@ $res_comprobante=sql($query,"<br>Error al traer los comprobantes<br>") or fin_pa
         <td onclick="<?=$onclick_elegir?>"><?=$res_comprobante->fields['descripcion']?></td>        
         <!--<td onclick="<?=$onclick_eliminar?>" align="center"><img src='../../imagenes/salir.gif' style='cursor:hand;'></td>  -->     
         <td onclick="<?=$onclick_editar?>" align="center"><img src='../../imagenes/editar1.png' style='cursor:hand;'></td>
-        <td onclick="<?=$onclick_notificar?>" align="center"><img src='../../imagenes/iconnote_resize.gif' style='cursor:hand;'></td>     
+        <td onclick="<?=$onclick_notificar?>" align="center"><img src='../../imagenes/iconnote_resize.gif' style='cursor:hand;'></td>
+        <td onclick="<?=$onclick_notificar_manual?>" align="center"><img src='../../imagenes/notas.gif' style='cursor:hand;'></td>     
       </tr> 
       
       <?$res_comprobante->movenext();
