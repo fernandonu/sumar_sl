@@ -180,208 +180,210 @@ if ($_POST['guardar']=="Guardar Prestacion"){
 		  $id_prestacion=sql($q) or fin_pagina();
 		  $id_prestacion=$id_prestacion->fields['id_prestacion'];
 			    
-		//enriquesimientos para tabla facturacion.prestacion para datos reportables
-		//Prestaciones desde ambos nomencladores SUMAR2019 y PACES  
-    	if ($descripcion_nomenclador=='Control prenatal  de 1ra.vez  (Grupo Embarazo/parto/puerperio de Bajo Riesgo)' 
-    		or
-    		$descripcion_nomenclador=='Control prenatal  de 1ra.vez (< a 13 semanas de Edad Gestacional)'
-    		or 
-			$descripcion_nomenclador=='Ulterior de control  prenatal.   (Grupo Embarazo/parto/puerperio de Bajo Riesgo)'
-			or 
-			$descripcion_nomenclador=='Control  prenatal. '
-			or
-          	$descripcion_nomenclador=='Consulta inicial de diabetes gestacional' 
-          	or
-          	$descripcion_nomenclador=='Diabetes gestacional: Consulta de seguimiento '
-          	or
-      		$descripcion_nomenclador=='Consulta de seguimiento de diabetes gestacional' 
-          	or
-          	$descripcion_nomenclador=='Consulta inicial de hipertensión gestacional' 
-          	or
-          	$descripcion_nomenclador=='Embarazada con hipertensión arterial: Consulta de seguimiento '
-          	or 
-          	$descripcion_nomenclador=='Consulta de seguimiento de la hipertensión gestacional'
+			//enriquesimientos para tabla facturacion.prestacion para datos reportables
+			//Prestaciones desde ambos nomencladores SUMAR2019 y PACES  
+			if ($descripcion_nomenclador=='Control prenatal  de 1ra.vez  (Grupo Embarazo/parto/puerperio de Bajo Riesgo)' 
+				or
+				$descripcion_nomenclador=='Control prenatal  de 1ra.vez (< a 13 semanas de Edad Gestacional)'
+				or 
+				$descripcion_nomenclador=='Ulterior de control  prenatal.   (Grupo Embarazo/parto/puerperio de Bajo Riesgo)'
+				or 
+				$descripcion_nomenclador=='Control  prenatal. '
+				or
+				$descripcion_nomenclador=='Consulta inicial de diabetes gestacional' 
+				or
+				$descripcion_nomenclador=='Diabetes gestacional: Consulta de seguimiento '
+				or
+				$descripcion_nomenclador=='Consulta de seguimiento de diabetes gestacional' 
+				or
+				$descripcion_nomenclador=='Consulta inicial de hipertensión gestacional' 
+				or
+				$descripcion_nomenclador=='Embarazada con hipertensión arterial: Consulta de seguimiento '
+				or 
+				$descripcion_nomenclador=='Consulta de seguimiento de la hipertensión gestacional'
 
-          	or 
-          	$descripcion_nomenclador=='Control de embarazo < a 13 semanas'
-          )
-        
-         {
-          $sql_datos="SELECT * from trazadorassps.trazadora_1
-                      where id_smiafiliados=$id_smiafiliados and fecha_carga='$fecha_carga'
-                      order by 1 DESC";
-          $res_datos=sql($sql_datos,"No se pudieron traer los datos reportables") or fin_pagina();
-          $hay_datos=1;
-          
-          if ($res_datos->RecordCount()==0){
-            $sql_datos="SELECT * from trazadorassps.trazadora_2
-                      where id_smiafiliados=$id_smiafiliados and fecha_carga='$fecha_carga'
-                      order by 1 DESC";
-            $res_datos=sql($sql_datos,"No se pudieron traer los datos reportables") or fin_pagina();
-            $hay_datos=1;
-            };
-      }
-      
-      elseif ($descripcion_nomenclador=='Pediátrica en menores de 1 año (Grupo Niño 0 a 5 años  Cuidado de la Salud)' 
-	      or 
-	      $descripcion_nomenclador=='Examen periódico de salud de niño menor de 1 año'
-	      or 
-	      ($descripcion_nomenclador=='Examen periódico de salud' and $grupo_ceroacinco=='1')
-	  ){
-          $sql_datos="SELECT * from trazadorassps.trazadora_4
-                      where id_smiafiliados=$id_smiafiliados and fecha_carga='$fecha_carga'
-                      order by 1 DESC";
-            $res_datos=sql($sql_datos,"No se pudieron traer los datos reportables") or fin_pagina();
-            $hay_datos=1;
-      }
-      
-      elseif ($descripcion_nomenclador=='Pediátrica de 1 a 5 años (Grupo Niño 0 a 5 años  Cuidado de la Salud)'
-      	or $descripcion_nomenclador=='Examen periódico de salud de niño de 1 a 5 años' 
-      	or $descripcion_nomenclador=='Control de salud individual para población indígena en terreno (Grupo Niños de 6 a 9 Años)' 
-      	or $descripcion_nomenclador=='Control en Niños de 6 a 9 años (Grupo Niños de 6 a 9 Años)'
-      	or $descripcion_nomenclador=='Examen periódico de salud del niño de 6 a 9 años'
-      	or 
-	      ($descripcion_nomenclador=='Examen periódico de salud' and $grupo_seisanueve=='1')
-      	)
-      	{
-          $sql_datos="SELECT * from trazadorassps.trazadora_7
-                      where id_smiafiliados=$id_smiafiliados and fecha_carga='$fecha_carga'
-                      order by 1 DESC";
-            $res_datos=sql($sql_datos,"No se pudieron traer los datos reportables") or fin_pagina();
-            $hay_datos=1;
-      	}
-      
-      elseif ($descripcion_nomenclador=='Examen Periódico de Salud del adolescente (Grupo Adolecentes 10 a 19 años)' 
-      	or $descripcion_nomenclador=='Control de salud individual para población indígena en terreno (Grupo Adolecentes 10 a 19 años)'
-      	or $descripcion_nomenclador=='Examen Periódico de Salud del adolescente'
-      	or 
-	      ($descripcion_nomenclador=='Examen periódico de salud' and $grupo_adol='1')
-      	)
-      	{
-          $sql_datos="SELECT * from trazadorassps.trazadora_10
-                      where id_smiafiliados=$id_smiafiliados and fecha_carga='$fecha_carga'
-                      order by 1 DESC";
-            $res_datos=sql($sql_datos,"No se pudieron traer los datos reportables") or fin_pagina();
-            $hay_datos=1;
-      	}
-
-      	elseif ($descripcion_nomenclador=='Examen periódico de salud' and $grupo_adulto='1')
-      	
-      	{
-          $sql_datos="SELECT * from trazadoras.adultos
-                      where round(num_doc)=$afidni and fecha_control='$fecha_carga'
-                      order by 1 DESC";
-            $res_datos=sql($sql_datos,"No se pudieron traer los datos reportables") or fin_pagina();
-            $hay_datos=1;
-      	}
-      
-      elseif ($descripcion_nomenclador=='Diagnóstico por biopsia en laboratorio de anatomía patológica, para aquellas mujeres con citología ASC-H, H-SIL,Cáncer (CA cervicouterino) (Grupo Adultos 20 a 64 Años)' 
-      	or $descripcion_nomenclador=='Anatomía patológica de biopsia en mujeres (CA mama)  (Grupo Adultos 20 a 64 Años)'
-      	or $descripcion_nomenclador=='Informe de biopsia de lesión de mama ')
-      	{
-          $sql_datos="SELECT * from trazadorassps.trazadora_12
-                      where id_smiafiliados=$id_smiafiliados and fecha_carga='$fecha_carga'
-                      order by 1 DESC";
-            $res_datos=sql($sql_datos,"No se pudieron traer los datos reportables") or fin_pagina();
-            $hay_datos=1;
-      	}
-      
-      else $hay_datos=0;
-      
-      if ($hay_datos) {
-      
-      $peso=($res_datos->fields['peso'])?$res_datos->fields['peso']:0;
-      $talla=($res_datos->fields['talla'])?$res_datos->fields['talla']:0;
-      $eg=($res_datos->fields['edad_gestacional'])?$res_datos->fields['edad_gestacional']:0;
-      $ta=($res_datos->fields['tension_arterial'])?$res_datos->fields['tension_arterial']:0;
-      $perimetro_cefalico=($res_datos->fields['perimetro_cefalico'])?$res_datos->fields['perimetro_cefalico']:0;
-      $inf_anat_patologica=($res_datos->fields['inf_anat_patologica'])?$res_datos->fields['inf_anat_patologica']:0;
-      $inf_diag_biopsia=($res_datos->fields['inf_diag_biopsia'])?$res_datos->fields['inf_diag_biopsia']:0;
-      }
-      else {
-      $peso=0;
-      $talla=0;
-      $eg=0;
-      $ta=null;
-      $perimetro_cefalico=0;
-      $inf_anat_patologica=0;
-      $inf_diag_biopsia=0;  
-        
-      } 
-        
-      $res_vdrl=$_POST['res_vdrl'];
-      $res_est_oido_derecho=($_POST['est_oido_derecho'])?$_POST['est_oido_derecho']:0;
-      $res_est_oido_izquierdo=($_POST['est_oido_izquierdo'])?$_POST['est_oido_izquierdo']:0;
-      $retinopatia=($_POST['retinopatia'])?$_POST['retinopatia']:0;
-      $inf_anat_patologica=($_POST['diagnostico_pat_2'])?$_POST['diagnostico_pat_2']:0;
-      $inf_diag_biopsia=($_POST['diagnostico_pat_1'])?$_POST['diagnostico_pat_1']:0;
-      $inf_diag_anatomo=($_POST['diagnostico_pat_3'])?$_POST['diagnostico_pat_3']:0;
-      $tratamiento_instaurado=($_POST['tratamiento_instaurado'])?$_POST['tratamiento_instaurado']:0;
-      
-	  //2023
-	  $birads = ($_POST['birads'])?$_POST['birads']:-1;
-	  $tisomf = ($_POST['tisomf'])?$_POST['tisomf']:null;
-	  $hemo_glic = ($_POST['hemo_glic'])?$_POST['hemo_glic']:-1;
-	  $vph = ($_POST['vph'])?$_POST['vph']:null;
-	  $tratamiento_instaurado_de_cm=($_POST['tratamiento_instaurado_de_cm'])?$_POST['tratamiento_instaurado_de_cm']:-1;
-	  $ta_d = ($_POST['ta_d'])?$_POST['ta_d']:null;
-	  $ta_s = ($_POST['ta_s'])?$_POST['ta_s']:null;
-	  $ta = $ta_d.'/'.$ta_s;  
-	  $r031_semges = ($_POST['r031_semges'])?$_POST['r031_semges']:-1;
-	  $financiador = ($_POST['financiador'])?$_POST['financiador']:-1;
-	  $porc_geo = ($_POST['porc_geo'])?$_POST['porc_geo']:-1;
-	  $porc_dbt = ($_POST['porc_dbt'])?$_POST['porc_dbt']:-1;
-	  $porc_hta = ($_POST['porc_hta'])?$_POST['porc_hta']:-1;
-
-      $caries1=($_POST['caries_cpod']<10)?'0'.$_POST['caries_cpod']:$_POST['caries_cpod'];
-      $perdidos1=($_POST['perdidos_cpod']<10)?'0'.$_POST['perdidos_cpod']:$_POST['perdidos_cpod'];
-      $obturados1=($_POST['obturados_cpod']<10)?'0'.$_POST['obturados_cpod']:$_POST['obturados_cpod'];
-
-      $cpod="C:".$caries1."/P:".$perdidos1."/O:".$obturados1;
-
-      $caries2=($_POST['caries_ceod']<10)?'0'.$_POST['caries_ceod']:$_POST['caries_ceod'];
-      $perdidos2=($_POST['extracciones_ceod']<10)?'0'.$_POST['extracciones_ceod']:$_POST['extracciones_ceod'];
-      $obturados2=($_POST['obturados_ceod']<10)?'0'.$_POST['obturados_ceod']:$_POST['obturados_ceod'];
-      
-
-      $ceod="c:".$caries2."/e:".$perdidos2."/o:".$obturados2;
-
-      
-      /*$consulta= "INSERT into facturacion.prestacion
-							(id_prestacion,id_comprobante,id_nomenclador,cantidad,precio_prestacion,id_anexo,
-							peso,tension_arterial,diagnostico,edad,sexo,codigo_comp,fecha_nacimiento,fecha_prestacion,
-							anio,mes,dia,estado_envio,
-              edad_gestacional,talla,perim_cefalico,inf_anat_patologica,inf_diag_biopsia,
-              inf_vdrl,res_oido_derecho,res_oido_izquierdo,retinopatia,inf_diag_anatomo,tratamiento_instaurado,cpod,ceod,
-			  birads,tisomf,hemo_glic,vph,tratamiento_instaurado_de_cm)
-						values 
-						    ('$id_prestacion','$id_comprobante','$id_nomenclador','1','$precio','$id_anexo',
-						    $peso,'$ta','$patologia','$edad','$sexo_codigo','$codigo','$fecha_nacimiento','$fecha_comprobante',
-						    '$anios_desde_nac','$meses_desde_nac','$dias_desde_nac','n',
-                '$eg','$talla',$perimetro_cefalico,$inf_anat_patologica,$inf_diag_biopsia,
-                '$res_vdrl','$res_est_oido_derecho','$res_est_oido_izquierdo','$retinopatia',$inf_diag_anatomo,$tratamiento_instaurado,'$cpod','$ceod',
-				$birads,'$tisomf',$hemo_glic,'$vph',$tratamiento_instaurado_de_cm)";
-			*/
-		$consulta= "INSERT into facturacion.prestacion
-			(id_prestacion,id_comprobante,id_nomenclador,cantidad,precio_prestacion,id_anexo,
-			peso,tension_arterial,diagnostico,edad,sexo,codigo_comp,fecha_nacimiento,fecha_prestacion,
-			anio,mes,dia,estado_envio,
-			edad_gestacional,talla,perim_cefalico,inf_anat_patologica,inf_diag_biopsia,
-			inf_vdrl,res_oido_derecho,res_oido_izquierdo,retinopatia,inf_diag_anatomo,tratamiento_instaurado,cpod,ceod,
-			birads,tisomf,hemo_glic,vph,tratamiento_instaurado_de_cm,financiador,porc_geo,porc_dbt,porc_hta)
-			values 
-			('$id_prestacion','$id_comprobante','$id_nomenclador','1','$precio','$id_anexo',
-			$peso,'$ta','$patologia','$edad','$sexo_codigo','$codigo','$fecha_nacimiento','$fecha_comprobante',
-			'$anios_desde_nac','$meses_desde_nac','$dias_desde_nac','n',
-			$r031_semges,'$talla',$perimetro_cefalico,$inf_anat_patologica,$inf_diag_biopsia,
-			'$res_vdrl','$res_est_oido_derecho','$res_est_oido_izquierdo','$retinopatia',$inf_diag_anatomo,$tratamiento_instaurado,'$cpod','$ceod',
-			$birads,'$tisomf',$hemo_glic,'$vph',$tratamiento_instaurado_de_cm,$financiador,$porc_geo,$porc_dbt,$porc_hta)";
+				or 
+				$descripcion_nomenclador=='Control de embarazo < a 13 semanas'
+			)			
+			{
+				$sql_datos="SELECT * from trazadorassps.trazadora_1
+							where id_smiafiliados=$id_smiafiliados and fecha_carga='$fecha_carga'
+							order by 1 DESC";
+				$res_datos=sql($sql_datos,"No se pudieron traer los datos reportables") or fin_pagina();
+				$hay_datos=1;
+				
+				if ($res_datos->RecordCount()==0){
+					$sql_datos="SELECT * from trazadorassps.trazadora_2
+							where id_smiafiliados=$id_smiafiliados and fecha_carga='$fecha_carga'
+							order by 1 DESC";
+					$res_datos=sql($sql_datos,"No se pudieron traer los datos reportables") or fin_pagina();
+					$hay_datos=1;
+					};
+			}
 		
-			sql($consulta) or fin_pagina();
-						
-		    $db->CompleteTrans();   
-		    $accion="Se Grabo la Prestacion.";
- 		};
+			elseif ($descripcion_nomenclador=='Pediátrica en menores de 1 año (Grupo Niño 0 a 5 años  Cuidado de la Salud)' 
+				or 
+				$descripcion_nomenclador=='Examen periódico de salud de niño menor de 1 año'
+				or 
+				($descripcion_nomenclador=='Examen periódico de salud' and $grupo_ceroacinco=='1')
+			){
+				$sql_datos="SELECT * from trazadorassps.trazadora_4
+							where id_smiafiliados=$id_smiafiliados and fecha_carga='$fecha_carga'
+							order by 1 DESC";
+					$res_datos=sql($sql_datos,"No se pudieron traer los datos reportables") or fin_pagina();
+					$hay_datos=1;
+			}
+			
+			elseif ($descripcion_nomenclador=='Pediátrica de 1 a 5 años (Grupo Niño 0 a 5 años  Cuidado de la Salud)'
+				or $descripcion_nomenclador=='Examen periódico de salud de niño de 1 a 5 años' 
+				or $descripcion_nomenclador=='Control de salud individual para población indígena en terreno (Grupo Niños de 6 a 9 Años)' 
+				or $descripcion_nomenclador=='Control en Niños de 6 a 9 años (Grupo Niños de 6 a 9 Años)'
+				or $descripcion_nomenclador=='Examen periódico de salud del niño de 6 a 9 años'
+				or 
+				($descripcion_nomenclador=='Examen periódico de salud' and $grupo_seisanueve=='1')
+				)
+				{
+				$sql_datos="SELECT * from trazadorassps.trazadora_7
+							where id_smiafiliados=$id_smiafiliados and fecha_carga='$fecha_carga'
+							order by 1 DESC";
+					$res_datos=sql($sql_datos,"No se pudieron traer los datos reportables") or fin_pagina();
+					$hay_datos=1;
+				}
+			
+			elseif ($descripcion_nomenclador=='Examen Periódico de Salud del adolescente (Grupo Adolecentes 10 a 19 años)' 
+				or $descripcion_nomenclador=='Control de salud individual para población indígena en terreno (Grupo Adolecentes 10 a 19 años)'
+				or $descripcion_nomenclador=='Examen Periódico de Salud del adolescente'
+				or 
+				($descripcion_nomenclador=='Examen periódico de salud' and $grupo_adol='1')
+				)
+				{
+				$sql_datos="SELECT * from trazadorassps.trazadora_10
+							where id_smiafiliados=$id_smiafiliados and fecha_carga='$fecha_carga'
+							order by 1 DESC";
+					$res_datos=sql($sql_datos,"No se pudieron traer los datos reportables") or fin_pagina();
+					$hay_datos=1;
+				}
+
+			elseif ($descripcion_nomenclador=='Examen periódico de salud' and $grupo_adulto='1')
+				
+				{
+				$sql_datos="SELECT * from trazadoras.adultos
+							where round(num_doc)=$afidni and fecha_control='$fecha_carga'
+							order by 1 DESC";
+					$res_datos=sql($sql_datos,"No se pudieron traer los datos reportables") or fin_pagina();
+					$hay_datos=1;
+				}
+			
+			elseif ($descripcion_nomenclador=='Diagnóstico por biopsia en laboratorio de anatomía patológica, para aquellas mujeres con citología ASC-H, H-SIL,Cáncer (CA cervicouterino) (Grupo Adultos 20 a 64 Años)' 
+				or $descripcion_nomenclador=='Anatomía patológica de biopsia en mujeres (CA mama)  (Grupo Adultos 20 a 64 Años)'
+				or $descripcion_nomenclador=='Informe de biopsia de lesión de mama ')
+				{
+				$sql_datos="SELECT * from trazadorassps.trazadora_12
+							where id_smiafiliados=$id_smiafiliados and fecha_carga='$fecha_carga'
+							order by 1 DESC";
+					$res_datos=sql($sql_datos,"No se pudieron traer los datos reportables") or fin_pagina();
+					$hay_datos=1;
+				}
+			
+			else $hay_datos=0;
+		
+		if ($hay_datos) {
+		
+		$peso=($res_datos->fields['peso'])?$res_datos->fields['peso']:0;
+		$talla=($res_datos->fields['talla'])?$res_datos->fields['talla']:0;
+		$eg=($res_datos->fields['edad_gestacional'])?$res_datos->fields['edad_gestacional']:0;
+		$ta=($res_datos->fields['tension_arterial'])?$res_datos->fields['tension_arterial']:0;
+		$perimetro_cefalico=($res_datos->fields['perimetro_cefalico'])?$res_datos->fields['perimetro_cefalico']:0;
+		$inf_anat_patologica=($res_datos->fields['inf_anat_patologica'])?$res_datos->fields['inf_anat_patologica']:0;
+		$inf_diag_biopsia=($res_datos->fields['inf_diag_biopsia'])?$res_datos->fields['inf_diag_biopsia']:0;
+		}
+		else {
+		$peso=0;
+		$talla=0;
+		$eg=0;
+		$ta=null;
+		$perimetro_cefalico=0;
+		$inf_anat_patologica=0;
+		$inf_diag_biopsia=0;  
+			
+		} 
+			
+		$res_vdrl=$_POST['res_vdrl'];
+		$res_est_oido_derecho=($_POST['est_oido_derecho'])?$_POST['est_oido_derecho']:0;
+		$res_est_oido_izquierdo=($_POST['est_oido_izquierdo'])?$_POST['est_oido_izquierdo']:0;
+		$retinopatia=($_POST['retinopatia'])?$_POST['retinopatia']:0;
+		$inf_anat_patologica=($_POST['diagnostico_pat_2'])?$_POST['diagnostico_pat_2']:0;
+		$inf_diag_biopsia=($_POST['diagnostico_pat_1'])?$_POST['diagnostico_pat_1']:0;
+		$inf_diag_anatomo=($_POST['diagnostico_pat_3'])?$_POST['diagnostico_pat_3']:0;
+		$tratamiento_instaurado=($_POST['tratamiento_instaurado'])?$_POST['tratamiento_instaurado']:0;
+		
+		//2023
+		$birads = ($_POST['birads'])?$_POST['birads']:-1;
+		$tisomf = ($_POST['tisomf'])?$_POST['tisomf']:null;
+		$hemo_glic = ($_POST['hemo_glic'])?$_POST['hemo_glic']:-1;
+		$vph = ($_POST['vph'])?$_POST['vph']:null;
+		$tratamiento_instaurado_de_cm=($_POST['tratamiento_instaurado_de_cm'])?$_POST['tratamiento_instaurado_de_cm']:-1;
+		$ta_d = ($_POST['ta_d'])?$_POST['ta_d']:null;
+		$ta_s = ($_POST['ta_s'])?$_POST['ta_s']:null;
+		$ta = $ta_d.'/'.$ta_s;  
+		$r031_semges = ($_POST['r031_semges'])?$_POST['r031_semges']:-1;
+		$financiador = ($_POST['financiador'])?$_POST['financiador']:-1;
+		$porc_geo = ($_POST['porc_geo'])?$_POST['porc_geo']:-1;
+		$porc_dbt = ($_POST['porc_dbt'])?$_POST['porc_dbt']:-1;
+		$porc_hta = ($_POST['porc_hta'])?$_POST['porc_hta']:-1;
+
+		$caries1=($_POST['caries_cpod']<10)?'0'.$_POST['caries_cpod']:$_POST['caries_cpod'];
+		$perdidos1=($_POST['perdidos_cpod']<10)?'0'.$_POST['perdidos_cpod']:$_POST['perdidos_cpod'];
+		$obturados1=($_POST['obturados_cpod']<10)?'0'.$_POST['obturados_cpod']:$_POST['obturados_cpod'];
+
+		$cpod="C:".$caries1."/P:".$perdidos1."/O:".$obturados1;
+
+		$caries2=($_POST['caries_ceod']<10)?'0'.$_POST['caries_ceod']:$_POST['caries_ceod'];
+		$perdidos2=($_POST['extracciones_ceod']<10)?'0'.$_POST['extracciones_ceod']:$_POST['extracciones_ceod'];
+		$obturados2=($_POST['obturados_ceod']<10)?'0'.$_POST['obturados_ceod']:$_POST['obturados_ceod'];
+		
+
+		$ceod="c:".$caries2."/e:".$perdidos2."/o:".$obturados2;
+
+		
+		/*$consulta= "INSERT into facturacion.prestacion
+								(id_prestacion,id_comprobante,id_nomenclador,cantidad,precio_prestacion,id_anexo,
+								peso,tension_arterial,diagnostico,edad,sexo,codigo_comp,fecha_nacimiento,fecha_prestacion,
+								anio,mes,dia,estado_envio,
+				edad_gestacional,talla,perim_cefalico,inf_anat_patologica,inf_diag_biopsia,
+				inf_vdrl,res_oido_derecho,res_oido_izquierdo,retinopatia,inf_diag_anatomo,tratamiento_instaurado,cpod,ceod,
+				birads,tisomf,hemo_glic,vph,tratamiento_instaurado_de_cm)
+							values 
+								('$id_prestacion','$id_comprobante','$id_nomenclador','1','$precio','$id_anexo',
+								$peso,'$ta','$patologia','$edad','$sexo_codigo','$codigo','$fecha_nacimiento','$fecha_comprobante',
+								'$anios_desde_nac','$meses_desde_nac','$dias_desde_nac','n',
+					'$eg','$talla',$perimetro_cefalico,$inf_anat_patologica,$inf_diag_biopsia,
+					'$res_vdrl','$res_est_oido_derecho','$res_est_oido_izquierdo','$retinopatia',$inf_diag_anatomo,$tratamiento_instaurado,'$cpod','$ceod',
+					$birads,'$tisomf',$hemo_glic,'$vph',$tratamiento_instaurado_de_cm)";
+				*/
+			$consulta= "INSERT into facturacion.prestacion
+				(id_prestacion,id_comprobante,id_nomenclador,cantidad,precio_prestacion,id_anexo,
+				peso,tension_arterial,diagnostico,edad,sexo,codigo_comp,fecha_nacimiento,fecha_prestacion,
+				anio,mes,dia,estado_envio,
+				edad_gestacional,talla,perim_cefalico,inf_anat_patologica,inf_diag_biopsia,
+				inf_vdrl,res_oido_derecho,res_oido_izquierdo,retinopatia,inf_diag_anatomo,tratamiento_instaurado,cpod,ceod,
+				birads,tisomf,hemo_glic,vph,tratamiento_instaurado_de_cm,financiador,porc_geo,porc_dbt,porc_hta)
+				values 
+				('$id_prestacion','$id_comprobante','$id_nomenclador','1','$precio','$id_anexo',
+				$peso,'$ta','$patologia','$edad','$sexo_codigo','$codigo','$fecha_nacimiento','$fecha_comprobante',
+				'$anios_desde_nac','$meses_desde_nac','$dias_desde_nac','n',
+				$r031_semges,'$talla',$perimetro_cefalico,$inf_anat_patologica,$inf_diag_biopsia,
+				'$res_vdrl','$res_est_oido_derecho','$res_est_oido_izquierdo','$retinopatia',$inf_diag_anatomo,$tratamiento_instaurado,'$cpod','$ceod',
+				$birads,'$tisomf',$hemo_glic,'$vph',$tratamiento_instaurado_de_cm,$financiador,$porc_geo,$porc_dbt,$porc_hta)";
+			
+				sql($consulta) or fin_pagina();
+							
+				$db->CompleteTrans();   
+				$accion="Se Grabo la Prestacion.";
+ 		}
+		else{
+			$accion="Comprobante Duplicado";
+		}			
    }
 
 $query="SELECT 
