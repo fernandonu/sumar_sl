@@ -1,0 +1,83 @@
+Crear nuevas tablas para importar nomivac en san luis
+
+CREATE TABLE "facturacion"."importar_nomivac" (
+  "id_importacion_nomivac" serial,
+  "Código de establecimiento" varchar COLLATE "pg_catalog"."default",
+  "codigo Vacuna" varchar COLLATE "pg_catalog"."default",
+  "Fecha de aplicación" date,
+  "Nro. de documento" varchar COLLATE "pg_catalog"."default",
+  "OBS" varchar COLLATE "pg_catalog"."default",
+  "importado" bool DEFAULT false,
+  "id_nomenclador" int4,
+  "cod_sumar" varchar COLLATE "pg_catalog"."default",
+  "completado_de_datos" bool DEFAULT false,
+  "Edad de aplicación" int4 NOT NULL,
+  "Sexo" varchar COLLATE "pg_catalog"."default",
+  "id_smiafiliados" int4,
+  "id_anexo" int4,
+  "cuie" varchar(15) COLLATE "pg_catalog"."default",
+  "fecha_importacion" date,
+  "fecha_completado_datos" date,
+  "generado_comprobante" bool,
+  "fecha_generado_comprobante" date,
+  "id_comprobante" int4,
+  CONSTRAINT "importar_nomivac_pkey" PRIMARY KEY ("id_importacion_nomivac")
+)
+;
+
+ALTER TABLE "facturacion"."importar_nomivac" 
+  OWNER TO "postgres";
+
+CREATE TABLE "facturacion"."pr_brinda_ceb" (
+  "id_interno" serial,
+  "id_nomenclador_actual" int4,
+  "codsisa" varchar COLLATE "pg_catalog"."default",
+  "codsumar" varchar COLLATE "pg_catalog"."default",
+  "descripsumar" varchar COLLATE "pg_catalog"."default",
+  "descripsisa" varchar COLLATE "pg_catalog"."default",
+  "edad_desde" int4,
+  "edad_hasta" int4,
+  "fecha_implementacion_nomenclador_actual" date
+)
+;
+
+ALTER TABLE "facturacion"."pr_brinda_ceb" 
+  OWNER TO "postgres";
+
+CREATE TABLE facturacion.log_proceso_nomivac (
+    id_log_proceso_nomivac integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    fecha timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    accion text NOT NULL,
+    resultado text,
+    usuario text NOT NULL
+);
+
+CAMPOS AGREGADOS
+
+facturacion.prestacion.migrada (numeric 1)
+facturacion.comprobante.id_importacion_nomivac (int4 32)
+
+CREAR INDICES
+
+Problema: "Completar Datos Nomivac" quedaba colgado sin responder. Causa: las consultas de matching usan trim() sobre las columnas
+(trim(smi.afidni), trim(nom.grupo)||trim(nom.codigo)) para comparar contra facturacion.importar_nomivac, lo que impedía usar los
+índices existentes (el trim() sobre la columna no matchea con un índice plano) y forzaba un seq scan completo de
+nacer.smiafiliados (137.000+ filas) por cada fila pendiente de importar_nomivac.
+
+CREATE INDEX idx_smiafiliados_trim_afidni ON nacer.smiafiliados (trim(afidni));
+CREATE INDEX idx_nomenclador_detalle_trim_grupo_codigo ON facturacion.nomenclador (id_nomenclador_detalle, (trim(grupo) || trim(codigo)));
+
+PROCESO
+
+CUANDO IMPORTEMOS MAS PRESTACIONES LOS DATOS REPORTABLES QUE VENGAN GUARDARLOS EN tabla facturacion.importar_nomivac (hay que agregar los campos necesarios)
+LAS EQUIVALENCIAS ESTAN EN facturacion.pr_brinda_ceb (el campo codsisa puede servir con SnomedID)
+
+En menu, proceso de archivos Importar en tabla importar_nomivac, completar datos y crear comprobante/prestaciones
+cargar un comprobante y una prestacion por cada registro que se pudo facturar.
+completar campo comprobante.id_importacion_nomivac y prestacion.migrada
+
+pasos a modo generico
+1) Identificar las prestaciones crear mapeo en facturacion.pr_brinda_ceb. 
+2) hacer el proceso de importar las prestaciones a una tabla intermedia facturacion.importar_nomivac de sistema que me permita saber que paso con cada prestación. 
+3) cuando creo comprobante/prestaciones validar que 2 prestaciones de la misma persona, misma fecha, mismo establecimiento y misma prestación alerte de duplicado, tanto para carga manual y migración.
+4) el facturista debe vincular a una factura las prestaciones migradas automáticamente.
