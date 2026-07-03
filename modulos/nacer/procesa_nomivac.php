@@ -28,7 +28,7 @@ if ($_POST['importar_excel_nomivac']){
 			ini_set('memory_limit', '512M');
 			set_time_limit(600);
 
-			require_once(MOD_DIR."/ugsp/plugins/PHPExcel/IOFactory.php");
+			require_once(LIB_DIR."/PHPExcel/IOFactory.php");
 			PHPExcel_Settings::setCacheStorageMethod(PHPExcel_CachedObjectStorageFactory::cache_to_discISAM);
 
 			try {
@@ -455,7 +455,7 @@ function mostrarProcesando(){
 	}, 0);
 }
 </script>
-<form name=form1 action="genera_archivo.php" method=POST enctype="multipart/form-data" onsubmit="mostrarProcesando();">
+<form name=form1 action="procesa_nomivac.php" method=POST enctype="multipart/form-data" onsubmit="mostrarProcesando();">
 <table width="80%" class="bordes" cellspacing=0 border=1 bordercolor=#E0E0E0 align="center" bgcolor='<?=$bgcolor_out?>' class="bordes">
 <tr>
 	<td>
