@@ -1733,12 +1733,12 @@ function enviar_mail($para,$paracc,$parabcc,$asunto,$contenido,$adjunto,$path,$h
  //mail->Username = "sanluissistemassumar@gmail.com";
  //$mail->Password = "xptw rxcs bkzs wvsk";
  
- $mail->Port = 587;
+ $mail->Port = 25;
 
  $mail->SMTPAuth = true; 
  $mail->Timeout=50;
  $mail->SMTPSecure='tls'; 
- $mail->SMTPDebug=0;
+ $mail->SMTPDebug=0; //debug 2 para ver errores en pantalla
  $mail->Debugoutput='html';
  $mail->setFrom('plannacer@sanluis.gov.ar', 'Ministerio de Salud');
  //$mail->From = "plannacer@sanluis.gov.ar";
