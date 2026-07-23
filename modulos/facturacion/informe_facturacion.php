@@ -85,7 +85,7 @@ echo $html_header;
 		<?list($sql,$total_muletos,$link_pagina,$up) = form_busqueda($sql_tmp,$orden,$filtro,$link_tmp,$where_tmp,"buscar");?>
 	    &nbsp;&nbsp;<input type=submit name="buscar" value='Buscar'>
 	    &nbsp;&nbsp;
-	    <? $link=encode_link("informe_facturacion_excel.php",array());?>
+	    <? $link=encode_link("informe_facturacion_excel.php",array("cmd"=>$cmd));?>
         <img src="../../imagenes/excel.gif" style='cursor:hand;'  onclick="window.open('<?=$link?>')">
 	  	    
 	  </td>
