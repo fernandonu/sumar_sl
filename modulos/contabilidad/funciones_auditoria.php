@@ -545,10 +545,10 @@ function fase_1 ($fecha_desde, $fecha_hasta){
       $contenido.=$res_fact->fields['total_pagar'].";";
       $contenido.=$res_fact->fields['nro_exp'].";";
       $contenido.=$res_fact->fields['fecha_deposito'].";";
-      $sql_total_exp="SELECT sum(monto_prefactura) as monto_exp from facturacion.factura where nro_exp_ext='$id_exp_ext'";
-      $res_sql_total=sql($sql_total_exp) or fin_pagina();
+      //$sql_total_exp="SELECT sum(monto_prefactura) as monto_exp from facturacion.factura where nro_exp_ext='$id_exp_ext'";
+      //$res_sql_total=sql($sql_total_exp) or fin_pagina();
   
-      $contenido.=$res_sql_total->fields['monto_exp'].";";
+      $contenido.="0.00;";
       $contenido.=$res_fact->fields['fecha_inf_efector']."\r";
       //$contenido.='A'."\r"; //Tipo no va
       $contenido.="\n";
@@ -734,10 +734,7 @@ function fase_2($fecha_desde,$fecha_hasta){
       $contenido.=$res_fact->fields['total_pagar'].";";
       $contenido.=$res_fact->fields['nro_exp'].";";
       $contenido.=$res_fact->fields['fecha_deposito'].";";
-      $sql_total_exp="SELECT sum(monto_prefactura) as monto_exp from facturacion.factura where nro_exp_ext='$id_exp_ext'";
-      $res_sql_total=sql($sql_total_exp) or fin_pagina();
-  
-      $contenido.=$res_sql_total->fields['monto_exp'].";";
+      $contenido.="0.00;";
       $contenido.=$res_fact->fields['fecha_inf_efector']."\r";
       //$contenido.='A'."\r"; //Tipo No va
       $contenido.="\n";
@@ -762,6 +759,13 @@ fclose($handle);
 
 
 function fase_3($fecha_desde,$fecha_hasta){  
+
+    // Elimina el límite de tiempo de ejecución de PHP (0 = sin límite)
+    set_time_limit(0);
+    // O equivalentemente:
+    ini_set('max_execution_time', 0);
+    // Aumenta el límite de memoria (por ejemplo a 1GB o 2GB para 550.000 registros)
+    ini_set('memory_limit', '1024M'); // O '2048M' o '-1' para sin límite
     
     $sql_fact="WITH ultima_transaccion AS (
     SELECT id_factura, MAX(fecha_mov) AS max_fecha_mov
@@ -841,16 +845,6 @@ ORDER BY 1, 2";
             exit;
         }
   
-  //encabezado NUEVO
-  /*$contenido="Id_Prestación;Codigo_Prestación;CUIE_Efector;Fecha_Prestacion;Apellido_Beneficiario;NombreBeneficiario;Clave_Beneficiario;Benef_Tipo_Documento;Benef_Clase_Documento;Benef_Nro_Documento;Sexo;Feha de Nacimiento;Valor_Unitario_facturado;Cantidad_facturada;Importe_Prestacion_Facturado;id_factura;nmero_fact;fecha_fact;Importe_Total_Factura;fecha_recepcion_fact;Alta complejidad;id_liquidacion;fecha iquidacion;Valor_Unitario_aprobado;Cantidad_aprobada;importe_Prestación_Aprobado;Numero de omprobante Extracto Bcario;id_dato_reportable_1;dato_reportable_1;id_dato_reportable_2;dato_reportable_2;id_dato_reportable_3;dato_reportable_3;id_dato_reportable_4;dato_reportable_4;id_dato_reportable_;dato_reportable_5;id_op;numero_op;fecha_op;importe_total_op;numero_expte;fecha_debito_bancario;importe_debito_bancario;fecha_notificacion_efector";
-  $contenido.="\r";
-  $contenido.="\n";
-  $contenido=''; */
-  
-  //encabezado NUEVO2024
-  /*$contenido="doi3.01.id_Prestacion;doi3.02.Codigo_Prestacion;doi3.03.Cuie_Efector;doi3.04.Fecha_Prestacion;doi3.05.Apellido_Beneficiario;doi3.06.Nombre_Beneficiario;doi3.07.clave_Beneficiario;doi3.08.BENEF_TIPO_DOCUMENTO;doi3.09.BENEF_CLASE_DOCUMENTO;doi3.10.BENEF_NRO_DOCUMENTO;doi3.11.SEXO;doi3.12.FECHA_DE_NACIMIENTO;doi3.13.VALOR_UNITARIO_facturado;doi3.14.CANTIDAD_facturada;doi3.15.Importe_Prestacion_Facturado;doi3.16.id_factura;doi3.17.numero_fact;doi3.18.FECHA_FACT;doi3.19.importe_total_factura;doi3.20.fecha_recepcion_fact;doi3.21.Alta complejidad;doi3.22.id_liquidacion;doi3.23.FECHA_LIQUIDACION;doi3.24.Valor_Unitario_aprobado;doi3.25_cantidad_aprobada;doi3.26.importe_Prestaci󮟁probado;doi3.27.Numero de Comprobante Extracto Bcario;doi3.28.DR1;doi3.29.dato_DR1;doi3.30.DR2;doi3.31.dato_DR2;doi3.32.DR3;doi3.33.dato_DR3;doi3.34.DR4;doi3.35.dato_DR4;doi3.36.DR5;doi3.37.dato_DR5;doi3.38.'id_op;doi3.39.numero_op;DOI3.40.fecha_op;doi3.41.importe_total_op;doi3.42.numero_expte;doi3.43.fecha_debito_bancario;doi3.44.importe_debito_bancario;doi3.45.fecha_notificacion_efector";
-  $contenido.="\r";
-  $contenido.="\n";*/
 
   $contenido = '';
   
@@ -1000,11 +994,11 @@ ORDER BY 1, 2";
       $contenido.=number_format($total_pagar_,2,'.','').";";
       $contenido.=$res_fact->fields['nro_exp'].";";
       $contenido.=$res_fact->fields['fecha_deposito'].";";
-      $sql_total_exp="SELECT sum(monto_prefactura) as monto_exp from facturacion.factura where nro_exp_ext='$id_exp_ext'";
-      $res_sql_total=sql($sql_total_exp) or fin_pagina();
-      $monto_exp_ = ($res_sql_total->fields['monto_exp'])?$res_sql_total->fields['monto_exp']:0;
+      //$sql_total_exp="SELECT sum(monto_prefactura) as monto_exp from facturacion.factura where nro_exp_ext='$id_exp_ext'";
+      //$res_sql_total=sql($sql_total_exp) or fin_pagina();
+      //$monto_exp_ = ($res_sql_total->fields['monto_exp'])?$res_sql_total->fields['monto_exp']:0;
   
-      $contenido.=number_format($monto_exp_,2,'.','').";";
+      $contenido.="0.00;";
       $contenido.=$res_fact->fields['fecha_inf_efector']."\r";
       //$contenido.='A'."\r"; //Tipo no va
       $contenido.="\n";
@@ -1263,11 +1257,11 @@ ORDER BY 1, 2";
       $contenido.=number_format($total_pagar_,2,'.','').";";
       $contenido.=$res_fact->fields['nro_exp'].";";
       $contenido.=$res_fact->fields['fecha_deposito'].";";
-      $sql_total_exp="SELECT sum(monto_prefactura) as monto_exp from facturacion.factura where nro_exp_ext='$id_exp_ext'";
-      $res_sql_total=sql($sql_total_exp) or fin_pagina();
-      $monto_exp_ = ($res_sql_total->fields['monto_exp'])?$res_sql_total->fields['monto_exp']:0;
+      //$sql_total_exp="SELECT sum(monto_prefactura) as monto_exp from facturacion.factura where nro_exp_ext='$id_exp_ext'";
+      //$res_sql_total=sql($sql_total_exp) or fin_pagina();
+      //$monto_exp_ = ($res_sql_total->fields['monto_exp'])?$res_sql_total->fields['monto_exp']:0;
   
-      $contenido.=number_format($monto_exp_,2,'.','').";";
+      $contenido.="0.00;";
       $contenido.=$res_fact->fields['fecha_inf_efector']."\r";
       //$contenido.='A'."\r"; //Tipo no va
       $contenido.="\n";
