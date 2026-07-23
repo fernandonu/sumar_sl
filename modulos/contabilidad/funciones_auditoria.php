@@ -763,79 +763,76 @@ fclose($handle);
 
 function fase_3($fecha_desde,$fecha_hasta){  
     
-    $sql_fact="SELECT --expediente.transaccion.id_expediente,
-    d.id_prestacion, --VAR_01
-    c.id_comprobante , --VAR_01
-    d.id_nomenclador, --VAR_EXTRA
-    e.grupo, --VAR_02
-    e.codigo,--VAR_02
-    d.diagnostico,--VAR_02
-    e.descripcion,--VAR_EXTRA
-    g.cuie, --VAR_03
-    g.nombre as nombre_efector, --VAR_EXTRA
-    --facturacion.prestacion.fecha_prestacion,
-    c.fecha_comprobante::date, --VAR_04
-    f.id_smiafiliados, --VAR_EXTRA
-    c.grupo_etareo, --VAR_EXTRA
-    f.afiapellido as apellido, --VAR_05
-    f.afinombre as nombre, --VAR_06
-    f.clavebeneficiario, --VAR_07
-    f.afitipodoc, --VAR_08
-    f.aficlasedoc, --VAR_09  
-    f.afidni as dni, --VAR_10
-    f.afisexo, --VAR_11
-    f.afifechanac, --VAR_12
-    d.precio_prestacion, --VAR_13
-    d.cantidad, --VAR_14
-    d.cantidad*d.precio_prestacion as importe_subtotal, --VAR_15
-    a.id_factura, --VAR_16
-    --VAR_17->numero de factura = Id_factura
-    b.fecha_factura::date, --VAR_18
-    b.monto_prefactura, --VAR_19
-    case when b.fecha_control is null then a.fecha_ing else b.fecha_control end as fecha_control, --consultar VAR_20
-    b.alta_comp, --VAR_21
-    a.id_expediente, --VAR_22
-    a.fecha_ing, --VAR_23
-    --VAR_24 -> VAR_13
-    --VAR_25 -> VAR_14
-    --VAR_26 -> VAR_15
-    a.monto, --VAR_26 (CONSULTAR)
-    --VAR_27 -> numero de comprobante de extracto bancario
-    --VAR_38-> los digitos intermedios del id_op
-    b.nro_exp_ext as id_op,  --VAR_39
-    --VAR_40-> los 4 primeros digitos junto con los dos ultimos digitos para formar la fecha
-    i.total_pagar, --VAR_41
-    a.nro_exp, --VAR_42 -- realmente viene de expediente.transaccion estado=A y id_area=1 para fase 1 y fase 2 viene null y no hay problema
-    
-    h.fecha_deposito, --VAR_43
-    --VAR_44 -> Suma de todas las facturas del mismo expediente   
-    i.fecha_inf as fecha_inf_efector --VAR_45    
-  
-  from expediente.expediente a, facturacion.factura b, facturacion.comprobante c,facturacion.prestacion d,
-      facturacion.nomenclador e, nacer.smiafiliados f, nacer.efe_conv g, contabilidad.ingreso h, expediente.transaccion i
-  
-  where a.id_factura = b.id_factura
-  and b.id_factura=c.id_factura
-  and c.id_comprobante=d.id_comprobante
-  and d.id_nomenclador=e.id_nomenclador
-  and c.id_smiafiliados=f.id_smiafiliados
-  and a.id_efe_conv=g.id_efe_conv
-  and b.id_factura=h.numero_factura
-  
-  
-  --FASE 2 : expedientes en situacion de aceptacion para circuito de pago 
-  and b.id_factura=i.id_factura and i.estado='C'
-  
-   --FASE 2: facturas en calidad de aceptacion (pos credito y debito) para el sistema de expediente
-  and b.estado='C' and i.fecha_mov = (select max (fecha_mov) from expediente.transaccion
-                                      where transaccion.id_factura=b.id_factura
-                                      and fecha_mov between '$fecha_desde' and '$fecha_hasta')
-  
-  
-  --FASE 3: fecha de deposito no nulo
-  and h.fecha_deposito is not null
-  
-  order by 1,2";
+    $sql_fact="WITH ultima_transaccion AS (
+    SELECT id_factura, MAX(fecha_mov) AS max_fecha_mov
+    FROM expediente.transaccion
+    WHERE fecha_mov BETWEEN '$fecha_desde' and '$fecha_hasta'
+    GROUP BY id_factura
+)
+SELECT
+    d.id_prestacion,
+    c.id_comprobante,
+    d.id_nomenclador,
+    e.grupo,
+    e.codigo,
+    d.diagnostico,
+    e.descripcion,
+    g.cuie,
+    g.nombre AS nombre_efector,
+    c.fecha_comprobante::date,
+    f.id_smiafiliados,
+    c.grupo_etareo,
+    f.afiapellido AS apellido,
+    f.afinombre AS nombre,
+    f.clavebeneficiario,
+    f.afitipodoc,
+    f.aficlasedoc,
+    f.afidni AS dni,
+    f.afisexo,
+    f.afifechanac,
+    d.precio_prestacion,
+    d.cantidad,
+    d.cantidad * d.precio_prestacion AS importe_subtotal,
+    a.id_factura,
+    b.fecha_factura::date,
+    b.monto_prefactura,
+    COALESCE(b.fecha_control, a.fecha_ing) AS fecha_control,
+    b.alta_comp,
+    a.id_expediente,
+    a.fecha_ing,
+    a.monto,
+    b.nro_exp_ext AS id_op,
+    i.total_pagar,
+    a.nro_exp,
+    h.fecha_deposito,
+    i.fecha_inf AS fecha_inf_efector
+FROM expediente.expediente a
+LEFT JOIN facturacion.factura b
+    ON b.id_factura = a.id_factura
+LEFT JOIN facturacion.comprobante c
+    ON c.id_factura = b.id_factura
+LEFT JOIN facturacion.prestacion d
+    ON d.id_comprobante = c.id_comprobante
+LEFT JOIN facturacion.nomenclador e
+    ON e.id_nomenclador = d.id_nomenclador
+LEFT JOIN nacer.smiafiliados f
+    ON f.id_smiafiliados = c.id_smiafiliados
+LEFT JOIN nacer.efe_conv g
+    ON g.id_efe_conv = a.id_efe_conv
+LEFT JOIN expediente.transaccion i
+    ON i.id_factura = b.id_factura
+LEFT JOIN contabilidad.ingreso h
+    ON h.numero_factura = b.id_factura
+LEFT JOIN ultima_transaccion ut
+    ON ut.id_factura = b.id_factura
+
+WHERE b.id_factura = i.id_factura
+  AND i.estado = 'C'
+  AND b.estado = 'C'
+  AND i.fecha_mov = ut.max_fecha_mov
+  AND h.fecha_deposito IS NOT NULL
+
+ORDER BY 1, 2";
   $res_fact=sql($sql_fact) or fin_pagina();
   $filename = 'Prestaciones_fase3_'.$fecha_desde.'_'.$fecha_hasta.'.txt';  //cambiar nombre
   
