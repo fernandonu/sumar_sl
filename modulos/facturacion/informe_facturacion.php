@@ -6,7 +6,7 @@ variables_form_busqueda("informe_facturacion");
 $fecha_hoy=date("Y-m-d H:i:s");
 $fecha_hoy=fecha($fecha_hoy);
 
-if ($cmd == "")  $cmd="A";
+if ($cmd == "")  $cmd="C";
 
 $orden = array(
         "default" => "1",
@@ -22,17 +22,58 @@ $filtro = array(
 		"nombreefector" => "Efector"
        );
 
+$datos_barra = array(
+     array(
+        "descripcion"=> "Abiertas",
+        "cmd"        => "A"
+     ),
+     array(
+        "descripcion"=> "Cerradas",
+        "cmd"        => "C"
+     ),
+     array(
+        "descripcion"=> "Anuladas",
+        "cmd"        => "X"
+     ),
+     array(
+        "descripcion"=> "Todas",
+        "cmd"        => "T"
+     )
+);
+generar_barra_nav($datos_barra);
+
 $sql_tmp="SELECT 
   *
 FROM
   facturacion.factura LEFT JOIN (SELECT id_factura,fecha_ing FROM expediente.expediente) AS expediente USING (id_factura)
   LEFT JOIN facturacion.smiefectores using (cuie)";
 
+$user_login1=substr($_ses_user['login'],0,6);
 
- $user=$_ses_user['login'];
- if (es_cuie($user)) $where_tmp="cuie='$user' AND estado='C'";
- else $where_tmp="estado='C'";
- 
+if ($cmd=="A"){	
+    if (es_cuie($_ses_user['login']))
+    $where_tmp=" (factura.estado='A') and cuie='$user_login1'";
+    else
+    $where_tmp=" (factura.estado='A')";    
+}
+
+if ($cmd=="C"){
+	if (es_cuie($_ses_user['login']))
+    $where_tmp=" (factura.estado='C') and cuie='$user_login1'";
+    else
+    $where_tmp=" (factura.estado='C')";
+}
+
+if ($cmd=="X"){
+     if (es_cuie($_ses_user['login']))
+    $where_tmp=" (factura.estado='X') and cuie='$user_login1'";
+    else
+    $where_tmp=" (factura.estado='X')";
+}
+if ($cmd=="T"){
+     if (es_cuie($_ses_user['login']))
+    $where_tmp=" cuie='$user_login1'";
+} 
 
 
 echo $html_header;
