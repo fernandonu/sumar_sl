@@ -137,10 +137,10 @@ excel_header("listado de facturas cerradas.xls");
           nomenclador.descripcion,  
           cantidad*prestacion.precio_prestacion as neto
           from facturacion.factura
-          inner join facturacion.comprobante on comprobante.id_factura=factura.id_factura
-          inner join facturacion.prestacion on prestacion.id_comprobante=comprobante.id_comprobante
-          inner join facturacion.nomenclador on prestacion.id_nomenclador=nomenclador.id_nomenclador
-          inner join nacer.smiafiliados using (id_smiafiliados)
+          LEFT join facturacion.comprobante on comprobante.id_factura=factura.id_factura
+          LEFT join facturacion.prestacion on prestacion.id_comprobante=comprobante.id_comprobante
+          LEFT join facturacion.nomenclador on prestacion.id_nomenclador=nomenclador.id_nomenclador
+          LEFT join nacer.smiafiliados using (id_smiafiliados)
           where factura.id_factura=$id_factura";
 
 $rs_sql_monto=sql($sql_monto,"No se pudo ejecutar la consulta sobre los montos de la factura") or fin_pagina();
@@ -196,11 +196,11 @@ if ($monto_hombre){
       (facturacion.prestacion.cantidad*facturacion.prestacion.precio_prestacion) as total
       FROM
         facturacion.factura
-        INNER JOIN facturacion.comprobante ON (facturacion.factura.id_factura = facturacion.comprobante.id_factura)
-        INNER JOIN facturacion.prestacion ON (facturacion.comprobante.id_comprobante = facturacion.prestacion.id_comprobante)
-        INNER JOIN facturacion.nomenclador ON (facturacion.prestacion.id_nomenclador = facturacion.nomenclador.id_nomenclador)
-        INNER JOIN nacer.smiafiliados ON (facturacion.comprobante.id_smiafiliados = nacer.smiafiliados.id_smiafiliados)
-        INNER JOIN facturacion.smiefectores ON (facturacion.comprobante.cuie = facturacion.smiefectores.cuie)
+        LEFT JOIN facturacion.comprobante ON (facturacion.factura.id_factura = facturacion.comprobante.id_factura)
+        LEFT JOIN facturacion.prestacion ON (facturacion.comprobante.id_comprobante = facturacion.prestacion.id_comprobante)
+        LEFT JOIN facturacion.nomenclador ON (facturacion.prestacion.id_nomenclador = facturacion.nomenclador.id_nomenclador)
+        LEFT JOIN nacer.smiafiliados ON (facturacion.comprobante.id_smiafiliados = nacer.smiafiliados.id_smiafiliados)
+        LEFT JOIN facturacion.smiefectores ON (facturacion.comprobante.cuie = facturacion.smiefectores.cuie)
         where factura.id_factura=$id_factura";
     $total=sql($query_t,"NO puedo calcular el total");
     $total=$total->fields['total'];?>
