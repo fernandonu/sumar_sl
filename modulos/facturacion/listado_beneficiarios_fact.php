@@ -120,7 +120,6 @@ echo $html_header;
       <td onclick="<?=$onclick_elegir?>"><?=fecha($result->fields['fechainscripcion'])?></td>  
       <?$m_b=$result->fields['motivobaja'];
       	if ($cmd=="inactivos"){
-      	if ($m_b=='22'||$m_b=='31'||$m_b=='41'){
       		if (permisos_check('inicio','factura_exepciones')){	
       			$ref1 = encode_link("comprobante_admin.php",array("id_smiafiliados"=>$result->fields['id_smiafiliados'],"pagina"=>"listado_beneficiario_fact","flag_inactivo"=>"S"));
     			$onclick_elegir1="location.href='$ref1'";
@@ -128,12 +127,10 @@ echo $html_header;
       		}
       		else $onclick_elegir1="alert ('Debe Tener Permisos Especiales para poder Facturar.')";
     		?>
-      		<td title="Factura Excepciones (Embarazadas - Puerperas con ciclo cumplido y Niños con 6 años Cumplidos)" onclick="<?=$onclick_elegir1?>" align="center"><img src='../../imagenes/luz1.gif' style='cursor:hand;'></td>
-		    <?}
-		else{?>
-		   <td title='No hay motivo para facturar este item' align="center" onclick="alert ('No hay motivo para TENER QUE FACTURAR este item - Si encuentra un motivo avise a Facturacion.')"><img src='../../imagenes/salir.gif' style='cursor:hand;'></td>
-		<?}
-      	}?>     	
+      		<td title="Factura Excepciones (Embarazadas - Puerperas con ciclo cumplido y Niños con 6 años Cumplidos)" onclick="<?=$onclick_elegir1?>" align="center"><img src='../../imagenes/lupa.gif' style='cursor:hand;'></td>
+		    <?
+			}
+      	?>     	
       
       
      </tr>    
