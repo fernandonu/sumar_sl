@@ -1481,18 +1481,13 @@ $log=$db->Execute($q) or die ($db->ErrorMsg()."<br>$q");?>
 	 		
 	 		<?}?> 
 		<?
-		if (!es_cuie($_ses_user['login']) or $_ses_user['login']=='fer' ) {
-			if ($estado=='C'){
-				($traba=='si')?$disabled="disabled":$disabled=""?>
-				
-		 		<input type="submit" name="abre_factura" value="Abre Factura" onclick="return confirm('Esta Seguro que Desea Abrir la FACTURA?')" style="width=150px" <?=$disabled?>>&nbsp;&nbsp;
-			<?}?>
-			<?if ($estado=='X'){
-				($traba=='si')?$disabled="disabled":$disabled=""?>
-				
+			if (permisos_check('inicio','permiso_editar_factura')) 
+					$disabled="";
+			else $disabled="disabled";
+			if (($estado=='C')or($estado=='X')){?>			
 		 		<input type="submit" name="abre_factura" value="Abre Factura" onclick="return confirm('Esta Seguro que Desea Abrir la FACTURA?')" style="width=150px" <?=$disabled?>>&nbsp;&nbsp;
 			<?}
-		}
+
 
 		if ($estado=='A') $disabled_delete=''; else $disabled_delete='disabled';
 		if (!es_cuie($_ses_user['login']) and ($_ses_user['login']=='fer' 
