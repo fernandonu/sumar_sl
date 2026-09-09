@@ -17,10 +17,6 @@ if($result->RecordCount()>95){
 	$para = "fernandonu@gmail.com";
 	$asunto = "Limite de conexiones";
 	enviar_mail_html($para,$asunto,$ret,'','','',0); 
-	$para = "seba_cyb1202@hotmail.com";
-	enviar_mail_html($para,$asunto,$ret,'','','',0);
-	$para = "gantonacci@gmail.com";
-	enviar_mail_html($para,$asunto,$ret,'','','',0);
 	$sql = "select pg_terminate_backend(procpid) from pg_stat_activity 
 			where  current_query = '<IDLE>' and query_start < current_timestamp - interval '5 minutes'";
 	$result = $db->Execute($sql) or die("Error borrando las sesiones\n");

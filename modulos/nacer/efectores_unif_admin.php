@@ -57,8 +57,8 @@ if ($_POST['guardar_editar']=="Guardar"){
     
     $db->CompleteTrans();    
    
-	$para = 'mdm1555@hotmail.com';
-	$paracc='seba_cyb1202@hotmail.com';
+	$para = 'coordinacionprogramasumarmssl@gmail.com';
+	$paracc='areamonitoreomssl@gmail.com';
 	$asunto='MODIFICACION EFECTOR';
 	$contenido="El Efector: $nombre. CUIE: $cuie fue Modificado por el Usuario: $usuario. Por favor revisar y actualizar en la tabla de Efectores";
 	enviar_mail($para,$paracc,$parabcc,$asunto,$contenido,'','');

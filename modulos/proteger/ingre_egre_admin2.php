@@ -190,12 +190,7 @@ echo $ret;
   $res_mail->movenext();
   }
   
-  enviar_mail_html_proteger('seba1202@gmail.com','Notificacion de Fondos',$ret,0,0,0);
-  /*enviar_mail_html_proteger('seba_cyb1202@hotmail.com','Notificacion de Fondos',$ret,0,0,0);
-  enviar_mail_html_proteger('norcortes@hotmail.com','Notificacion de Fondos',$ret,0,0,0);
-  enviar_mail_html_proteger('ericanataliarosales@gmail.com','Notificacion de Fondos',$ret,0,0,0);
-  enviar_mail_html_proteger('camilaorquieda@hotmail.com','Notificacion de Fondos',$ret,0,0,0);
-  enviar_mail_html_proteger('arceguido@gmail.com','Notificacion de Fondos',$ret,0,0,0);*/
+  enviar_mail_html_proteger('areamonitoreomssl@gmail.com','Notificacion de Fondos',$ret,0,0,0);
 
   $ref = encode_link("notificacion_excel2.php",array("cuie"=>$cuie,"id_factura"=>$nro_factura,"saldo_real"=>$saldo_real));?>
   <script>

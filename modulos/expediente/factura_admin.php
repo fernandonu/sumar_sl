@@ -57,15 +57,8 @@ if ($_POST['cierra_factura']=="Cierra Factura"){
     $db->CompleteTrans(); 
     
     if (es_cuie($_ses_user['login'])){
-      $contenido_mail_control="CERRARON la Factura ONLINE Numero: $id_factura el efector con CUIE $usuario";
-      enviar_mail('magianello@hotmail.com','','','Cierra de Factura On Line',$contenido_mail_control,'','');
-      enviar_mail('mdm1555@hotmail.com','','','Cierre de Factura ONLINE',$contenido_mail_control,'','');
-      enviar_mail('carila_malfa@hotmail.com','','','Cierre de Factura ONLINE',$contenido_mail_control,'','');
-      enviar_mail('padacrazy84@hotmail.com','','','Cierre de Factura ONLINE',$contenido_mail_control,'','');
-    enviar_mail('ochova133@hotmail.com','','','Cierra de Factura On Line',$contenido_mail_control,'','');
-    enviar_mail('globitoazul31@hotmail.com','','','Cierra de Factura On Line',$contenido_mail_control,'','');
-    enviar_mail('danireque1517@hotmail.com','','','Cierra de Factura On Line',$contenido_mail_control,'','');
-    enviar_mail('gantonacci@gmail.com','','','Cierra de Factura On Line',$contenido_mail_control,'','');
+      $contenido_mail_control="CERRARON la Factura ONLINE Numero: $id_factura el efector con CUIE $usuario";      
+    enviar_mail('areamonitoreomssl@gmail.com','','','Cierra de Factura On Line',$contenido_mail_control,'','');
       echo 'Se Envio Mail Correctamente';
     }
     else{
