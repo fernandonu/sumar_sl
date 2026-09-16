@@ -52,6 +52,23 @@ CREATE TABLE facturacion.log_proceso_nomivac (
     usuario text NOT NULL
 );
 
+=== 2026-09-16: agregado historial de importacion WEB Nomivac (procesa_nomivac_web.php) ===
+-- unica modificacion de DB de esta fecha; ejecutar este CREATE TABLE en produccion
+
+CREATE TABLE facturacion.log_importacion_web_nomivac (
+    id_log_importacion_web_nomivac integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    fecha_proceso timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    fecha_desde date NOT NULL,
+    fecha_hasta date NOT NULL,
+    registros_recibidos integer NOT NULL DEFAULT 0,
+    registros_importados integer NOT NULL DEFAULT 0,
+    registros_duplicados integer NOT NULL DEFAULT 0,
+    registros_error integer NOT NULL DEFAULT 0,
+    usuario text NOT NULL
+);
+-- historial detallado (por proceso) de la importacion via servicio web en procesa_nomivac_web.php,
+-- para busqueda/paginado en pantalla; complementa a log_proceso_nomivac que solo guarda un texto libre
+
 CAMPOS AGREGADOS
 
 facturacion.prestacion.migrada (numeric 1)

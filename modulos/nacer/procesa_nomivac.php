@@ -480,8 +480,10 @@ function mostrarProcesando(){
         </td>
 				<td align="left" colspan="2">
           <input type="submit" name="importar_excel_nomivac" value='Importar Excel Nomivac' class="btn btn-info" onclick="return confirm('¿Confirma la importación del archivo Excel seleccionado a facturacion.importar_nomivac?');">
+		  
 					&nbsp;&nbsp;
 					<font color="Red">Importa a Nomivac.primer hoja del Excel, fila 1 encabezado).</font>
+					<input type="button" name="importar_web_nomivac" value='Importar WEB Nomivac' class="btn btn-info" onclick="location.href='procesa_nomivac_web.php'">
 				</td>
 			</tr>
 
