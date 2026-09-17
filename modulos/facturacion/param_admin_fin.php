@@ -17,7 +17,8 @@ if ($_POST['guardar']=="Guardar Parametros"){
 			m = $m,
 			precio= '$precio',
 			priori= '$priori',
-			catas= '$catas'
+			catas= '$catas',
+			activo= '$activo'
 			where id_nomenclador='$id_nomenclador'";
     $val=sql($query, "Error en consulta de parametros") or fin_pagina(); 
 	$accion="Se Actualizaron los Parametros";
@@ -80,6 +81,7 @@ if ($id_nomenclador){
 	$m=trim($res_comprobante->fields['m']);
 	$priori=trim($res_comprobante->fields['priori']);
 	$catas=trim($res_comprobante->fields['catas']);
+	$activo=trim($res_comprobante->fields['activo']);
 	$id_nomenclador_detalle = $res_comprobante->fields['id_nomenclador_detalle'];
 	$modo_facturacion = ($res_comprobante->fields['tipo_nomenclador']=='NORMAL')?4:3;
 
@@ -234,6 +236,11 @@ function buscar_combo(obj)
 				</select>
          	  <b>Precio:</b>
 				<input type=text name=precio value=<?php echo $precio?>> 	  
+         	  <b>Activo:</b>
+				<select name=activo Style="width=45px">
+				  <option value=t <?if ($activo=='t') echo "selected"?>>SI</option>
+				  <option value=f <?if ($activo=='f') echo "selected"?>>NO</option>
+				</select>
 			</td>              
          </tr>		 
                 

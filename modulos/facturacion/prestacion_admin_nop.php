@@ -997,12 +997,12 @@ function buscar_combo(obj)
 				                	<?
 				                	if ($covid=='s') {
 				                		$sql= "SELECT DISTINCT ON (grupo) grupo, subgrupo, grupo_descriptivo  FROM facturacion.nomenclador 
-							     		WHERE tipo_nomenclador='COVID'";
+							     		WHERE tipo_nomenclador='COVID' and (activo is null or (activo::text <> 'f' and activo::text <> 'false' and activo::text <> '0'))";
 				                	}
 				                	 else {
 					                	$sql= "SELECT DISTINCT ON (grupo) grupo, subgrupo, grupo_descriptivo FROM facturacion.nomenclador 
 							     		WHERE (id_nomenclador_detalle='$id_nomenclador_detalle') and (subgrupo not like '%Reservado%')
-							     		and grupo<>'PC'
+							     		and grupo<>'PC' and (activo is null or (activo::text <> 'f' and activo::text <> 'false' and activo::text <> '0'))
 							     		--group by grupo
 							     		order by 1";}
 
@@ -1066,7 +1066,7 @@ function buscar_combo(obj)
                   if ($flap=='s') {
                     $sql= "SELECT * FROM 
                       facturacion.nomenclador 
-                      WHERE ((descripcion ilike '%flap%' or descripcion ilike '%pie bot%' or descripcion ilike '%DISPLASIA DE CADERA%') and grupo = '$prestacion' and id_nomenclador_detalle='$id_nomenclador_detalle' and $campo_sel='1' and $campo_sexo='1') 
+                      WHERE ((descripcion ilike '%flap%' or descripcion ilike '%pie bot%' or descripcion ilike '%DISPLASIA DE CADERA%') and grupo = '$prestacion' and id_nomenclador_detalle='$id_nomenclador_detalle' and $campo_sel='1' and $campo_sexo='1' and (activo is null or (activo::text <> 'f' and activo::text <> 'false' and activo::text <> '0'))) 
                       order by codigo";
                   }
                elseif ($covid=='s') {
@@ -1074,7 +1074,7 @@ function buscar_combo(obj)
                   facturacion.nomenclador 
                   WHERE tipo_nomenclador='COVID' and grupo='$prestacion'
                   and id_nomenclador_detalle='$id_nomenclador_detalle'
-				  and codigo = 'E022'
+				  and codigo = 'E022' and (activo is null or (activo::text <> 'f' and activo::text <> 'false' and activo::text <> '0'))
                   order by codigo";
                   }
                   else {
@@ -1087,7 +1087,7 @@ function buscar_combo(obj)
                         WHERE (grupo = '$prestacion' AND id_nomenclador_detalle='$id_nomenclador_detalle' AND $campo_sel='1' AND $campo_sexo='1') AND (descripcion NOT ilike '%flap%' AND descripcion NOT ilike '%pie bot%' AND descripcion NOT ilike '%DISPLASIA DE CADERA%')
                         	AND (codigo!='P008' 
 							--or codigo !='P053' hablado con Guido el 11-05-2023
-							)
+							) and (activo is null or (activo::text <> 'f' and activo::text <> 'false' and activo::text <> '0'))
                         order by codigo";
                     
                     } else {
@@ -1096,6 +1096,7 @@ function buscar_combo(obj)
                         WHERE (grupo = '$prestacion' AND id_nomenclador_detalle='$id_nomenclador_detalle' AND $campo_sel='1' AND $campo_sexo='1') AND (descripcion NOT ilike '%flap%' AND descripcion NOT ilike '%pie bot%' AND descripcion NOT ilike '%DISPLASIA DE CADERA%')
                         	--and codigo <> 'P053' habladon con Guido el 11-05-2023
 							--and descripcion not ilike '%dispensa%'
+							and (activo is null or (activo::text <> 'f' and activo::text <> 'false' and activo::text <> '0'))
                         	order by codigo";
                     	}
 

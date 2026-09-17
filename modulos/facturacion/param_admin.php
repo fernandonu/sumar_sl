@@ -2,26 +2,37 @@
 require_once("../../config.php");
 extract($_POST,EXTR_SKIP);
 if ($parametros) extract($parametros,EXTR_OVERWRITE);
-variables_form_busqueda("param_admin");
+if ($_GET['id_nomenclador_detalle']) $id_nomenclador_detalle = $_GET['id_nomenclador_detalle'];
+
+$extras = array("id_nomenclador_detalle" => $id_nomenclador_detalle);
+variables_form_busqueda("param_admin", $extras);
 
 $fecha_hoy=date("Y-m-d H:i:s");
 $fecha_hoy=fecha($fecha_hoy);
 
 $orden = array(
-        "default" => "2",
+        "default" => "4",
         "1" => "id_nomenclador",
-        "2" => "descripcion",
-        "3" => "codigo",
-        "4" => "grupo",
-        "5" => "subgrupo",
-        "6" => "precio",
+        "2" => "id_nomenclador_detalle",
+        "3" => "descripcion",
+        "4" => "codigo",
+        "5" => "grupo",
+        "6" => "subgrupo",
+        "7" => "precio",
+        "8" => "activo",
        );
 $filtro = array(
-		"descripcion" => "Descripcion",
+        "codigo" => "Codigo",
+        "id_nomenclador_detalle::text" => "Id Nom. Detalle",
+        "descripcion" => "Descripcion",
+        "grupo" => "Grupo",
+        "subgrupo" => "Subgrupo",
+        "activo::text" => "Activo",
        );
 
-$sql_tmp="select * from facturacion.nomenclador where id_nomenclador_detalle=$id_nomenclador_detalle order by grupo,codigo,descripcion";
-$where_tmp= "";
+$sql_tmp="select * from facturacion.nomenclador";
+$where_tmp = ($id_nomenclador_detalle != "") ? "id_nomenclador_detalle=$id_nomenclador_detalle" : "";
+$link_tmp = array("id_nomenclador_detalle" => $id_nomenclador_detalle);
 
 echo $html_header;
 ?>
@@ -30,15 +41,14 @@ echo $html_header;
 <table cellspacing=2 cellpadding=2 border=0 width=100% align=center>
      <tr>
       <td align=center>
-		<?//list($sql,$total_muletos,$link_pagina,$up) = form_busqueda($sql_tmp,$orden,$filtro,$link_tmp,$where_tmp,"buscar");?>
-	    <!--</->&nbsp;&nbsp;<input type=submit name="buscar" value='Buscar'>-->
+		<?list($sql,$total_muletos,$link_pagina,$up) = form_busqueda($sql_tmp,$orden,$filtro,$link_tmp,$where_tmp,"buscar");?>
+	    &nbsp;&nbsp;<input type=submit name="buscar" value='Buscar'>
 	  </td>
      </tr>
 </table>
 
-<?php $result = sql($sql_tmp) or die;?>
+<?php $result = sql($sql) or die;?>
 
-<!--<table border=0 width=80% cellspacing=2 cellpadding=2 bgcolor='<?php echo $bgcolor3?>' align=center>-->
 <table class="table table-striped" align=center>
 <tr>
   	<td colspan=11 align=left id=ma>
@@ -54,12 +64,14 @@ echo $html_header;
   
 
   <tr>
-    <td align=right id=mo><!--<a id=mo href='<?php echo encode_link("param_admin.php",array("sort"=>"1","up"=>$up))?>'>-->ID</a></td>      	
-    <td align=right id=mo><!--<a id=mo href='<?php echo encode_link("param_admin.php",array("sort"=>"2","up"=>$up))?>'>-->Descripcion</a></td>
-    <td align=right id=mo><!--<a id=mo href='<?php echo encode_link("param_admin.php",array("sort"=>"3","up"=>$up))?>'>-->Codigo</a></td>
-    <td align=right id=mo><!--<a id=mo href='<?php echo encode_link("param_admin.php",array("sort"=>"4","up"=>$up))?>'>-->Grupo</a></td>
-    <td align=right id=mo><!--<a id=mo href='<?php echo encode_link("param_admin.php",array("sort"=>"5","up"=>$up))?>'>-->Subgrupo</a></td>
-    <td align=right id=mo><!--<a id=mo href='<?php echo encode_link("param_admin.php",array("sort"=>"6","up"=>$up))?>'>-->Precio</a></td>
+    <td align=right id=mo><a id=mo href='<?php echo encode_link("param_admin.php",array("sort"=>"1","up"=>$up,"id_nomenclador_detalle"=>$id_nomenclador_detalle))?>'>ID</a></td>      	
+    <td align=right id=mo><a id=mo href='<?php echo encode_link("param_admin.php",array("sort"=>"2","up"=>$up,"id_nomenclador_detalle"=>$id_nomenclador_detalle))?>'>Id Nom Detalle</a></td>
+    <td align=right id=mo><a id=mo href='<?php echo encode_link("param_admin.php",array("sort"=>"3","up"=>$up,"id_nomenclador_detalle"=>$id_nomenclador_detalle))?>'>Descripcion</a></td>
+    <td align=right id=mo><a id=mo href='<?php echo encode_link("param_admin.php",array("sort"=>"4","up"=>$up,"id_nomenclador_detalle"=>$id_nomenclador_detalle))?>'>Codigo</a></td>
+    <td align=right id=mo><a id=mo href='<?php echo encode_link("param_admin.php",array("sort"=>"5","up"=>$up,"id_nomenclador_detalle"=>$id_nomenclador_detalle))?>'>Grupo</a></td>
+    <td align=right id=mo><a id=mo href='<?php echo encode_link("param_admin.php",array("sort"=>"6","up"=>$up,"id_nomenclador_detalle"=>$id_nomenclador_detalle))?>'>Subgrupo</a></td>
+    <td align=right id=mo><a id=mo href='<?php echo encode_link("param_admin.php",array("sort"=>"7","up"=>$up,"id_nomenclador_detalle"=>$id_nomenclador_detalle))?>'>Precio</a></td>
+    <td align=right id=mo><a id=mo href='<?php echo encode_link("param_admin.php",array("sort"=>"8","up"=>$up,"id_nomenclador_detalle"=>$id_nomenclador_detalle))?>'>Activo</a></td>
   </tr>
  <?
    while (!$result->EOF) {
@@ -69,11 +81,13 @@ echo $html_header;
   
     <tr>     
      <td style='cursor: hand; height:35px;' onclick="<?php echo $onclick_elegir?>"><?php echo $result->fields['id_nomenclador']?></td>
+     <td style='cursor: hand; height:35px;' onclick="<?php echo $onclick_elegir?>"><?php echo $result->fields['id_nomenclador_detalle']?></td>
      <td style='cursor: hand; height:35px;' onclick="<?php echo $onclick_elegir?>"><?php echo $result->fields['descripcion']?></td>     
      <td style='cursor: hand; height:35px;' onclick="<?php echo $onclick_elegir?>"><?php echo $result->fields['codigo']?></td>     
      <td style='cursor: hand; height:35px;' onclick="<?php echo $onclick_elegir?>"><?php echo $result->fields['grupo']?></td>     
      <td style='cursor: hand; height:35px;' onclick="<?php echo $onclick_elegir?>"><?php echo $result->fields['subgrupo']?></td>     
      <td style='cursor: hand; height:35px;' onclick="<?php echo $onclick_elegir?>"><?php echo '$ '.number_format($result->fields['precio'],2,',','.')?></td>     
+     <td style='cursor: hand; height:35px;' onclick="<?php echo $onclick_elegir?>"><?php echo ($result->fields['activo']=='f')?'NO':'SI'?></td>     
     </tr>
 	<?$result->MoveNext();
     }?>
@@ -90,3 +104,5 @@ echo $html_header;
 </body>
 </html>
 <?php echo fin_pagina();// aca termino ?>
+
+
