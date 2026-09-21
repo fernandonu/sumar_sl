@@ -367,12 +367,23 @@ if (isset($_POST['generar_trz1'])) {
                 WHEN (nomenclador.codigo) IN ('L119','L006','L142') THEN 'S1'
                 WHEN (nomenclador.codigo) IN ('L121','L122','L127','L141','L145') THEN 'S3'
             END AS tipo_control,
-            facturacion.comprobante.fecha_comprobante :: DATE AS fecha_control,
             CASE 
+                WHEN (nomenclador.codigo) IN ('L065','L080','L099','L128') THEN NULL
+                WHEN (nomenclador.codigo) IN ('L119','L006','L142') THEN NULL
+                WHEN (nomenclador.codigo) IN ('L121','L122','L127','L141','L145') THEN NULL
+                ELSE facturacion.comprobante.fecha_comprobante :: DATE 
+            END AS fecha_control,
+            CASE 
+                WHEN (nomenclador.codigo) IN ('L065','L080','L099','L128') THEN NULL
+                WHEN (nomenclador.codigo) IN ('L119','L006','L142') THEN NULL
+                WHEN (nomenclador.codigo) IN ('L121','L122','L127','L141','L145') THEN NULL
                 WHEN edad_gestacional = -1 THEN 25 
                 ELSE edad_gestacional 
             END AS edad_gestacional,
             CASE 
+                WHEN (nomenclador.codigo) IN ('L065','L080','L099','L128') THEN NULL
+                WHEN (nomenclador.codigo) IN ('L119','L006','L142') THEN NULL
+                WHEN (nomenclador.codigo) IN ('L121','L122','L127','L141','L145') THEN NULL
                 WHEN tension_arterial = '/' THEN '120/080' 
                 ELSE tension_arterial 
             END AS tension_arterial_corregida,
