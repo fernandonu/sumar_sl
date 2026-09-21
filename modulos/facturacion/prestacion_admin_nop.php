@@ -990,8 +990,8 @@ function control_nuevos() {
 
     var edad_anios = parseInt(getVal('edad_anios') || '0', 10);
 
-    // Consultas Odontologicas CPOD (edad >= 5)
-    if ((tema == "12161" || tema == "12168" || tema == "12799" || tema == "12806") && edad_anios >= 5) {
+    // Consultas Odontologicas CPOD (si los campos están presentes en pantalla)
+    if (document.getElementById('caries_cpod')) {
         var caries_cpod = parseFloat(getVal('caries_cpod'));
         if (getVal('caries_cpod') == "" || isNaN(caries_cpod) || caries_cpod < 0 || caries_cpod > 32) {
             alert('El Número de Caries debe ser un Número Entero de 0 a 32');
@@ -1009,8 +1009,8 @@ function control_nuevos() {
         }
     }
 
-    // Consultas Odontologicas CEOD (edad < 5)
-    if ((tema == "12869" || tema == "12161" || tema == "12168" || tema == "12799" || tema == "12806") && edad_anios < 5) {
+    // Consultas Odontologicas CEOD (si los campos están presentes en pantalla)
+    if (document.getElementById('caries_ceod')) {
         var caries_ceod = parseFloat(getVal('caries_ceod'));
         if (getVal('caries_ceod') == "" || isNaN(caries_ceod) || caries_ceod < 0 || caries_ceod > 32) {
             alert('El Número de Caries debe ser un Número Entero de 0 a 32');
