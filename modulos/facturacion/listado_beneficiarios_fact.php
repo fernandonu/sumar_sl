@@ -517,7 +517,9 @@ echo $html_header;
                                     "id_smiafiliados" => $id_smi,
                                     "clavebeneficiario" => $clave_b,
                                     "pagina_listado" => "listado_beneficiarios_fact.php",
-                                    "estado" => $result->fields['activo']
+                                    "pagina_viene" => "listado_beneficiarios_fact.php",
+                                    "estado" => trim($result->fields['activo']),
+                                    "activo" => trim($result->fields['activo'])
                                 ));
                                 $onclick_elegir = "location.href='$ref_comprobante';";
                             }
@@ -531,7 +533,11 @@ echo $html_header;
                                         "id_smiafiliados" => $id_smi,
                                         "clavebeneficiario" => $clave_b,
                                         "pagina" => "listado_beneficiario_fact",
-                                        "flag_inactivo" => "S"
+                                        "pagina_listado" => "listado_beneficiarios_fact.php",
+                                        "pagina_viene" => "listado_beneficiarios_fact.php",
+                                        "flag_inactivo" => "S",
+                                        "activo" => "N",
+                                        "estado" => "N"
                                     ));
                                     $onclick_excepcion = "alert('ESTA OPCIÓN ES USADA SOLO SI LLEGA UN COMPROBANTE QUE SE PUEDE FACTURAR DEBIDO A QUE FUE REALIZADO ANTES QUE EL BENEFICIARIO SE DIERA DE BAJA.'); location.href='$ref_excepcion';";
                                 } else {

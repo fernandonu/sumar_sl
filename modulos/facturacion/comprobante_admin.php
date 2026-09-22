@@ -126,7 +126,8 @@ if (($_POST['guardar']=="Guardar Comprobante")||($_POST['guardar']=="Guardar Com
 		    $id_comprobante=sql($q) or fin_pagina();
 		    $id_comprobante=$id_comprobante->fields['id_comprobante'];	
 		    
-		    if ($flag_inactivo=="S")$activo='S';
+		    if ($flag_inactivo=="S") $activo='S';
+		    else $activo = trim($activo);
 		    
 		    $periodo= str_replace("-","/",substr($fecha_comprobante,0,7));
 		    		    
@@ -173,7 +174,10 @@ $afidni=$res_comprobante_afi->fields['afidni'];
 $descripcion=$res_comprobante_afi->fields['descripcion'];
 $nombre=$res_comprobante_afi->fields['nombre'];
 $afifechanac=$res_comprobante_afi->fields['afifechanac'];
-$activo=$res_comprobante_afi->fields['activo'];
+$activo=trim($res_comprobante_afi->fields['activo']);
+if (empty($activo) && !empty($estado)) {
+    $activo = trim($estado);
+}
 $afisexo=$res_comprobante_afi->fields['afisexo'];
 
 // Pre-carga en memoria de descripciones de grupos de prestación y patologías (acelera drásticamente la carga de la página)
@@ -860,8 +864,10 @@ function buscar_combo(obj) {
         </div>
         <div class="paf-bar-item">
             <span class="paf-bar-label">Estado:</span>
-            <?if ($activo=='S'){?>
+            <?if (trim($activo)=='S'){?>
                 <span class="paf-badge-activo">Activo</span>
+            <?}else if ($flag_inactivo=='S'){?>
+                <span class="paf-badge-inactivo" style="background:#fef3c7; color:#92400e; border-color:#fcd34d;">Inactivo (Excepción)</span>
             <?}else{?>
                 <span class="paf-badge-inactivo">Inactivo</span>
             <?}?>
