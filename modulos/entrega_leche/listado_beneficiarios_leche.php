@@ -447,16 +447,16 @@ echo $html_header;
     <!-- CABECERA PRINCIPAL -->
     <div class="paf-main-header">
         <div class="paf-main-title">
-            <span class="paf-header-icon">🥛</span>
+            <span class="paf-header-icon">👥</span>
             <div>
-                <div>Entrega de Leche - Gestión de Beneficiarios</div>
+                <div>Busqueda de Beneficiarios SUMAR+</div>
                 <div style="font-size:12px; font-weight:normal; opacity:0.88; margin-top:2px;">
-                    Padrón Integrado de Beneficiarios (Plan SUMAR y UAD)
+                    Padrón Integrado de Beneficiarios
                 </div>
             </div>
         </div>
         <div class="paf-header-badge">
-            San Luis - Programa Nutricional
+            San Luis - Programa SUMAR+
         </div>
     </div>
 
@@ -527,8 +527,8 @@ echo $html_header;
                     <?if (!$hay_busqueda):?>
                         <tr>
                             <td colspan="13" class="paf-empty-state">
-                                <div style="font-size:32px; margin-bottom:8px;">🥛</div>
-                                <div style="font-weight:700; font-size:15px; color:#1e293b;">Búsqueda de Beneficiarios de Leche</div>
+                                <div style="font-size:32px; margin-bottom:8px;">👥</div>
+                                <div style="font-weight:700; font-size:15px; color:#1e293b;">Búsqueda de Beneficiarios programa SUMAR+</div>
                                 <div style="font-size:13px; color:#64748b; margin-top:4px;">
                                     Ingrese un número de DNI o Apellido en el buscador superior para consultar entre los beneficiarios de SUMAR y UAD.
                                 </div>
