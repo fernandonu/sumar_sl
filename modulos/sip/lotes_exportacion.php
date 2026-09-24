@@ -456,7 +456,9 @@ $logsWs = WsConsultasLog::getLogs(50);
                                     <th>Efector</th>
                                     <th>Paciente</th>
                                     <th>Documento</th>
-                                    <th>Sexo</th>
+                                    <th>EG (sem)</th>
+                                    <th>PA Sist/Diast</th>
+                                    <th>Tamizaje / Serología</th>
                                     <th>Profesional</th>
                                     <th>Motivo Consulta</th>
                                     <th>Acción</th>
@@ -773,16 +775,37 @@ $(document).ready(function() {
 
                     var rowsHtml = '';
                     $.each(resp.consultas, function(i, c) {
+                        var egVal = c.var_0119 || c.edad_gestacional;
+                        var egHtml = egVal 
+                            ? '<span class="label label-info" style="font-size:11px;">' + egVal + ' sem</span>' 
+                            : '<span class="text-muted">-</span>';
+                        
+                        var sis = c.var_0121 || c.pa_sistolica || '';
+                        var dia = c.var_0394 || c.pa_diastolica || '';
+                        var paHtml = (sis || dia) 
+                            ? '<b>' + (sis || '-') + '/' + (dia || '-') + '</b>' 
+                            : '<span class="text-muted">-</span>';
+
+                        var tags = [];
+                        if (c.var_0101 !== null && c.var_0101 !== '') tags.push('<span class="label" style="background:#4a5568;color:#fff;" title="Chagas (VAR_0101)">Chag:' + c.var_0101 + '</span>');
+                        if (c.var_0113 !== null && c.var_0113 !== '') tags.push('<span class="label" style="background:#2b6cb0;color:#fff;" title="Sífilis FTA (VAR_0113)">FTA:' + c.var_0113 + '</span>');
+                        if (c.var_0115 !== null && c.var_0115 !== '') tags.push('<span class="label" style="background:#d69e2e;color:#fff;" title="Tratamiento Sífilis (VAR_0115)">TTO:' + c.var_0115 + '</span>');
+                        if (c.var_0091 !== null && c.var_0091 !== '') tags.push('<span class="label" style="background:#805ad5;color:#fff;" title="VIH <20s Solicitado (VAR_0091)">VIH<20:' + c.var_0091 + '</span>');
+                        if (c.var_0182 !== null && c.var_0182 !== '') tags.push('<span class="label" style="background:#38a169;color:#fff;" title="Parto/Aborto (VAR_0182)">P/A:' + c.var_0182 + '</span>');
+                        var seroHtml = tags.length > 0 ? tags.join(' ') : '<span class="text-muted">-</span>';
+
                         rowsHtml += '<tr>' +
                             '<td><b>' + (c.id_consulta_ws || '-') + '</b></td>' +
                             '<td>' + (c.fecha_consulta_raw || '-') + '</td>' +
                             '<td><span title="' + (c.efector_nombre || '') + '">' + (c.efector_nombre || c.efector_codigo || '-') + '</span></td>' +
                             '<td><b>' + (c.paciente_nombre || '-') + '</b></td>' +
                             '<td>' + (c.paciente_tipo_doc ? c.paciente_tipo_doc + ' ' : '') + (c.paciente_documento || '-') + '</td>' +
-                            '<td>' + (c.paciente_sexo || '-') + '</td>' +
+                            '<td class="text-center">' + egHtml + '</td>' +
+                            '<td class="text-center">' + paHtml + '</td>' +
+                            '<td class="text-center">' + seroHtml + '</td>' +
                             '<td>' + (c.profesional_nombre ? c.profesional_nombre + ' (' + (c.profesional_matricula || '') + ')' : '-') + '</td>' +
-                            '<td style="text-align:left !important; max-width:260px;" title="' + (c.motivo_consulta || '') + '">' + 
-                                ((c.motivo_consulta && c.motivo_consulta.length > 80) ? c.motivo_consulta.substring(0, 80) + '...' : (c.motivo_consulta || '-')) + 
+                            '<td style="text-align:left !important; max-width:180px;" title="' + (c.motivo_consulta || '') + '">' + 
+                                ((c.motivo_consulta && c.motivo_consulta.length > 60) ? c.motivo_consulta.substring(0, 60) + '...' : (c.motivo_consulta || '-')) + 
                             '</td>' +
                             '<td>' +
                                 '<button type="button" class="btn btn-xs btn-default btn-ver-json" data-id="' + c.id_ws_consulta + '" title="Ver JSON completo">' +
@@ -795,7 +818,7 @@ $(document).ready(function() {
                     $('#tbody_modal_consultas').html(rowsHtml);
                     $('#modal_consultas_content').show();
                 } else {
-                    $('#tbody_modal_consultas').html('<tr><td colspan="9" class="text-danger text-center">No se encontraron registros para este lote.</td></tr>');
+                    $('#tbody_modal_consultas').html('<tr><td colspan="11" class="text-danger text-center">No se encontraron registros para este lote.</td></tr>');
                     $('#modal_consultas_content').show();
                 }
             },
