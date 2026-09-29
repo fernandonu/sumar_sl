@@ -3,6 +3,38 @@
 require_once("../../config.php");
 extract($_POST,EXTR_SKIP);
 if ($parametros) extract($parametros,EXTR_OVERWRITE);
+
+// Manejador para descargar archivo generado directamente
+$archivo_a_descargar = null;
+if (isset($_GET['descargar_archivo']) && trim($_GET['descargar_archivo']) !== '') {
+    $archivo_a_descargar = $_GET['descargar_archivo'];
+} elseif (isset($parametros['descargar_archivo']) && trim($parametros['descargar_archivo']) !== '') {
+    $archivo_a_descargar = $parametros['descargar_archivo'];
+}
+
+if ($archivo_a_descargar) {
+    $archivo_solicitado = basename($archivo_a_descargar);
+    $ruta_archivo = dirname(__FILE__) . "/" . $archivo_solicitado;
+    $extension = strtolower(pathinfo($archivo_solicitado, PATHINFO_EXTENSION));
+
+    if (in_array($extension, array('txt', 'csv', 'xls', 'xlsx')) && file_exists($ruta_archivo)) {
+        while (ob_get_level()) {
+            ob_end_clean();
+        }
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename="' . $archivo_solicitado . '"');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Pragma: public');
+        header('Content-Length: ' . filesize($ruta_archivo));
+        readfile($ruta_archivo);
+        exit;
+    } else {
+        $accion = "El archivo solicitado no existe o no tiene una extensión permitida.";
+    }
+}
+
 cargar_calendario();
 
 
@@ -138,20 +170,29 @@ if ($_POST['muestra']=="Muestra"){
 	</script>	
 <?}
 
+$mensaje_exito = "";
+$archivo_generado_ok = "";
+
 if ($_POST['importar']=="Importar"){	
-	$fecha_desde=fecha_db($_POST['fecha_desde']);
-	$fecha_hasta=fecha_db($_POST['fecha_hasta']);
-	
+    @ini_set("max_execution_time", "0");
+    @ini_set("memory_limit", "1024M");
+    if (function_exists('set_time_limit')) { @set_time_limit(0); }
+    @sql("SET statement_timeout = 0;");
+
+	$fecha_desde_raw = $_POST['fecha_desde'];
+	$fecha_hasta_raw = $_POST['fecha_hasta'];
+	$fecha_desde_db = fecha_db($fecha_desde_raw);
+	$fecha_hasta_db = fecha_db($fecha_hasta_raw);
 
 //------------------------------------------------------------------------------------------------------------------------
 //							PRESTACIONES PARA SISTEMA SIGEP (MAYOR NUMERO DE REGISTRO)
 //------------------------------------------------------------------------------------------------------------------------
-    	$filename = 'SUMAR-CEB-12-sistema-padrones-' . date('Y-m-d') . '.txt';	
-	  	if (!$handle = fopen($filename, 'w+')) {
-        	 echo "No se Puede abrir ($filename)";
-         	exit;
-    	}
-    	$sql1="SELECT 'A' as operacion,
+    $filename = 'SUMAR-CEB-12-sistema-padrones-' . date('Y-m-d') . '.txt';	
+    $ruta_archivo = dirname(__FILE__) . "/" . $filename;
+    if (!$handle = fopen($ruta_archivo, 'w+')) {
+        $accion = "No se puede abrir o crear el archivo ($filename) en el servidor. Verifique los permisos de escritura.";
+    } else {
+        $sql1="SELECT 'A' as operacion,
 				'L' as estado,
 				facturacion.comprobante.id_factura as numero_comprobante,
 				facturacion.anexo.numero as subcodigo_prestacion, --CUANDO DEVUELVE '0' EN EL ARCHIVO VA VACIO
@@ -177,7 +218,7 @@ if ($_POST['importar']=="Importar"){
 					left JOIN facturacion.factura ON (comprobante.id_factura = factura.id_factura)
 					left join facturacion.anexo on (prestacion.id_anexo = anexo.id_anexo)
 				Where
-					(fecha_comprobante between '$fecha_desde' and '$fecha_hasta') and factura.estado='C'
+					(fecha_comprobante between '$fecha_desde_db' and '$fecha_hasta_db') and factura.estado='C'
 				order by comprobante.id_comprobante";
 
 		$result1=sql($sql1) or die;
@@ -185,69 +226,122 @@ if ($_POST['importar']=="Importar"){
     	 			
     	$contenido="operacion;estado;numero_comprobante;codigo_prestacion;subcodigo_prestacion;precio_unitario;fecha_prestacion;clave_beneficiario;tipo_documento;clase_documento;numero_documento;id_dato_reportable_1;dato_reportable_1;id_dato_reportable_2;dato_reportable_2;id_dato_reportable_3;dato_reportable_3;id_dato_reportable_4;dato_reportable_4;orden;cuie\r\n";			
     	if (fwrite($handle, $contenido) === FALSE) {
-        	echo "No se Puede escribir  ($filename)";
-        	exit;
-    	}
-    	while (!$result1->EOF) {    		
-			$contenido=$result1->fields['operacion'];
-			$contenido.=";";			
-    		$contenido.=$result1->fields['estado'];
-			$contenido.=";"; 
-			$contenido.=$result1->fields['numero_comprobante'];
-			$contenido.=";"; 
-			$contenido.=str_replace(" ", "",$result1->fields['codigo_prestacion']);
-			$contenido.=";"; 
-			if ($result1->fields['subcodigo_prestacion']<>0) $contenido.=$result1->fields['subcodigo_prestacion'];
-			$contenido.=";"; 
-			$contenido.=$result1->fields['precio_unitario'];
-			$contenido.=";"; 
-			$contenido.=$result1->fields['fecha_prestacion'];
-			$contenido.=";"; 
-			$contenido.=$result1->fields['clave_beneficiario'];
-			$contenido.=";"; 
-			$contenido.=$result1->fields['tipo_documento'];
-			$contenido.=";"; 
-			$contenido.=trim($result1->fields['clase_documento']);
-			$contenido.=";"; 
-			$contenido.=$result1->fields['numero_documento'];
-			$contenido.=";"; 
-			$contenido.=$result1->fields['id_dato_reportable'];
-			$contenido.=";"; 
-			$contenido.=$result1->fields['dato_reportable'];
-			$contenido.=";"; 
-			$contenido.=$result1->fields['id_dato_reportable'];
-			$contenido.=";"; 
-			$contenido.=$result1->fields['dato_reportable'];
-			$contenido.=";";
-			$contenido.=$result1->fields['id_dato_reportable'];
-			$contenido.=";"; 
-			$contenido.=$result1->fields['dato_reportable'];
-			$contenido.=";";
-			$contenido.=$result1->fields['id_dato_reportable'];
-			$contenido.=";"; 
-			$contenido.=$result1->fields['dato_reportable'];
-			$contenido.=";";
-			$contenido.=$result1->fields['orden'];
-			$contenido.=";"; 
-    		$contenido.=$result1->fields['efector'];			
-			$contenido.="\r\n";			
-    		if (fwrite($handle, $contenido) === FALSE) {
-        		echo "No se Puede escribir  ($filename)";
-        		exit;
-    		}
-			
-    		$result1->MoveNext();			
-    	}
-    	echo "El Archivo ($filename) se genero con exito <br>";    
-    	fclose($handle);   	
+        	$accion = "No se puede escribir en el archivo ($filename)";
+    	} else {
+            $cant_registros = 0;
+            while (!$result1->EOF) {    		
+                $contenido=$result1->fields['operacion'];
+                $contenido.=";";			
+                $contenido.=$result1->fields['estado'];
+                $contenido.=";"; 
+                $contenido.=$result1->fields['numero_comprobante'];
+                $contenido.=";"; 
+                $contenido.=str_replace(" ", "",$result1->fields['codigo_prestacion']);
+                $contenido.=";"; 
+                if ($result1->fields['subcodigo_prestacion']<>0) $contenido.=$result1->fields['subcodigo_prestacion'];
+                $contenido.=";"; 
+                $contenido.=$result1->fields['precio_unitario'];
+                $contenido.=";"; 
+                $contenido.=$result1->fields['fecha_prestacion'];
+                $contenido.=";"; 
+                $contenido.=$result1->fields['clave_beneficiario'];
+                $contenido.=";"; 
+                $contenido.=$result1->fields['tipo_documento'];
+                $contenido.=";"; 
+                $contenido.=trim($result1->fields['clase_documento']);
+                $contenido.=";"; 
+                $contenido.=$result1->fields['numero_documento'];
+                $contenido.=";"; 
+                $contenido.=$result1->fields['id_dato_reportable'];
+                $contenido.=";"; 
+                $contenido.=$result1->fields['dato_reportable'];
+                $contenido.=";"; 
+                $contenido.=$result1->fields['id_dato_reportable'];
+                $contenido.=";"; 
+                $contenido.=$result1->fields['dato_reportable'];
+                $contenido.=";";
+                $contenido.=$result1->fields['id_dato_reportable'];
+                $contenido.=";"; 
+                $contenido.=$result1->fields['dato_reportable'];
+                $contenido.=";";
+                $contenido.=$result1->fields['id_dato_reportable'];
+                $contenido.=";"; 
+                $contenido.=$result1->fields['dato_reportable'];
+                $contenido.=";";
+                $contenido.=$result1->fields['orden'];
+                $contenido.=";"; 
+                $contenido.=$result1->fields['efector'];			
+                $contenido.="\r\n";			
+                if (fwrite($handle, $contenido) === FALSE) {
+                    $accion = "No se puede escribir en el archivo ($filename)";
+                    break;
+                }
+                $cant_registros++;
+                $result1->MoveNext();			
+            }
+        }
+    	fclose($handle);
+        if (empty($accion)) {
+            $archivo_generado_ok = $filename;
+            $tam_kb = file_exists($ruta_archivo) ? round(filesize($ruta_archivo) / 1024, 2) : 0;
+            $mensaje_exito = "El archivo <strong>$filename</strong> se generó con éxito (" . number_format($cant_registros, 0, ',', '.') . " registros, $tam_kb KB).";
+        }
+        $fecha_desde = $fecha_desde_raw;
+        $fecha_hasta = $fecha_hasta_raw;
+    }
+}
 
- }
-   
+// Escanear archivos generados previamente en el directorio
+$archivos_generados = array();
+$archivos_encontrados = glob(dirname(__FILE__) . '/SUMAR-CEB-12-sistema-padrones-*.txt');
+if ($archivos_encontrados) {
+    foreach ($archivos_encontrados as $arch_path) {
+        $nom_arch = basename($arch_path);
+        $archivos_generados[] = array(
+            'nombre' => $nom_arch,
+            'fecha' => date("d/m/Y H:i:s", filemtime($arch_path)),
+            'tamano' => round(filesize($arch_path) / 1024, 2) . " KB",
+            'mtime' => filemtime($arch_path)
+        );
+    }
+    usort($archivos_generados, function($a, $b) {
+        return $b['mtime'] - $a['mtime'];
+    });
+}
     
 echo $html_header;
 ?>
+<script>
+function control_importar() {
+    var fd = document.getElementById('fecha_desde') ? document.getElementById('fecha_desde').value : '';
+    var fh = document.getElementById('fecha_hasta') ? document.getElementById('fecha_hasta').value : '';
+    if (fd == '' || fh == '') {
+        alert('Debe ingresar Fecha Desde y Fecha Hasta para generar el archivo.');
+        return false;
+    }
+    return confirm('¿Desea generar el archivo para el período ' + fd + ' al ' + fh + '?');
+}
+</script>
+
 <form name=form1 action="listado_comprobante.php" method=POST>
-<?echo "<center><b><font size='+1' color='red'>$accion</font></b></center>";?>
+<? if (!empty($accion)) { echo "<center><b><font size='+1' color='red'>$accion</font></b></center><br>"; } ?>
+
+<? if (!empty($mensaje_exito)) { ?>
+<div class="alert alert-success" style="margin: 10px auto 15px auto; max-width: 95%; text-align: center; font-size: 14px; border-left: 5px solid #3c763d; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+    <span class="glyphicon glyphicon-ok-sign" style="font-size: 18px; vertical-align: middle; margin-right: 6px;"></span>
+    <?=$mensaje_exito?>
+    <? if (!empty($archivo_generado_ok)) { ?>
+        <div style="margin-top: 10px;">
+            <a href="listado_comprobante.php?descargar_archivo=<?=urlencode($archivo_generado_ok)?>" class="btn btn-success" style="font-weight: bold; font-size: 14px; padding: 6px 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.15);">
+                <span class="glyphicon glyphicon-download-alt"></span> Descargar Archivo (<?=$archivo_generado_ok?>)
+            </a>
+        </div>
+        <!-- Iframe oculto para iniciar la descarga automáticamente en el navegador -->
+        <iframe src="listado_comprobante.php?descargar_archivo=<?=urlencode($archivo_generado_ok)?>" style="display:none;" width="0" height="0"></iframe>
+    <? } ?>
+</div>
+<? } ?>
+
 <table cellspacing=2 cellpadding=2 border=0 width=100% align=center>
      <tr>
       <td align=center>
@@ -262,8 +356,8 @@ echo $html_header;
 		
 		Hasta: <input type=text id="fecha_hasta" name="fecha_hasta" value='<?=$fecha_hasta?>' size=15>
 		<?=link_calendario("fecha_hasta");?> 
-	    <?if ($_ses_user['login'] == 'fer') {?>
-	    <input type="submit" name="importar" value='Importar'>
+	    <?if (($_ses_user['login'] == 'admin')or($_ses_user['login'] == 'fer')) {?>
+	    <input type="submit" name="importar" value='Importar' onclick="return control_importar();">
 	    <?}?>
 	    &nbsp;&nbsp;&nbsp;
 	    <input type="submit" name="muestra" value='Muestra'>
@@ -272,6 +366,38 @@ echo $html_header;
 	  </td>
      </tr>
 </table>
+
+<? if (!empty($archivos_generados)) { 
+    $ultimo = $archivos_generados[0];
+?>
+<div style="margin: 6px auto 12px auto; text-align: center;">
+    <span style="font-size: 12px; color: #555;">
+        <span class="glyphicon glyphicon-file text-muted"></span> 
+        Último archivo generado en servidor (<?=$ultimo['fecha']?> - <?=$ultimo['tamano']?>):
+    </span>
+    <a href="listado_comprobante.php?descargar_archivo=<?=urlencode($ultimo['nombre'])?>" class="btn btn-default btn-xs" style="margin-left: 6px; font-weight: bold; border-color: #5cb85c; color: #2e6da4;" title="Descargar este archivo">
+        <span class="glyphicon glyphicon-download-alt text-success"></span> Bajar <?=$ultimo['nombre']?>
+    </a>
+    <? if (count($archivos_generados) > 1) { ?>
+        <a href="javascript:void(0);" onclick="$('#historial_archivos_sigep').slideToggle();" class="btn btn-link btn-xs" style="font-size: 11px;">
+            <span class="glyphicon glyphicon-list"></span> Ver anteriores (<?=count($archivos_generados)?>)
+        </a>
+        <div id="historial_archivos_sigep" style="display:none; max-width: 650px; margin: 8px auto; text-align: left; background: #fff; border: 1px solid #ddd; padding: 10px 15px; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+            <strong style="font-size: 12px; color: #333;"><span class="glyphicon glyphicon-folder-open text-primary"></span> Archivos generados en servidor disponibles para descargar:</strong>
+            <ul style="margin: 6px 0 0 0; padding-left: 20px; font-size: 12px;">
+            <? foreach ($archivos_generados as $arch) { ?>
+                <li style="margin-bottom: 4px;">
+                    <a href="listado_comprobante.php?descargar_archivo=<?=urlencode($arch['nombre'])?>" style="font-weight: 500;">
+                        <span class="glyphicon glyphicon-download-alt text-success"></span> <?=$arch['nombre']?>
+                    </a>
+                    <span class="text-muted" style="font-size: 11px;">— Generado: <?=$arch['fecha']?> (<?=$arch['tamano']?>)</span>
+                </li>
+            <? } ?>
+            </ul>
+        </div>
+    <? } ?>
+</div>
+<? } ?>
 <?$result = sql($sql) or die;?>
 <table border=0 width=100% cellspacing=2 cellpadding=2 bgcolor='<?=$bgcolor3?>' align=center>
   <tr>

@@ -83,11 +83,16 @@ if ($is_guardar_nuevo) {
     if ($codigo == "" || $grupo == "" || $descripcion == "") {
         $accion = "Error: Debe ingresar Código, Grupo y Descripción para la nueva prestación.";
     } else {
+        $desc_dup = str_replace("'", "''", stripslashes($descripcion));
+        $codigo_dup = str_replace("'", "''", stripslashes($codigo));
+        $id_nom_det_clean = intval($id_nomenclador_detalle);
         $q_dup = "SELECT id_nomenclador FROM facturacion.nomenclador 
-                  WHERE codigo = '$codigo' AND grupo = '$grupo' AND id_nomenclador_detalle = $id_nomenclador_detalle";
+                  WHERE codigo = '$codigo_dup' 
+                    AND trim(lower(descripcion)) = trim(lower('$desc_dup')) 
+                    AND id_nomenclador_detalle = $id_nom_det_clean";
         $r_dup = sql($q_dup);
         if ($r_dup && $r_dup->RecordCount() > 0) {
-            $accion = "Error: Ya existe una prestación con Código '$codigo' y Grupo '$grupo' para este nomenclador.";
+            $accion = "Error: Ya existe una prestación con Código '$codigo' y la misma Descripción para este nomenclador.";
         } else {
             $db->StartTrans();
             $q_seq = "SELECT nextval('facturacion.nomenclador_id_nomenclador_seq') as id_nom";
